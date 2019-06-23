@@ -11,6 +11,17 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+//Route::get('/', function () {
+//    return view('welcome');
+//});
+
+
+
+Route::namespace('Foundation\Controllers')->group(function () {
+
+    Route::get('/', 'IndexController@index');
+
+
+
+
 });
