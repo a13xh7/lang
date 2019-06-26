@@ -262,10 +262,17 @@ https://www.lingq.com/ru/learn/en/web/lesson/2081771/chunk/1/word/3
 - user_id 
 - title
 - current page
+
+**Test Info**
+- id
+- text_id
+- user_id
 - total pages
 - total_words
 - known words
 - unknown words
+- all_words_in_json
+
 
 **Text Page**
 
