@@ -8,8 +8,14 @@ class Text extends Model
 {
     protected $table = 'texts';
 
-    public function textInfo()
+    public function textStats()
     {
         return $this->hasOne('App\Models\Reader\TextStats', 'text_id', 'id');
     }
+
+    public function textPages()
+    {
+        return $this->hasMany('App\Models\Reader\TextPage', 'text_id', 'id');
+    }
+    
 }

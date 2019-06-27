@@ -19,7 +19,7 @@ class TextsController extends Controller
     public function showTexts()
     {
 
-        $texts = Text::paginate(1);
+        $texts = Text::paginate(10);
 
         return view('reader.texts')->with('texts', $texts);
     }
@@ -34,6 +34,14 @@ class TextsController extends Controller
     public function deleteText(int $textId)
     {
         $text = Text::find($textId);
+
+        $text->textStats->delete();
+
+        foreach ($text->textPages as $textPage)
+        {
+            $textPage->delete();
+        }
+
         $text->delete();
 
         return redirect()->route('reader_texts');

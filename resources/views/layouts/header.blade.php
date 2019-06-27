@@ -25,8 +25,6 @@
         @endguest
 
 
-
-
         @auth
             <a href="{{ route('reader_dashboard') }}" class="w3-bar-item w3-button">READER</a>
         @endauth
@@ -36,9 +34,19 @@
         @endguest
 
 
+        @auth
+                <a href="#" class="w3-bar-item w3-button">READ TOGETHER</a>
+        @endauth
+
+        @guest
+                <a href="{{route('rt_')}}" class="w3-bar-item w3-button">READ TOGETHER</a>
+        @endguest
 
 
-        <a href="#" class="w3-bar-item w3-button">READ TOGETHER</a>
+
+
+
+
         <a href="#" class="w3-bar-item w3-button">Q&A</a>
 
         @guest

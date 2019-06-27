@@ -12,7 +12,7 @@
                 <ul class="w3-ul w3-border">
                     <li><a href="{{ route('reader_add_text_page') }}">ADD TEXT</a></li>
                     <li><a href="{{ route('reader_texts') }}">TEXTS</a></li>
-
+                    <li><a href="{{ route('reader_words') }}">MY WORDS</a></li>
 
 
                     <li><a href="{{ route('reader_faq') }}">FAQ</a></li>

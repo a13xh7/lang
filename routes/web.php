@@ -46,12 +46,16 @@ Route::middleware(['auth'])->group(function ()
     // TEXT STATS PAGE
     Route::get('/reader/texts/stats/{textId}', 'Reader\TextStatsController@showTextStats')->name('reader_text_stats');
 
+    // TEXT PAGE. READ PAGE
+    Route::get('/reader/read/text/{textId}', 'Reader\TextPageController@showPage')->name('reader_read_text_page');
 
-    Route::get('/reader/read/text/{textId}/{textPage}', 'Reader\IndexController@index');
-
-    Route::get('/reader/words', 'Reader\IndexController@index')->name('reader_words');
-    Route::get('/reader/words/new', 'Reader\IndexController@index')->name('reader_known_words');
-    Route::get('/reader/words/known', 'Reader\IndexController@index')->name('reader_known_words');
+    Route::get('/reader/words', 'Reader\WordsController@showPage')->name('reader_words');
+    Route::get('/reader/words/new', 'Reader\WordsController@showNewWords')->name('reader_new_words');
+    Route::get('/reader/words/known', 'Reader\WordsController@showKnownWords')->name('reader_known_words');
 
 
 });
+
+/****************************************************************
+ * READ TOGETHER
+ ****************************************************************/

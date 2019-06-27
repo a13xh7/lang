@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTextsTable extends Migration
+class CreateWordsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateTextsTable extends Migration
      */
     public function up()
     {
-        Schema::create('texts', function (Blueprint $table)
-        {
+        Schema::create('words', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('language_id');
-            $table->string('title');
-            $table->integer('total_pages')->default(1);;
-            $table->integer('current_page')->default(1);;
+            $table->integer('translation_language_id');
+            $table->string('word');
+            $table->string('translation');
+            $table->smallInteger('state')->default(\App\Config\Word::NEW); // known or new
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateTextsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('texts');
+        Schema::dropIfExists('words');
     }
 }

@@ -11,17 +11,19 @@
     @foreach($texts as $text)
 
         <div class="w3-border-bottom">
-
             <p> <span>language_Icon </span>{{$text->title}}</p>
             <p>Total pages - {{ $text->total_pages}}</p>
             <p>Current page - {{ $text->current_page}}</p>
-            <p>Total words - {{ $text->textInfo->total_words}}</p>
-            <p>known words - {{$text->textInfo->known_words}}</p>
-            <p>unknown words - {{$text->textInfo->unknown_words}}</p>
+            <p>Total words - {{ $text->textStats->total_words}}</p>
+            <p>Unique words - {{ $text->textStats->unique_words}}</p>
+            <p>known words - {{$text->textStats->known_words}}</p>
+            <p>unknown words - {{$text->textStats->unknown_words}}</p>
 
             <p><button class="w3-button w3-black"  data-text-id="{{$text->id}}" data-language-id="{{$text->language_id}}" onclick="document.getElementById('id01').style.display='block'">EDIT</button></p>
             <p><a href="{{route('reader_delete_text', $text->id)}}">DELETE</a></p>
             <p><a href="{{ route('reader_text_stats', $text->id) }}">FULL_INFO</a></p>
+
+            <p><a href="{{route('reader_read_text_page', $text->id)}}?page={{$text->current_page}}">READ</a></p>
         </div>
 
     @endforeach
