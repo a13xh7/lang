@@ -18,10 +18,6 @@ class TextHandler
     public $totalWords = 0;
     /** @var int */
     public $uniqueWords = 0;
-    /** @var int */
-    public $knownWords = 0;
-    /** @var int */
-    public $unknownWords = 0;
     /** @var array */
     public $words = [];  // ['word' => 10, 'word' => usageFrequency]
 
@@ -37,7 +33,6 @@ class TextHandler
         $this->uniqueWords = count($uniqueWords);
 
         $this->setWords($uniqueWords);
-        $this->setKnownAndUnknownWords();
     }
 
 
@@ -97,19 +92,5 @@ class TextHandler
 
     }
 
-    private function setKnownAndUnknownWords()
-    {
-        $wordsFromText = array_keys($this->words);
-
-        // 1. calculate known words
-
-        $myKnownWords = Word::where('user_id', auth()->user()->id)->pluck('word')->toArray();
-        $myKnownWords = array_values($myKnownWords);
-
-        $this->knownWords = count( array_intersect($myKnownWords, $wordsFromText) );
-
-        // 2. calculate unknown words
-        $this->unknownWords = count( array_diff($wordsFromText, $myKnownWords) );
-    }
 
 }

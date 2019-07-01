@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateWordsTable extends Migration
+class CreateTextSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateWordsTable extends Migration
      */
     public function up()
     {
-        Schema::create('words', function (Blueprint $table) {
+        Schema::create('text_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
-            $table->integer('language_id');
-            $table->integer('translation_language_id');
-            $table->string('word');
-            $table->string('translation');
-            $table->smallInteger('state')->default(\App\Config\Word::NEW); // known or new
+            $table->integer('text_id');
+            $table->integer('translate_to_lang_id');
+            $table->integer('current_page')->default(1);
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateWordsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('words');
+        Schema::dropIfExists('text_settings');
     }
 }

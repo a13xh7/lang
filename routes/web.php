@@ -41,7 +41,7 @@ Route::middleware(['auth'])->group(function ()
     // TEXTS PAGE
     Route::get('/reader/texts', 'Reader\TextsController@showTexts')->name('reader_texts');
     Route::post('/reader/texts/update', 'Reader\TextsController@updateText')->name('reader_update_text');
-    Route::get('/reader/texts/del/{textId}', 'Reader\TextsController@deleteText')->name('reader_delete_text');
+    Route::get('/reader/texts/delete/{textId}', 'Reader\TextsController@deleteText')->name('reader_delete_text');
 
     // TEXT STATS PAGE
     Route::get('/reader/texts/stats/{textId}', 'Reader\TextStatsController@showTextStats')->name('reader_text_stats');
@@ -57,5 +57,15 @@ Route::middleware(['auth'])->group(function ()
 });
 
 /****************************************************************
- * READ TOGETHER
+ * READER GROUPS
  ****************************************************************/
+
+Route::middleware(['auth'])->group(function ()
+{
+
+    Route::get('/reader/my-groups', 'ReaderGroups\MyGroupsController@showPage')->name('reader_my_groups');
+
+
+
+
+});

@@ -2,6 +2,7 @@
 
 namespace App\Models\Main;
 
+use App\Models\Reader\Text;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -36,4 +37,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    public function texts()
+    {
+        return $this->belongsToMany(Text::class, 'user_text',  'user_id', 'text_id' );
+    }
 }

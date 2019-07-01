@@ -34,16 +34,6 @@
         @endguest
 
 
-        @auth
-                <a href="#" class="w3-bar-item w3-button">READ TOGETHER</a>
-        @endauth
-
-        @guest
-                <a href="{{route('rt_')}}" class="w3-bar-item w3-button">READ TOGETHER</a>
-        @endguest
-
-
-
 
 
 

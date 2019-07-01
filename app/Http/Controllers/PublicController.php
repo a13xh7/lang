@@ -14,6 +14,6 @@ class PublicController extends Controller
 
     public function showReaderLanding()
     {
-        return view('reader.landing');
+        return view('reader.index_landing');
     }
 }

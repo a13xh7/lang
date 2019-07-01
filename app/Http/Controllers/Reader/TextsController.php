@@ -8,10 +8,13 @@
 
 namespace App\Http\Controllers\Reader;
 
+use App\Config\Group;
 use App\Http\Controllers\Controller;
+use App\Models\Main\User;
 use App\Models\Reader\Text;
 use App\Models\Reader\TextStats;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TextsController extends Controller
 {
@@ -19,7 +22,9 @@ class TextsController extends Controller
     public function showTexts()
     {
 
-        $texts = Text::paginate(10);
+        $user = User::where('id', auth()->user()->id)->first();
+
+        $texts = $user->texts()->where('group_id', Group::NO_GROUP)->paginate(10);
 
         return view('reader.texts')->with('texts', $texts);
     }
@@ -33,16 +38,26 @@ class TextsController extends Controller
 
     public function deleteText(int $textId)
     {
+        DB::beginTransaction();
+
         $text = Text::find($textId);
 
-        $text->textStats->delete();
+        $text->getSettings()->delete();
 
         foreach ($text->textPages as $textPage)
         {
             $textPage->delete();
         }
 
+
+        DB::table('user_text')->where('user_id', auth()->user()->id)->where('text_id', $text->id)->delete();
+
+
         $text->delete();
+
+
+
+        DB::commit();
 
         return redirect()->route('reader_texts');
     }

@@ -19,7 +19,7 @@ class TextPageController extends Controller
 
 
 
-        return view('reader.text_page')->with('page', $page) ->with('pages', $pages);
+        return view('reader.text_read_page')->with('page', $page) ->with('pages', $pages);
     }
 
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Reader;
 use App\Http\Controllers\Controller;
 use App\Models\Reader\Text;
 use App\Models\Reader\TextPage;
-use App\Models\Reader\TextStats;
+use App\Models\Reader\TextSettings;
 use App\Services\TextHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -35,36 +35,45 @@ class AddTextController extends Controller
          */
 
         // 1 - Load file
-        $file = $request->file('textFile')->get();
+        $text = $request->file('textFile')->get();
 
-        $textHandler = new TextHandler($file);
+        $textHandler = new TextHandler($text);
 
         // 2 - split text to pages
 
-        $pages = $textHandler->splitTextToPages($file);
+        $pages = $textHandler->splitTextToPages($text);
 
         DB::beginTransaction();
 
         // 3 - Save text to database
 
         $text = new Text();
+        $text->lang_id = 1;
         $text->title = $request->get('title');
-        $text->language_id = 1;
-        $text->user_id = Auth::user()->id;
+        $text->total_symbols = mb_strlen($request->file('textFile')->get());
         $text->total_pages = count($pages);
+        $text->total_words = $textHandler->totalWords;
+        $text->unique_words = $textHandler->uniqueWords;
+        $text->words = serialize($textHandler->words);
         $text->save();
 
-        // 4 - Save text stats to database
+        // 4 - Save text settings to database
 
-        $textStats = new TextStats();
-        $textStats->text_id = $text->id;
-        $textStats->user_id = auth()->user()->id;
-        $textStats->total_words = $textHandler->totalWords;
-        $textStats->unique_words = $textHandler->uniqueWords;
-        $textStats->known_words = $textHandler->knownWords;
-        $textStats->unknown_words = $textHandler->unknownWords;
-        $textStats->words = serialize($textHandler->words);
-        $textStats->save();
+        $textSettings = new TextSettings();
+        $textSettings->user_id = auth()->user()->id;
+        $textSettings->text_id = $text->id;
+        $textSettings->translate_to_lang_id = 1;
+        $textSettings->current_page = 1;
+
+        $textSettings->save();
+
+        // Add row to user_text table
+
+        DB::table('user_text')->insert([
+            ['user_id' => auth()->user()->id, 'text_id' => $text->id]
+
+        ]);
+
 
         // 5 - save pages to database
 
@@ -92,41 +101,6 @@ class AddTextController extends Controller
 
 
 
-
-
-
-
-
-
-
-
-//        $path = $request->file('textFile')->store('txt');
-//        $text = Storage::get($path);
-
-        //$pages = $this->splitTextByLength($text, 1000);
-
-//        var_dump(str_split($text, 1000));
-
-//       var_dump($text);
-
-      //  preg_match_all('#\b[^\s]+\b#i', $text, $output_array);
-
-//        preg_match_all('#\b[^\s]+\b#ui', $text, $output_array);
-//
-//
-//        $uniqueWords = array_unique($output_array[0]);
-//
-//        $result = array_count_values(array_map('strtolower', $output_array[0]));
-//
-//        arsort($result);
-//
-//        echo "TOTAL WORLDS - " . count($result) . '<br>';
-//
-//        foreach ($result as $word => $usageFrequency) {
-//
-//            echo ucfirst($word) . ' - ' . $usageFrequency. '<br>';
-//
-//        }
 
     }
 

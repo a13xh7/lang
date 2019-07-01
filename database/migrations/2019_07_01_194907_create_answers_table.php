@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTextStatsTable extends Migration
+class CreateAnswersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,12 @@ class CreateTextStatsTable extends Migration
      */
     public function up()
     {
-        Schema::create('text_stats', function (Blueprint $table)
-        {
+        Schema::create('answers', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('text_id');
             $table->integer('user_id');
-            $table->integer('total_words');
-            $table->integer('unique_words');
-            $table->integer('known_words');
-            $table->integer('unknown_words');
-            $table->text('words');
-            $table->timestamps();
+            $table->integer('question_id');
+            $table->text('content');
+            $table->timestamp('created_at');
         });
     }
 
@@ -34,6 +29,6 @@ class CreateTextStatsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('text_stats');
+        Schema::dropIfExists('answers');
     }
 }

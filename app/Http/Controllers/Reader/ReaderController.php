@@ -12,7 +12,7 @@ class ReaderController extends Controller
      */
     public function showDashboard()
     {
-        return view('reader.dashboard');
+        return view('reader.index_dashboard');
     }
 
     /**
