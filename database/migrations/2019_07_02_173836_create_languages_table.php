@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTextSettingsTable extends Migration
+class CreateLanguagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,12 @@ class CreateTextSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('text_settings', function (Blueprint $table) {
+        Schema::create('languages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->integer('text_id');
-            $table->integer('translate_to_lang_id');
-            $table->integer('current_page')->default(0);
-            $table->timestamps();
+            $table->string('code');
+            $table->string('title');
+            $table->string('eng_title');
+            $table->string('image');
         });
     }
 
@@ -30,6 +29,6 @@ class CreateTextSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('text_settings');
+        Schema::dropIfExists('languages');
     }
 }

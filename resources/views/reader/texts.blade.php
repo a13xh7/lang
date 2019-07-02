@@ -10,11 +10,12 @@
 
     @foreach($texts as $text)
 
+
         <div class="w3-border-bottom">
             <p> <b>lang_from</b> <b>lang_to</b> {{$text->title}}</p>
 
             <p>Total pages - {{ $text->total_pages}}</p>
-            <p>Current page - {{ $text->getSettings()->current_page }}</p>
+            <p>Current page - {{ $text->settings()->current_page }}</p>
 
             <p>Total symbols - {{ $text->total_symbols}}</p>
 
@@ -23,7 +24,7 @@
 
             <p>known words - 11 (percent)</p>
             <p>unknown words - 11(percent) </p>
-            <p>PROGRESS = {{ $text->total_pages  / 100 * $text->getSettings()->current_page }}%</p>
+            <p>PROGRESS = {{ $text->total_pages  / 100 * $text->settings()->current_page }}%</p>
 
 
             <p><a href="{{route('reader_read_text_page', $text->id)}}?page={{$text->current_page}}">READ</a></p>

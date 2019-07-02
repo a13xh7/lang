@@ -42,16 +42,9 @@ class TextsController extends Controller
 
         $text = Text::find($textId);
 
-        $text->getSettings()->delete();
+        $text->settings()->delete();
 
-        foreach ($text->textPages as $textPage)
-        {
-            $textPage->delete();
-        }
-
-
-        DB::table('user_text')->where('user_id', auth()->user()->id)->where('text_id', $text->id)->delete();
-
+        $text->users()->detach(auth()->user()->id);
 
         $text->delete();
 

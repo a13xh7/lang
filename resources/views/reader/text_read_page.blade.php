@@ -5,13 +5,7 @@
     <h1>TEXT PAGE</h1>
 
 
-    <div >
-
-
-    {!! $page->content !!}
-
-
-        </div>
+    <div style="white-space: pre-wrap;"> {!! $page->content !!}</div>
 
 
 

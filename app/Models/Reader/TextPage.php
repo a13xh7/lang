@@ -8,4 +8,9 @@ class TextPage extends Model
 {
     public $timestamps = false;
     protected $table = 'text_pages';
+
+    public function text()
+    {
+        return $this->belongsTo(Text::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models\Reader;
 
+use App\Models\Main\User;
 use App\Models\Reader\TextSettings;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,17 +13,22 @@ class Text extends Model
     /** @var TextSettings */
     protected $settings = null;
 
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_text',  'text_id', 'user_id');
+    }
+
     public function textPages()
     {
         return $this->hasMany('App\Models\Reader\TextPage', 'text_id', 'id');
     }
 
-    public function getSettings():?TextSettings
+    public function settings():?TextSettings
     {
         if($this->settings == null) {
-            $settings = TextSettings::where('id', $this->id)->where('user_id', auth()->user()->id)->first();
+            $this->settings = TextSettings::where('id', $this->id)->where('user_id', auth()->user()->id)->first();
         }
 
-        return $settings;
+        return $this->settings;
     }
 }

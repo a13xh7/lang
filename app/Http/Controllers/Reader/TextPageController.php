@@ -12,14 +12,18 @@ class TextPageController extends Controller
     public function showPage(int $textId)
     {
 
+        $textLanguageId = 1;
+
         $pages = TextPage::where('text_id', $textId)->paginate(1);
 
 
         $page = TextPage::where('text_id', $textId)->where('page_number', $pages->currentPage())->first();
 
 
+        $pageContent = '';
 
-        return view('reader.text_read_page')->with('page', $page) ->with('pages', $pages);
+
+        return view('reader.text_read_page')->with('page', $page)->with('pages', $pages);
     }
 
 }

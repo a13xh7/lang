@@ -57,6 +57,9 @@ class AddTextController extends Controller
         $text->words = serialize($textHandler->words);
         $text->save();
 
+        // Add row to user_text table
+        $text->users()->attach(auth()->user()->id);
+
         // 4 - Save text settings to database
 
         $textSettings = new TextSettings();
@@ -67,39 +70,29 @@ class AddTextController extends Controller
 
         $textSettings->save();
 
-        // Add row to user_text table
-
-        DB::table('user_text')->insert([
-            ['user_id' => auth()->user()->id, 'text_id' => $text->id]
-
-        ]);
-
-
         // 5 - save pages to database
 
         foreach ($pages as $page_number => $page)
         {
-            $sentences = explode('.', $page);
-            $finalContent = '';
-
-            foreach ($sentences as $sentence)
-            {
-                $finalContent.= '<p>'.$sentence.'</p>'.PHP_EOL;
-            }
+//            $sentences = explode('.', $page);
+//            $finalContent = '';
+//
+//            foreach ($sentences as $sentence)
+//            {
+//                $finalContent.= '<p>'.$sentence.'</p>'.PHP_EOL;
+//            }
 
 
             $textPage = new TextPage();
             $textPage->text_id = $text->id;
             $textPage->page_number = $page_number + 1; // because array starts from 0
-            $textPage->content = $finalContent;
+            $textPage->content = $page;
             $textPage->save();
         }
 
         DB::commit();
 
         return redirect()->route('reader_texts');
-
-
 
 
     }

@@ -15,11 +15,16 @@ class CreateTextPagesTable extends Migration
     {
         Schema::create('text_pages', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('text_id');
+            $table->unsignedBigInteger('text_id');
             $table->integer('page_number');
             $table->text('content');
 
+            $table->foreign('text_id')->references('id')->on('texts')->onDelete('cascade');
         });
+
+//        Schema::table('text_pages', function($table) {
+//            $table->foreign('text_id')->references('id')->on('texts')->onDelete('cascade');
+//        });
     }
 
     /**

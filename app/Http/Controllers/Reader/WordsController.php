@@ -9,6 +9,7 @@
 namespace App\Http\Controllers\Reader;
 
 use App\Http\Controllers\Controller;
+use App\Models\Main\User;
 use App\Models\Reader\Text;
 
 use App\Models\Reader\Word;
@@ -19,25 +20,25 @@ class WordsController extends Controller
 
     public function showPage()
     {
-        $words = Word::where('user_id', auth()->user()->id)->paginate(1);
-        $totalWords = Word::where('user_id', auth()->user()->id)->count();
+        $user = User::where('id', auth()->user()->id)->first();
+        $words = $user->words()->paginate(10);
 
-        return view('reader.words')->with('words', $words)->with('totalWords', $totalWords);
+
+        return view('reader.words')
+            ->with('words', $words)
+            ->with('totalWords', $user->words->count())
+            ->with('totalKnownWords', $user->words()->where('state', \App\Config\Word::KNOWN)->count())
+            ->with('totalNewWords', $user->words()->where('state', \App\Config\Word::NEW)->count())
+            ;
     }
 
     public function showNewWords()
     {
-        $words = Word::where('user_id', auth()->user()->id)->paginate(1);
-        $totalWords = Word::where('user_id', auth()->user()->id)->count();
 
-        return view('reader.words')->with('words', $words)->with('totalWords', $totalWords);
     }
 
     public function showKnownWords()
     {
-        $words = Word::where('user_id', auth()->user()->id)->paginate(1);
-        $totalWords = Word::where('user_id', auth()->user()->id)->count();
 
-        return view('reader.words')->with('words', $words)->with('totalWords', $totalWords);
     }
 }

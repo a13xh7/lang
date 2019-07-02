@@ -3,6 +3,7 @@
 namespace App\Models\Main;
 
 use App\Models\Reader\Text;
+use App\Models\Reader\Word;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -42,5 +43,10 @@ class User extends Authenticatable
     public function texts()
     {
         return $this->belongsToMany(Text::class, 'user_text',  'user_id', 'text_id' );
+    }
+
+    public function words()
+    {
+        return $this->belongsToMany(Word::class, 'user_word',  'user_id', 'word_id' )->withPivot('state');
     }
 }

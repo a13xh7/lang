@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTextSettingsTable extends Migration
+class CreateGoogleTranslationsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,11 @@ class CreateTextSettingsTable extends Migration
      */
     public function up()
     {
-        Schema::create('text_settings', function (Blueprint $table) {
+        Schema::create('google_translations', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->integer('text_id');
-            $table->integer('translate_to_lang_id');
-            $table->integer('current_page')->default(0);
+            $table->integer('word_id');
+            $table->integer('lang_id');
+            $table->string('translation');
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ class CreateTextSettingsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('text_settings');
+        Schema::dropIfExists('google_translations');
     }
 }
