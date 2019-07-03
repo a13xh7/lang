@@ -21,10 +21,11 @@ class TextHandler
     /** @var array */
     public $words = [];  // ['word' => 10, 'word' => usageFrequency]
 
+    private static $wordRegex = '#\b[^\s]+\b#ui';
+
     public function __construct($text)
     {
-        $wordRegex = '#\b[^\s]+\b#ui';
-        preg_match_all($wordRegex, $text, $output_array);
+        preg_match_all(static::$wordRegex, $text, $output_array);
 
         $this->totalWords = count($output_array[0]);
 
@@ -92,5 +93,15 @@ class TextHandler
 
     }
 
+    public static function getUniqueWordsFromText($text)
+    {
+        preg_match_all(static::$wordRegex, $text, $output_array);
+        return array_unique($output_array[0]);
+    }
 
+    public static function getAllWordsFromText($text)
+    {
+        preg_match_all(static::$wordRegex, $text, $output_array);
+        return $output_array[0];
+    }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Reader;
 
 use App\Http\Controllers\Controller;
+use App\Models\Main\Language;
 use App\Models\Reader\Text;
 use App\Models\Reader\TextPage;
 use App\Models\Reader\TextSettings;
@@ -17,13 +18,14 @@ class AddTextController extends Controller
 
     public function showPage()
     {
-        return view('reader.add_text');
+        $languages = Language::all();
+
+
+        return view('reader.add_text')->with('languages', $languages);
     }
 
     public function addText(Request $request)
     {
-
-
 
         /**
          * load file
@@ -33,6 +35,8 @@ class AddTextController extends Controller
          * calculate words
          * save text stats
          */
+
+
 
         // 1 - Load file
         $text = $request->file('textFile')->get();
@@ -48,7 +52,7 @@ class AddTextController extends Controller
         // 3 - Save text to database
 
         $text = new Text();
-        $text->lang_id = 1;
+        $text->lang_id = $request->get('lang_from');
         $text->title = $request->get('title');
         $text->total_symbols = mb_strlen($request->file('textFile')->get());
         $text->total_pages = count($pages);
@@ -65,7 +69,7 @@ class AddTextController extends Controller
         $textSettings = new TextSettings();
         $textSettings->user_id = auth()->user()->id;
         $textSettings->text_id = $text->id;
-        $textSettings->translate_to_lang_id = 1;
+        $textSettings->translate_to_lang_id = $request->get('lang_to');
         $textSettings->current_page = 1;
 
         $textSettings->save();

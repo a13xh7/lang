@@ -2,6 +2,7 @@
 
 namespace App\Models\Reader;
 
+use App\Models\Main\Language;
 use App\Models\Main\User;
 use App\Models\Reader\TextSettings;
 use Illuminate\Database\Eloquent\Model;
@@ -13,12 +14,17 @@ class Text extends Model
     /** @var TextSettings */
     protected $settings = null;
 
+    public function lang()
+    {
+        return $this->hasOne(Language::class, 'id', 'lang_id');
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'user_text',  'text_id', 'user_id');
     }
 
-    public function textPages()
+    public function pages()
     {
         return $this->hasMany('App\Models\Reader\TextPage', 'text_id', 'id');
     }

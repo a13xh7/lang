@@ -12,7 +12,8 @@
 
 
         <div class="w3-border-bottom">
-            <p> <b>lang_from</b> <b>lang_to</b> {{$text->title}}</p>
+            <p> <b>{{$text->lang->eng_title}}</b> <b>{{$text->settings()->lang->eng_title}}</b> </p>
+            <P>title - {{$text->title}}</P>
 
             <p>Total pages - {{ $text->total_pages}}</p>
             <p>Current page - {{ $text->settings()->current_page }}</p>
