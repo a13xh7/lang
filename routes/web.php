@@ -69,3 +69,22 @@ Route::middleware(['auth'])->group(function ()
 
 
 });
+
+/****************************************************************
+ * Q & A
+ ****************************************************************/
+
+//Route::get('/questions', 'QA')->name('qa_index');
+//Route::get('/question/{questionId}', 'QA')->name('qa_question');
+//
+//Route::middleware(['auth'])->group(function ()
+//{
+//
+//    Route::get('/question/add', 'QA')->name('qa_add_question');
+//
+//
+//
+//
+//});
+//
+//

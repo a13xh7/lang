@@ -1,0 +1,84 @@
+.nopadding {
+    margin-right: 0;
+    margin-left: 0;
+    padding-right: 0;
+    padding-left: 0;
+}
+
+html, body {
+    height: 100%
+}
+
+
+/************************** HEADER*************************/
+
+.header {
+    min-height: 60px;
+}
+
+.logo {
+    color: #2e21df;
+    font-size: x-large;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.header-menu > a{
+    padding-left: 50px;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #606060;
+    font-size: x-large;
+}
+
+.header-menu > a:hover{
+    color: black;
+    font-size: x-large;
+    text-decoration: none;
+}
+
+.nav-left > a {
+    border-radius: 0;
+    float: right;
+    margin-left: 20px;
+}
+
+
+
+/**************************FOOTER*************************/
+
+.footer {
+    background-color: #252525;
+}
+
+
+/**************************READER STYLES START*************************/
+
+.sidebar {
+    background-color: #f3f3f3;
+}
+
+.reader_sidebar_menu_title {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #2e21df;
+    font-size: xx-large;
+    padding-left: 20px;
+}
+
+.reader_sidebar_menu_item {
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #606060;
+    font-size: large;
+}
+
+.reader_sidebar_menu_item a {
+    color: black;
+    display: block;
+    padding-left: 40px;
+    text-decoration: underline;
+    padding-bottom: 20px;
+}
+
+/**************************READER STYLES END*************************/

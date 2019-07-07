@@ -33,10 +33,9 @@ class TextStatsController extends Controller
             $fullText .= $page->content;
         }
 
-        $words = TextHandler::getAllWordsFromText($fullText);
-        $words = array_count_values(array_map('strtolower', $words));
-        arsort($words);
+        $textHandler = new TextHandler($fullText);
 
+        $words = $textHandler->uniqueWords;
 
         return view('reader.text_stats')->with('text', $text)->with('words', $words);
     }

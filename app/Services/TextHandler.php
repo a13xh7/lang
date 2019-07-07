@@ -14,36 +14,60 @@ use Illuminate\Support\Facades\DB;
 
 class TextHandler
 {
+    /** @var string */
+    public $text;
     /** @var int */
     public $totalWords = 0;
     /** @var int */
-    public $uniqueWords = 0;
-    /** @var array */
-    public $words = [];  // ['word' => 10, 'word' => usageFrequency]
+    public $totalUniqueWords = 0;
+    /** @var int */
+    public $totalSymbols = 0;
 
-    private static $wordRegex = '#\b[^\s]+\b#ui';
+    /** @var array all words from text*/
+    public $allWords = [];
+    /** @var array all unique words from text*/
+    public $uniqueWords = [];
+
+    private $wordRegex = '#\b[^\s]+\b#ui';
 
     public function __construct($text)
     {
-        preg_match_all(static::$wordRegex, $text, $output_array);
+        $this->text = $text;
 
-        $this->totalWords = count($output_array[0]);
+        // Find all words using regex
+        preg_match_all($this->wordRegex, $text, $output_array);
 
+        // Find all unique words
         $uniqueWords = array_unique($output_array[0]);
 
-        $this->uniqueWords = count($uniqueWords);
+        // Add all words to array
+        $this->allWords = $output_array[0];
 
-        $this->setWords($uniqueWords);
+        // Count and save unique words to array. Array format - ['word_key' => 'usage_frequency]
+        $words = array_count_values(array_map('mb_strtolower', $this->allWords));
+        arsort($words);
+        $this->uniqueWords = $words;
+
+        // Set stats values
+        $this->totalWords = count($output_array[0]);
+        $this->totalUniqueWords = count($uniqueWords);
+        $this->totalSymbols = mb_strlen($this->text);
+    }
+
+    public function getUniqueWordsSerialized()
+    {
+        return serialize($this->uniqueWords);
     }
 
 
-    public function splitTextToPages($text, $pageLength = 3000)
+    public function splitTextToPages($pageLength = 3000)
     {
+        $text = $this->text;
         $pages = [];
 
         while(!empty($text))
         {
-            $pageEnd = $this->findPageEnd($text, $pageLength);
+            $pageEnd = $this->findPageEnd($pageLength);
             $pages[] = substr($text, 0, $pageEnd);
 
             $text = substr($text, $pageEnd, strlen($text) - 1);
@@ -53,21 +77,23 @@ class TextHandler
     }
 
 
-    private function findPageEnd($text, $pageLength)
+    private function findPageEnd($pageLength):int
     {
-
         $realLength = $pageLength;
 
-        if(isset($text[$realLength]) === false)
+        if(isset($this->text[$realLength]) === false)
         {
             return $pageLength;
         }
 
-        while($text[$realLength] !== '.' )
+        while($this->text[$realLength] !== '.'
+            || $this->text[$realLength] !== '!'
+            || $this->text[$realLength] !== '?'
+            || $this->text[$realLength] !== '. ')
         {
             $realLength++;
 
-            if(isset($text[$realLength]) === false)
+            if(isset($this->text[$realLength]) === false)
             {
                 return $pageLength;
             }
@@ -79,29 +105,6 @@ class TextHandler
         }
 
         return $realLength + 1; //  +1 means + dot
-
     }
 
-
-    private function setWords($allWords)
-    {
-
-        $words = array_count_values(array_map('strtolower', $allWords));
-        arsort($words);
-
-        $this->words = $words;
-
-    }
-
-    public static function getUniqueWordsFromText($text)
-    {
-        preg_match_all(static::$wordRegex, $text, $output_array);
-        return array_unique($output_array[0]);
-    }
-
-    public static function getAllWordsFromText($text)
-    {
-        preg_match_all(static::$wordRegex, $text, $output_array);
-        return $output_array[0];
-    }
 }

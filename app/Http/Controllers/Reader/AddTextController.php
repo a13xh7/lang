@@ -45,7 +45,7 @@ class AddTextController extends Controller
 
         // 2 - split text to pages
 
-        $pages = $textHandler->splitTextToPages($text);
+        $pages = $textHandler->splitTextToPages();
 
         DB::beginTransaction();
 
@@ -54,11 +54,11 @@ class AddTextController extends Controller
         $text = new Text();
         $text->lang_id = $request->get('lang_from');
         $text->title = $request->get('title');
-        $text->total_symbols = mb_strlen($request->file('textFile')->get());
         $text->total_pages = count($pages);
+        $text->total_symbols = $textHandler->totalSymbols;
         $text->total_words = $textHandler->totalWords;
-        $text->unique_words = $textHandler->uniqueWords;
-        $text->words = serialize($textHandler->words);
+        $text->unique_words = $textHandler->totalUniqueWords;
+        $text->words = $textHandler->getUniqueWordsSerialized();
         $text->save();
 
         // Add row to user_text table
