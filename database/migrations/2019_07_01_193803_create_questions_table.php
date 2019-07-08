@@ -22,7 +22,7 @@ class CreateQuestionsTable extends Migration
             $table->integer('lang_to_id');
             $table->string('title');
             $table->text('content');
-            $table->integer('views');
+            $table->integer('views')->default(0);
             $table->timestamps();
         });
     }

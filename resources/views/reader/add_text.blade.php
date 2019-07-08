@@ -1,9 +1,6 @@
 @extends('layouts.reader')
 
-
-
-
-@section('content')
+@section('reader_main')
 
     <p>добавить валидацию </p>
     <h1>ADD TEXT</h1>

@@ -1,6 +1,6 @@
 @extends('layouts.reader')
 
-@section('content')
+@section('reader_main')
 
 <h1>FULL TEXT INFO</h1>
 

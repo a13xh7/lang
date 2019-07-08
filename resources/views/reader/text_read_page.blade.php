@@ -1,9 +1,6 @@
 @extends('layouts.reader')
 
-@section('content')
-
-    <h1>TEXT PAGE</h1>
-
+@section('reader_main')
 
     <div style="white-space: pre-wrap;"> {!! $page->content !!}</div>
 

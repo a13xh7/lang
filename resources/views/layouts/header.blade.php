@@ -1,73 +1,76 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+<!-- HEADER START-->
+<header class="row border-bottom sticky-top bg-white shadow-sm header">
 
-    <link rel="stylesheet" href="{{ asset('css/w3.css') }}">
-</head>
-<body>
+    <div class="container align-self-center">
 
+        <div class="row">
 
-<header>
-
-    <nav class="w3-bar w3-dark-grey">
-
-        @auth
-            <a href="{{ route('main_dashboard') }}" class="w3-bar-item w3-button">HOME</a>
-        @endauth
-
-        @guest
-             <a href="{{ route('index_landing') }}" class="w3-bar-item w3-button">HOME</a>
-        @endguest
-
-
-        @auth
-            <a href="{{ route('reader_dashboard') }}" class="w3-bar-item w3-button">READER</a>
-        @endauth
-
-        @guest
-            <a href="{{ route('reader_landing') }}" class="w3-bar-item w3-button">READER</a>
-        @endguest
-
-
-
-
-
-        <a href="#" class="w3-bar-item w3-button">Q&A</a>
-
-        @guest
-            <a href="{{ route('login') }}" class="w3-bar-item w3-button">LOGIN</a>
-            <a href="{{ route('register') }}" class="w3-bar-item w3-button">REGISTER</a>
-        @endguest
-
-        @auth
-            <li class="nav-item dropdown">
-                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                    {{ Auth::user()->name }} <span class="caret"></span>
+            <div class="col-2">
+                <a href="" class="logo">
+                    LANG LOGO
                 </a>
+            </div>
 
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
+            <nav class="col justify-content-center header-menu">
+
+                @auth
+                    <a href="{{ route('main_dashboard') }}" class="w3-bar-item w3-button">HOME</a>
+                @endauth
+
+                @guest
+                    <a href="{{ route('index_landing') }}" class="w3-bar-item w3-button">HOME</a>
+                @endguest
+
+
+                @auth
+                    <a href="{{ route('reader_dashboard') }}" class="w3-bar-item w3-button">READER</a>
+                @endauth
+
+                @guest
+                    <a href="{{ route('reader_landing') }}" class="w3-bar-item w3-button">READER</a>
+                @endguest
+
+
+
+
+                <a href="">Text stats</a>
+                <a href="">Groups</a>
+                <a href="{{ route('qa_index') }}">Q & A</a>
+            </nav>
+
+            <div class="col-3 nopadding nav-left justify-content-end">
+
+                @guest
+                <a href="{{ route('login') }}" class="btn btn-primary">LOGIN</a>
+                <a href="{{ route('register') }}" class="btn btn-primary">REGISTER</a>
+                @endguest
+
+                    @auth
+
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                {{ Auth::user()->name }} <span class="caret"></span>
+                            </a>
+
+
+                                <a href="{{ route('logout') }}"
+                                   onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
-                    </a>
+                                    {{ __('Logout') }}
+                                </a>
 
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </div>
-            </li>
-        @endauth
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
 
 
+                    @endauth
+            </div>
 
+        </div>
 
-        {{--<a href="{{ route('register') }}" class="w3-bar-item w3-button">USER SETTINGS</a>--}}
-    </nav>
+    </div>
 
 </header>
+<!-- HEADER END-->
+
+

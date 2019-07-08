@@ -1,47 +1,27 @@
 
-@include('layouts.header')
-
-<main style="min-height: 700px">
+@extends('layouts.main')
 
 
-    <main style="min-height: 700px">
-        <div class="w3-row">
+@section('main')
 
+    <!-- MAIN CONTENT START-->
+    <div class="row">
 
-            <div class="w3-container w3-quarter">
-                <ul class="w3-ul w3-border">
-                    <li><a href="{{ route('reader_add_text_page') }}">ADD TEXT</a></li>
-                    <li><a href="{{ route('reader_texts') }}">MY TEXTS</a></li>
-                    <li><a href="{{ route('reader_words') }}">MY WORDS</a></li>
+        <div class="container">
+            <div class="row">
 
-                    <hr>
-                    <hr>
+                @include('layouts.reader_sidebar')
 
-                    <li><a href="">FIND GROUPS</a></li>
-                    <li><a href="{{ route('reader_my_groups') }}">MY GROUPS</a></li>
-                    <li><a href="">GROUP TEXTS</a></li>
-                    <li><a href="">GROUP QUESTIONS</a></li>
-                    <li><a href="">CREATE GROUP</a></li>
+                <main class="col">
 
-                    <hr>
-                    <li><a href="{{ route('reader_faq') }}">FAQ</a></li>
+                    @yield('reader_main')
 
-                </ul>
-
-            </div>
-
-            <div class="w3-container w3-half">
-                @yield('content')
-            </div>
-
-            <div class="w3-container w3-quarter">
-                @yield('right_sidebar')
+                </main>
             </div>
         </div>
 
-    </main>
 
-</main>
-
-@include('layouts.footer')
+    </div>
+    <!-- MAIN CONTENT END-->
+@endsection
 
