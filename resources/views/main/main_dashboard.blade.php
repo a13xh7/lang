@@ -1,0 +1,1 @@
+@extends('layouts.main.main_layout')

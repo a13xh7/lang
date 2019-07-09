@@ -1,6 +1,6 @@
-@extends('layouts.reader')
+@extends('layouts.reader.reader_layout')
 
-@section('reader_main')
+@section('reader_content')
 
     <h1>MY WORDS</h1>
 

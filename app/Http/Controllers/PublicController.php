@@ -9,7 +9,7 @@ class PublicController extends Controller
 
     public function showIndexLanding()
     {
-        return view('main.landing');
+        return view('main.main_index_landing');
     }
 
     public function showReaderLanding()

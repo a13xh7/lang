@@ -32,7 +32,6 @@ Route::middleware(['auth'])->group(function ()
 {
     // INDEX AND OTHER STATIC PAGES
     Route::get('/reader/dashboard', 'Reader\ReaderController@showDashboard')->name('reader_dashboard');
-    Route::get('/reader/faq', 'Reader\ReaderController@faq')->name('reader_faq');
 
     // ADD TEXT PAGE
     Route::get('/reader/add/text', 'Reader\AddTextController@showPage')->name('reader_add_text_page');

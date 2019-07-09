@@ -1,14 +1,16 @@
-@extends('layouts.reader')
+@extends('layouts.reader.reader_layout')
 
-@section('reader_main')
+@section('reader_content')
 
-    <div style="white-space: pre-wrap;"> {!! $page->content !!}</div>
+    <div style="white-space: pre-wrap;">
+        {!! $page->content !!}
+    </div>
 
 
 
-        <div class="w3-border">
-            {{$pages->links()}}
-        </div>
+
+    {{$pages->links()}}
+
 
 
     @endsection

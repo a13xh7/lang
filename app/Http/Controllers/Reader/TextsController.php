@@ -21,12 +21,10 @@ class TextsController extends Controller
 
     public function showTexts()
     {
-
         $user = User::where('id', auth()->user()->id)->first();
+        $texts = $user->texts()->where('group_id', Group::NO_GROUP)->paginate(1);
 
-        $texts = $user->texts()->where('group_id', Group::NO_GROUP)->paginate(10);
-
-        return view('reader.texts')->with('texts', $texts);
+        return view('reader.reader_texts')->with('texts', $texts);
     }
 
     public function updateText(int $textId)

@@ -24,7 +24,7 @@ class WordsController extends Controller
         $words = $user->words()->paginate(10);
 
 
-        return view('reader.words')
+        return view('reader.reader_words')
             ->with('words', $words)
             ->with('totalWords', $user->words->count())
             ->with('totalKnownWords', $user->words()->where('state', \App\Config\Word::KNOWN)->count())

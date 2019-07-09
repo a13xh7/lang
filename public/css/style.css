@@ -1,14 +1,29 @@
+/************************** HELPERS AND SERVICE CLASSES*************************/
+
 .nopadding {
-    margin-right: 0;
-    margin-left: 0;
     padding-right: 0;
     padding-left: 0;
 }
 
-html, body {
-    height: 100%
+.nomargin {
+    margin-right: 0;
+    margin-left: 0;
 }
 
+.noradius {
+    border-radius: 0;
+}
+
+/*************************************** COMMON STYLES START ****************************************/
+
+html, body {
+    height: 100%;
+    /*background-color: #F8F8FF;*/
+}
+
+body,h1,h2,h3,h4,h5,h6 {
+    font-family:open sans,sans-serif;
+}
 
 /************************** HEADER*************************/
 
@@ -24,37 +39,54 @@ html, body {
 }
 
 .header-menu > a{
-    padding-left: 50px;
+    padding-right: 5%;
     text-transform: uppercase;
     font-weight: bold;
     color: #606060;
-    font-size: large;
+    font-size: x-large;
+    white-space: nowrap
 }
 
-.header-menu > a:hover{
-    color: black;
-    text-decoration: none;
-}
+/*.header-menu > a:hover{*/
+/*    color: black;*/
+/*    font-size: x-large;*/
+/*    text-decoration: none;*/
+/*}*/
 
-.nav-left > a {
-    border-radius: 0;
-    float: right;
+.nav-left > a:nth-last-child(1) {
     margin-left: 20px;
 }
 
+.main_content {
+    padding-top: 20px;
+}
 
 
 /**************************FOOTER*************************/
 
 .footer {
+    padding-top: 40px;
     background-color: #252525;
 }
+
+/*************************************** COMMON STYLES END ****************************************/
 
 
 /**************************READER STYLES START*************************/
 
 .sidebar {
     background-color: #f3f3f3;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.sidebar a {
+    font-size: large;
+    text-transform: uppercase;
+}
+
+.reader_main_content {
+    padding-top: 10px;
 }
 
 .reader_sidebar_menu_title {
@@ -72,17 +104,21 @@ html, body {
     font-size: large;
 }
 
-.reader_sidebar_menu_item a {
-    color: black;
-    display: block;
-    padding-left: 40px;
-    text-decoration: underline;
-    padding-bottom: 20px;
+
+
+
+.text_item {
+    padding-bottom: 5px;
+    margin-top: 20px;
+}
+
+.text_controls {
+    margin-top: 10px;
+}
+
+.sidebar li {
+    border-bottom: 1px solid dimgray;
 }
 
 
-.text_wrapper {
-    border-bottom: 1px solid gray;
-    margin-bottom: 20px;
-}
 /**************************READER STYLES END*************************/

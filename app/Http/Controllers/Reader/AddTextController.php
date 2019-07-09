@@ -19,9 +19,7 @@ class AddTextController extends Controller
     public function showPage()
     {
         $languages = Language::all();
-
-
-        return view('reader.add_text')->with('languages', $languages);
+        return view('reader.reader_add_text')->with('languages', $languages);
     }
 
     public function addText(Request $request)
@@ -39,7 +37,7 @@ class AddTextController extends Controller
 
 
         // 1 - Load file
-        $text = $request->file('textFile')->get();
+        $text = $request->file('text_file')->get();
 
         $textHandler = new TextHandler($text);
 
@@ -53,7 +51,7 @@ class AddTextController extends Controller
 
         $text = new Text();
         $text->lang_id = $request->get('lang_from');
-        $text->title = $request->get('title');
+        $text->title = $request->get('text_title');
         $text->total_pages = count($pages);
         $text->total_symbols = $textHandler->totalSymbols;
         $text->total_words = $textHandler->totalWords;
