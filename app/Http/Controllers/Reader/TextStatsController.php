@@ -37,6 +37,10 @@ class TextStatsController extends Controller
 
         $words = $textHandler->uniqueWords;
 
-        return view('reader.text_stats')->with('text', $text)->with('words', $words);
+        $size = count($words) / 3;
+        $words = array_chunk($words, $size, true);
+
+
+        return view('reader.reader_text_stats')->with('text', $text)->with('words', $words);
     }
 }

@@ -3,7 +3,6 @@
 @section('reader_content')
 
   <h1>My texts</h1>
-  <hr>
 
     @foreach($texts as $text)
 
@@ -50,7 +49,7 @@
 
     @endforeach
 
-    <br><br>
+    <br>
     {{ $texts->links() }}
 
 

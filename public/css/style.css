@@ -25,6 +25,13 @@ body,h1,h2,h3,h4,h5,h6 {
     font-family:open sans,sans-serif;
 }
 
+h1 {
+    color: #606060;
+    text-transform: uppercase;
+    border-bottom: 1px solid #afafaf;
+
+}
+
 /************************** HEADER*************************/
 
 .header {
