@@ -35,7 +35,6 @@ class AddTextController extends Controller
          */
 
 
-
         // 1 - Load file
         $text = $request->file('text_file')->get();
 

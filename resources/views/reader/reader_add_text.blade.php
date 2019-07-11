@@ -4,7 +4,13 @@
 
     <h1>Upload text file</h1>
 
-    <p><b>Allowed file types:</b> <span class="badge badge-info">.txt</span></p>
+    <p>
+        <b>Allowed file types:</b>
+        <span class="badge badge-info">.txt</span>
+        <span class="badge badge-info">.fb2</span>
+        <span class="badge badge-info">.epub</span>
+        <span class="badge badge-info">.mobi</span>
+    </p>
 
     <form action="{{route('reader_add_text')}}" method="POST" enctype="multipart/form-data">
         @csrf
@@ -24,25 +30,38 @@
 
 
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Translate from</label>
+            <label class="col-sm-2 col-form-label" for="lang_from">Translate from</label>
             <div class="col-sm-10">
-                <select class="form-control" name="lang_from">
+                <select class="selectpicker" name="lang_from" id="lang_from" data-live-search="true" data-width="100%">
                     @foreach($languages as $lang)
-                        <option value="{{$lang->id}}">{{$lang->eng_title}}</option>
+                        {{--<option value="{{$lang->id}}">{{$lang->eng_title}}</option>--}}
+
+                        <option
+                                value="{{$lang->id}}"
+                                data-subtext="{{$lang->eng_title}}"
+                                data-content="<img src='{{asset('img/flags/'.$lang->code.'.svg')}}' class='text_flag' alt=''> {{$lang->title}} <small class='text-muted'>{{$lang->eng_title}}</small>" >
+                        </option>
                     @endforeach
                 </select>
             </div>
         </div>
 
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Translate to</label>
+            <label class="col-sm-2 col-form-label" for="lang_to">Translate to</label>
             <div class="col-sm-10">
-                <select class="form-control" name="lang_to">
-                    <option value="{{$lang->id}}" data-thumbnail="{{asset('img/flags/en.svg')}}">ZZZZZZZ</option>
+
+                <select class="selectpicker" name="lang_to" id="lang_to" data-live-search="true" data-width="100%">
+
                     @foreach($languages as $lang)
-                        <option value="{{$lang->id}}">{{$lang->eng_title}}</option>
+                        <option
+                                value="{{$lang->id}}"
+                                data-subtext="{{$lang->eng_title}}"
+                                data-content="<img src='{{asset('img/flags/'.$lang->code.'.svg')}}' class='text_flag' alt=''> {{$lang->title}} <small class='text-muted'>{{$lang->eng_title}}</small>" >
+                        </option>
                     @endforeach
+
                 </select>
+
             </div>
         </div>
 

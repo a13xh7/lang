@@ -126,7 +126,7 @@ class DatabaseSeeder extends Seeder
                 'code' => $lang['code'],
                 'title' => $lang['title'],
                 'eng_title' => $lang['eng_title'],
-                'image' => $lang['image']
+                'image' => '5'
             ]);
         }
     }

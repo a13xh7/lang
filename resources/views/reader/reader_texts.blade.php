@@ -10,16 +10,25 @@
         <div class="text_item border-bottom">
 
             <span class="text_title">
-                <b>{{$text->lang->eng_title}}</b> <b>{{$text->settings()->lang->eng_title}}</b>
-                <a class="h4" href="">{{$text->title}}</a>
+                <a class="h4" href="{{route('reader_read_text_page', $text->id)}}?page={{$text->settings()->current_page}}">{{$text->title}}</a>
             </span>
 
+            <div>
+                Text language: <img src="{{asset('img/flags/'. $text->lang->code .'.svg')}}" class="text_flag" alt=""> <i class="text-muted">({{$text->lang->eng_title}})</i> <b>|</b>
+                Translate to: <img src="{{asset('img/flags/'. $text->settings()->lang->code .'.svg')}}" class="text_flag" alt=""> <i class="text-muted">({{$text->settings()->lang->eng_title}})</i>
+            </div>
+
             <div class="text_stats">
-                <span>Symbols: <b>{{ $text->total_symbols}}</b> <b>|</b> Words: <b>{{ $text->total_words}}</b> <b>|</b> Unique words: <b>{{ $text->unique_words}}</b> <b>|</b> Known words: <b>768</b> <b>|</b> Unknown Words: <b>9993</b></span>
+                Symbols: <span class="badge badge-dark">{{ $text->total_symbols}}</span> <b>|</b>
+                Words: <span class="badge badge-dark">{{ $text->total_words}}</span> <b>|</b>
+                Unique words: <span class="badge badge-dark">{{ $text->unique_words}}</span> <b>|</b>
+                Known words: <span class="badge badge-dark">{{ $text->unique_words}}</span> <b>|</b>
+                Unknown Words: <span class="badge badge-dark">{{ $text->unique_words}}</span>
             </div>
 
             <div class="text_pages_info">
-                <span>Pages: <b>{{ $text->total_pages}}</b> / Current page: <b>{{ $text->settings()->current_page }}</b></span>
+                Pages: <span class="badge badge-dark">{{ $text->total_pages}}</span> <b>/</b>
+                Current page: <span class="badge badge-dark">{{ $text->settings()->current_page}}</span>
             </div>
 
             <div class="progress">
@@ -30,7 +39,7 @@
 
             <div class="text_controls">
 
-                <a class="btn btn-primary text-light noradius" href="{{route('reader_read_text_page', $text->id)}}?page={{$text->current_page}}">
+                <a class="btn btn-primary text-light noradius" href="{{route('reader_read_text_page', $text->id)}}?page={{$text->settings()->current_page}}">
                     <i class="icofont-read-book"></i> Read
                 </a>
 
@@ -38,7 +47,14 @@
                     <i class="icofont-info-square"></i> Full Info
                 </a>
 
-                <a class="btn btn-primary text-light noradius"><i class="icofont-ui-edit"></i> Edit</a>
+                <a class="btn btn-primary text-light noradius text_edit_btn" data-toggle="modal" data-target="#text_edit_modal"
+                   data-text_id="{{$text->id}}"
+                   data-text_title="{{$text->title}}"
+                   data-text_lang="{{$text->lang->id}}"
+                   data-translate_to_lang_id="{{$text->settings()->lang->id}}">
+
+                    <i class="icofont-ui-edit"></i> Edit
+                </a>
 
                 <a class="btn btn-primary text-light noradius" href="{{route('reader_delete_text', $text->id)}}">
                     <i class="icofont-ui-delete"></i> Delete
@@ -53,24 +69,76 @@
     {{ $texts->links() }}
 
 
+  <!-- Modal -->
+  <div class="modal fade" id="text_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLongTitle">EDIT TEXT</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+
+
+                  <form action="" method="POST" enctype="multipart/form-data">
+                      @csrf
+                      <div class="form-group row">
+                          <label for="text_title" class="col-sm-2 col-form-label">Title</label>
+                          <div class="col-sm-10">
+                              <input type="text" class="form-control" name="text_title" id="text_title" placeholder="Text title" required>
+                          </div>
+                      </div>
+
+
+                      <div class="form-group row">
+                          <label class="col-sm-2 col-form-label" for="lang_from">Translate from</label>
+                          <div class="col-sm-10">
+                              <select class="selectpicker" name="lang_from" id="lang_from" data-live-search="true" data-width="100%">
+                                  @foreach($languages as $lang)
+
+                                      <option
+                                              value="{{$lang->id}}"
+                                              data-subtext="{{$lang->eng_title}}"
+                                              data-content="<img src='{{asset('img/flags/'.$lang->code.'.svg')}}' class='text_flag' alt=''> {{$lang->title}} <small class='text-muted'>{{$lang->eng_title}}</small>" >
+
+                                      </option>
+
+                                  @endforeach
+                              </select>
+                          </div>
+                      </div>
+
+                      <div class="form-group row">
+                          <label class="col-sm-2 col-form-label" for="lang_to">Translate to</label>
+                          <div class="col-sm-10">
+
+                              <select class="selectpicker" name="lang_to" id="lang_to" data-live-search="true" data-width="100%">
+
+                                  @foreach($languages as $lang)
+                                      <option
+                                              value="{{$lang->id}}"
+                                              data-subtext="{{$lang->eng_title}}"
+                                              data-content="<img src='{{asset('img/flags/'.$lang->code.'.svg')}}' class='text_flag' alt=''> {{$lang->title}} <small class='text-muted'>{{$lang->eng_title}}</small>" >
+                                      </option>
+                                  @endforeach
+
+                              </select>
+
+                          </div>
+                      </div>
+
+
+                      <button type="submit" class="btn w-100 btn-primary noradius"><b>SAVE</b></button>
+
+                  </form>
+
+              </div>
+          </div>
+      </div>
+  </div>
+
 @endsection
 
 
-
-{{--<div id="id01" class="w3-modal">--}}
-    {{--<div class="w3-modal-content">--}}
-        {{--<div class="w3-container">--}}
-            {{--<span onclick="document.getElementById('id01').style.display='none'" class="w3-button w3-display-topright">&times;</span>--}}
-
-
-            {{--<form action=" {{route('reader_update_text')}} " method="POST">--}}
-                {{--<p>title <input type="text"></p>--}}
-                {{--<p>language id <input type="text"> </p>--}}
-
-                {{--<button type="submit">Submit</button>--}}
-            {{--</form>--}}
-
-
-        {{--</div>--}}
-    {{--</div>--}}
-{{--</div>--}}

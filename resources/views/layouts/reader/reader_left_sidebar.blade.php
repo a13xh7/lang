@@ -17,7 +17,7 @@
     <div class="list-group list-group-flush">
         <a href="#" class="list-group-item list-group-item-action bg-light"><i class="icofont-search-1"></i> Find text</a>
         <a href="#" class="list-group-item list-group-item-action bg-light"><i class="icofont-book"></i> My texts</a>
-        <a href="#" class="list-group-item list-group-item-action bg-light"><i class="icofont-file-text"></i> Text questions</a>
+        <a href="#" class="list-group-item list-group-item-action bg-light"><i class="icofont-file-text"></i> My questions</a>
     </div>
 
     <br><br>

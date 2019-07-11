@@ -5,8 +5,8 @@
         <div class="row align-items-center">
 
             <div class="col-md-12 col-lg-2">
-                <a href="" class="logo">
-                    LANG LOGO
+                <a href="/" class="logo">
+                    MANYLANG
                 </a>
             </div>
 

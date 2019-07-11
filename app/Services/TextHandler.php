@@ -60,7 +60,7 @@ class TextHandler
     }
 
 
-    public function splitTextToPages($pageLength = 3000)
+    public function splitTextToPages($pageLength = 2000)
     {
         $text = $this->text;
         $pages = [];
@@ -74,6 +74,11 @@ class TextHandler
         }
 
         return $pages;
+    }
+
+    public function jkh()
+    {
+
     }
 
 
@@ -107,4 +112,6 @@ class TextHandler
         return $realLength + 1; //  +1 means + dot
     }
 
+    
+    
 }

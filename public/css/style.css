@@ -111,6 +111,11 @@ h1 {
     font-size: large;
 }
 
+.text_flag {
+    width: 35px;
+    height: 20px;
+    /*border: 1px solid gray;*/
+}
 
 
 
@@ -125,6 +130,13 @@ h1 {
 
 .sidebar li {
     border-bottom: 1px solid dimgray;
+}
+
+/* фикс для цвета селектора языков. это просто пиздец. ебанный фронтенд*/
+
+button[data-id="lang_to"], button[data-id="lang_from"] {
+    background-color: white;
+    border: 1px solid #ced4da;
 }
 
 
