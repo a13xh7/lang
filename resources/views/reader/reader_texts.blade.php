@@ -68,7 +68,6 @@
     <br>
     {{ $texts->links() }}
 
-
   <!-- Modal -->
   <div class="modal fade" id="text_edit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
       <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
