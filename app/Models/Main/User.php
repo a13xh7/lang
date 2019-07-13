@@ -42,7 +42,7 @@ class User extends Authenticatable
 
     public function texts()
     {
-        return $this->belongsToMany(Text::class, 'user_text',  'user_id', 'text_id' );
+        return $this->belongsToMany(Text::class, 'user_text',  'user_id', 'text_id' )->withPivot('translate_to_lang_id', 'current_page');
     }
 
     public function words()

@@ -13,7 +13,7 @@
             <nav class="col-md-12 col-lg header-menu">
 
                 @auth
-                    <a href="{{ route('reader_dashboard') }}">READER</a>
+                    <a href="{{ route('reader_texts') }}">READER</a>
                 @endauth
 
                 @guest

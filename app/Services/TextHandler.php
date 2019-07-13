@@ -46,10 +46,23 @@ class TextHandler
         // Count and save unique words to array. Array format - ['word_key' => 'usage_frequency]
         $words = array_count_values(array_map('mb_strtolower', $this->allWords));
         arsort($words);
-        $this->uniqueWords = $words;
+
+        // count usage frequency percent
+        $this->totalWords = count($output_array[0]);
+
+        $wordsFinal = [];
+
+        foreach ($words as $word => $usage_frequency) {
+
+            $percent = round (($usage_frequency / $this->totalWords) * 100, 2);
+
+            $wordsFinal[] = [$word, $usage_frequency, $percent];
+        }
+
+        $this->uniqueWords = $wordsFinal;
 
         // Set stats values
-        $this->totalWords = count($output_array[0]);
+
         $this->totalUniqueWords = count($uniqueWords);
         $this->totalSymbols = mb_strlen($this->text);
     }

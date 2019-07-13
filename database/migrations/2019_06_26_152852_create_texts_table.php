@@ -16,8 +16,8 @@ class CreateTextsTable extends Migration
         Schema::create('texts', function (Blueprint $table)
         {
             $table->bigIncrements('id');
+            $table->boolean('public')->default(false);
             $table->integer('lang_id');
-            $table->integer('group_id')->default(0);
             $table->string('title');
             $table->integer('total_symbols');
             $table->integer('total_pages')->default(1);

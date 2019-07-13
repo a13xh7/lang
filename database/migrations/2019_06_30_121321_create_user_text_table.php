@@ -17,6 +17,8 @@ class CreateUserTextTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('text_id');
             $table->unsignedBigInteger('user_id');
+            $table->integer('translate_to_lang_id');
+            $table->integer('current_page')->default(0);
 
             $table->foreign('text_id')->references('id')->on('texts')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

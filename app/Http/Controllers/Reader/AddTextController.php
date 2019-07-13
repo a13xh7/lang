@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Reader;
 
 use App\Http\Controllers\Controller;
-use App\Models\Main\Language;
 use App\Models\Reader\Text;
 use App\Models\Reader\TextPage;
 use App\Models\Reader\TextSettings;
@@ -18,8 +17,7 @@ class AddTextController extends Controller
 
     public function showPage()
     {
-        $languages = Language::all();
-        return view('reader.reader_add_text')->with('languages', $languages);
+        return view('reader.reader_add_text')->with('languages');
     }
 
     public function addText(Request $request)
@@ -56,20 +54,17 @@ class AddTextController extends Controller
         $text->total_words = $textHandler->totalWords;
         $text->unique_words = $textHandler->totalUniqueWords;
         $text->words = $textHandler->getUniqueWordsSerialized();
+
         $text->save();
 
+
+
         // Add row to user_text table
-        $text->users()->attach(auth()->user()->id);
+        $text->users()->attach(auth()->user()->id, ['translate_to_lang_id' => $request->get('lang_to')]);
 
         // 4 - Save text settings to database
 
-        $textSettings = new TextSettings();
-        $textSettings->user_id = auth()->user()->id;
-        $textSettings->text_id = $text->id;
-        $textSettings->translate_to_lang_id = $request->get('lang_to');
-        $textSettings->current_page = 1;
 
-        $textSettings->save();
 
         // 5 - save pages to database
 

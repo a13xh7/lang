@@ -41,4 +41,46 @@ class WordsController extends Controller
     {
 
     }
+
+    public function ajaxAddNewWord(Request $request)
+    {
+
+        // 1. Try to find word in database
+
+        $word = Word::where('word', $request->get('word'))->where('lang_id', $request->get('lang_id'))->get();
+
+        // if word doesn't exist add word to database
+        if($word->isEmpty()){
+            $word = new Word;
+            $word->word = $request->get('word');
+            $word->lang_id = $request->get('lang_id');
+            $word->save();
+
+            $word->users()->attach( auth()->user()->id, ['state' => $request->get('lang_id')]);
+
+            // add translation
+
+        } else {
+            // if word exists. check if user has this word
+            $user = $word->users()->where('user_id', auth()->user()->id)->get();
+
+            // if user doesn't have this word. add word for this iser
+            if($user->isEmpty()) {
+                $word->users()->attach( auth()->user()->id, ['state' => $request->get('state')]);
+            }
+        }
+
+
+
+
+//        DB::table('user_word')->insert(
+//            ['user_id' => auth()->user()->id, 'word_id' => 0]
+//        );
+
+    }
+
+    public function ajaxMarkWordAsKnown()
+    {
+
+    }
 }

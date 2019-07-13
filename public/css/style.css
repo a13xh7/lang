@@ -117,12 +117,18 @@ h1 {
     /*border: 1px solid gray;*/
 }
 
+.text_item_wrapper {
+    max-width: 825px;
+    overflow-wrap: break-word;
+    overflow: hidden;
+}
 
 
 .text_item {
     padding-bottom: 5px;
     margin-top: 20px;
 }
+
 
 .text_controls {
     margin-top: 10px;
@@ -139,5 +145,8 @@ button[data-id="lang_to"], button[data-id="lang_from"] {
     border: 1px solid #ced4da;
 }
 
-
+#all_text_words td, #all_text_words th {
+    text-align: center;
+    width: 33%;
+}
 /**************************READER STYLES END*************************/

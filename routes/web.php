@@ -31,7 +31,6 @@ Route::middleware(['auth'])->group(function ()
 Route::middleware(['auth'])->group(function ()
 {
     // INDEX AND OTHER STATIC PAGES
-    Route::get('/reader/dashboard', 'Reader\ReaderController@showDashboard')->name('reader_dashboard');
 
     // ADD TEXT PAGE
     Route::get('/reader/add/text', 'Reader\AddTextController@showPage')->name('reader_add_text_page');
@@ -51,6 +50,9 @@ Route::middleware(['auth'])->group(function ()
     Route::get('/reader/words', 'Reader\WordsController@showPage')->name('reader_words');
     Route::get('/reader/words/new', 'Reader\WordsController@showNewWords')->name('reader_new_words');
     Route::get('/reader/words/known', 'Reader\WordsController@showKnownWords')->name('reader_known_words');
+
+    // Words
+    Route::post('/reader/words/add', 'Reader\WordsController@ajaxAddNewWord')->name('reader_add_new_word');
 
 
 });

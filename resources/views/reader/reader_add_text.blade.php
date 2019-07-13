@@ -33,15 +33,17 @@
             <label class="col-sm-2 col-form-label" for="lang_from">Translate from</label>
             <div class="col-sm-10">
                 <select class="selectpicker" name="lang_from" id="lang_from" data-live-search="true" data-width="100%">
-                    @foreach($languages as $lang)
-                        {{--<option value="{{$lang->id}}">{{$lang->eng_title}}</option>--}}
+
+                    @foreach(\App\Config\Lang::all() as $lang)
 
                         <option
-                                value="{{$lang->id}}"
-                                data-subtext="{{$lang->eng_title}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang->code.'.svg')}}' class='text_flag' alt=''> {{$lang->title}} <small class='text-muted'>{{$lang->eng_title}}</small>" >
+                                value="{{$lang['id']}}"
+                                data-subtext="{{$lang['eng_title']}}"
+                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
                         </option>
+
                     @endforeach
+
                 </select>
             </div>
         </div>
@@ -52,12 +54,14 @@
 
                 <select class="selectpicker" name="lang_to" id="lang_to" data-live-search="true" data-width="100%">
 
-                    @foreach($languages as $lang)
+                    @foreach(\App\Config\Lang::all() as $lang)
+
                         <option
-                                value="{{$lang->id}}"
-                                data-subtext="{{$lang->eng_title}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang->code.'.svg')}}' class='text_flag' alt=''> {{$lang->title}} <small class='text-muted'>{{$lang->eng_title}}</small>" >
+                                value="{{$lang['id']}}"
+                                data-subtext="{{$lang['eng_title']}}"
+                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
                         </option>
+
                     @endforeach
 
                 </select>

@@ -9,8 +9,9 @@
 namespace App\Http\Controllers\Reader;
 
 use App\Config\Group;
+use App\Config\Lang;
 use App\Http\Controllers\Controller;
-use App\Models\Main\Language;
+
 use App\Models\Main\User;
 use App\Models\Reader\Text;
 use Illuminate\Http\Request;
@@ -21,17 +22,33 @@ class TextsController extends Controller
 
     public function showTexts()
     {
+
         $user = User::where('id', auth()->user()->id)->first();
-        $texts = $user->texts()->where('group_id', Group::NO_GROUP)->paginate(2);
-        $languages = Language::all();
-        return view('reader.reader_texts')->with('texts', $texts)->with('languages', $languages);
+        $texts = $user->texts()->where('public', false)->orderBy('id', 'DESC')->paginate(2);
+
+        $myWords = $user->words()->where('user_id', auth()->user()->id)->get();
+
+
+
+
+
+        return view('reader.reader_texts')->with('texts', $texts)->with('languages');
     }
 
-    public function updateText(int $textId)
+    public function updateText(Request $request)
     {
-        \request()->get('text');
+        $text = Text::find($request->get('text_id'));
 
-        redirect()->route('reader_texts');
+        $text->title = $request->get('text_title');
+        $text->lang_id = $request->get('lang_from');
+        $text->save();
+
+        DB::table('user_text')
+            ->where('user_id', auth()->user()->id)
+            ->where('text_id', $text->id)
+            ->update(['translate_to_lang_id' => $request->get('lang_to')]);
+
+        return redirect()->route('reader_texts');
     }
 
     public function deleteText(int $textId)
@@ -39,14 +56,8 @@ class TextsController extends Controller
         DB::beginTransaction();
 
         $text = Text::find($textId);
-
-        $text->settings()->delete();
-
         $text->users()->detach(auth()->user()->id);
-
         $text->delete();
-
-
 
         DB::commit();
 

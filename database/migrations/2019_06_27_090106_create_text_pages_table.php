@@ -22,9 +22,6 @@ class CreateTextPagesTable extends Migration
             $table->foreign('text_id')->references('id')->on('texts')->onDelete('cascade');
         });
 
-//        Schema::table('text_pages', function($table) {
-//            $table->foreign('text_id')->references('id')->on('texts')->onDelete('cascade');
-//        });
     }
 
     /**
