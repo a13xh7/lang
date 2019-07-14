@@ -4,8 +4,49 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7057007c8063656dbc77304eb0bff667",
+    "content-hash": "13315c8412db9773587b31033257fdab",
     "packages": [
+        {
+            "name": "amamarul/laravel-paginator",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/amamarul/laravel-paginator.git",
+                "reference": "780eb95d96be1a8698549bc3f279d9f10a4d8ebc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/amamarul/laravel-paginator/zipball/780eb95d96be1a8698549bc3f279d9f10a4d8ebc",
+                "reference": "780eb95d96be1a8698549bc3f279d9f10a4d8ebc",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Amamarul\\Paginator\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Maru Amallo-amamarul",
+                    "email": "ama_marul@hotmail.com"
+                }
+            ],
+            "description": "Laravel Paginator for Collections or Arrays",
+            "keywords": [
+                "Laravel 5.4 paginate",
+                "Laravel Paginator",
+                "laravel",
+                "laravel 5.4",
+                "paginate array",
+                "paginate collection"
+            ],
+            "time": "2017-03-15T01:00:47+00:00"
+        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",
@@ -2877,6 +2918,59 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "ahmadarif/laravel-pagination",
+            "version": "0.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ahmadarif/laravel-pagination.git",
+                "reference": "de7fb7cfd33b24f21a0b58ad72486db5245113fd"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ahmadarif/laravel-pagination/zipball/de7fb7cfd33b24f21a0b58ad72486db5245113fd",
+                "reference": "de7fb7cfd33b24f21a0b58ad72486db5245113fd",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.1",
+                "php": "~5.6|~7.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": ">=5.4.3",
+                "squizlabs/php_codesniffer": "^2.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "AhmadArif\\Pagination\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ahmad Arif",
+                    "email": "ahmad.arif019@gmail.com",
+                    "homepage": "https://github.com/ahmadarif",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Laravel Pagination for Array and Collection",
+            "homepage": "https://github.com/ahmadarif/laravel-pagination",
+            "keywords": [
+                "AhmadArif",
+                "pagination"
+            ],
+            "time": "2017-09-23T15:19:47+00:00"
+        },
         {
             "name": "barryvdh/laravel-debugbar",
             "version": "v3.2.4",

@@ -55,11 +55,11 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-
         $user = User::where('id', auth()->user()->id)->first();
         $allMyWords = $user->words()->where('user_id', auth()->user()->id)->get();
 
         $myKnownWordsInThisText = [];
+
         foreach ($allMyWords as $myWord) {
             if(in_array($myWord->word, $textWordsClean))
 
@@ -82,12 +82,37 @@ class Text extends Model
         $user = User::where('id', auth()->user()->id)->first();
         $allMyWords = $user->words()->where('user_id', auth()->user()->id)->get();
 
-        $allMyWordsArray = [];
+        $myWordsArray = [];
         foreach ($allMyWords as $myWord) {
-            $allMyWordsArray[] = $myWord->word;
+            $myWordsArray[] = $myWord->word;
         }
 
-        return array_diff($textWordsClean, $allMyWordsArray);
+        $myUnknownWordsInThisText = [];
+
+        foreach ($textWordsClean as $textWord) {
+            if(in_array($textWord, $myWordsArray) == false)
+
+                $myUnknownWordsInThisText[] = $textWord;
+        }
+
+        return $myUnknownWordsInThisText;
+
+//        $textWords = $this->getWords();
+//        $textWordsClean = [];
+//
+//        foreach ($textWords as $textWord) {
+//            $textWordsClean[] = $textWord[0];
+//        }
+//
+//        $user = User::where('id', auth()->user()->id)->first();
+//        $allMyWords = $user->words()->where('user_id', auth()->user()->id)->get();
+//
+//        $allMyWordsArray = [];
+//        foreach ($allMyWords as $myWord) {
+//            $allMyWordsArray[] = $myWord->word;
+//        }
+//
+//        return array_diff($textWordsClean, $allMyWordsArray);
     }
 
     public function users()

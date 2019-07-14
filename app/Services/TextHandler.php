@@ -63,7 +63,7 @@ class TextHandler
 
         // Set stats values
 
-        $this->totalUniqueWords = count($uniqueWords);
+        $this->totalUniqueWords = count($this->uniqueWords);
         $this->totalSymbols = mb_strlen($this->text);
     }
 

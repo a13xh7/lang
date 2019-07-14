@@ -27,50 +27,58 @@ class TextStatsController extends Controller
         $user = User::where('id', auth()->user()->id)->first();
         $text = $user->texts()->find($textId);
 
-
         $words = $text->getWords();
-
         $knownWords = $text->getKnownWords();
-
         $myWords = $user->words()->where('user_id', auth()->user()->id)->get();
 
+        /* SHOW words
+        0 - all
+        1 - unknown
+        2 - known
+         */
 
-//        $words = new Paginator($words, 10);
-//
+        // Filter Words - get only known or only new. By default we get all words.
+        if($request->cookie('show_words') == 1) {
+            $filteredWords = [];
 
-//        //Get current page form url e.g. &page=6
-//        $currentPage = LengthAwarePaginator::resolveCurrentPage();
-//
-//        //Create a new Laravel collection from the array data
-//        $collection = new Collection($words);
-//
-//        //Define how many items we want to be visible in each page
-//        $per_page = 100;
-//
-//        //Slice the collection to get the items to display in current page
-//        $currentPageResults = $collection->slice(($currentPage-1) * $per_page, $per_page)->all();
-//
-//        //Create our paginator and add it to the data array
-//        $data = new LengthAwarePaginator($currentPageResults, count($collection), $per_page);
-//
-//        //Set base url for pagination links to follow e.g custom/url?page=6
-//        $data->setPath($request->url());
+            foreach ($words as $word) {
+                if(in_array($word[0], $knownWords) == false) {
+                    $filteredWords[] = $word;
+                }
+            }
+            $words = $filteredWords;
 
-//        $wordsAssoc = [];
-//
-//        foreach ($words as $word) {
-//            $wordsAssoc[] = ['word' => $word[0], 'usage' => $word[1], 'percent' => $word[2]];
-//        }
-//
-//        $words = new WordForStats($words);
-//        $words = $words->paginate(100);
+        } elseif ($request->cookie('show_words') == 2) {
 
-//        dd($test);
+            $filteredWords = [];
+
+            foreach ($words as $word) {
+                if(in_array($word[0], $knownWords)) {
+                    $filteredWords[] = $word;
+                }
+            }
+            $words = $filteredWords;
+
+        }
+
+
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+        $perPage = 200;
+
+        $wordsToShow = array_slice($words, $perPage * ($currentPage - 1), $perPage);
+
+        $paginator = new LengthAwarePaginator($wordsToShow, count($words), $perPage, $currentPage);
+        $paginator->withPath(''); // почему эта хуйня вообще работает?
+
+
 
         return view('reader.reader_text_stats')
             ->with('text', $text)
-            ->with('words', $words)
+            ->with('words', $wordsToShow)
             ->with('knownWords', $knownWords)
-            ->with('myWords', $myWords);
+            ->with('myWords', $myWords)
+            ->with('paginator', $paginator)->withCookie('show_words', 1);
     }
+
+
 }

@@ -23,158 +23,106 @@
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 
         <li class="nav-item" style="margin-right: 50px;">
-            <button type="button" class="btn btn-primary noradius active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">
-                <span class="h2">Total: <span class="badge badge-light">{{ $totalWords }}</span> </span>
+            <button type="button" class="btn btn-primary noradius active" id="show_all_words">
+                <span class="h2">ALL: <span class="badge badge-light">{{ $totalWords }}</span> </span>
             </button>
         </li>
 
         <li class="nav-item" style="margin-right: 50px;">
-            <button type="button" class="btn btn-primary noradius" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">
-                <span class="h2">To study: <span class="badge badge-warning">{{ $totalNewWords }} </span> </span>
+            <button type="button" class="btn btn-primary noradius" id="show_unknown_words">
+                <span class="h2">TO STUDY: <span class="badge badge-warning">{{ $totalNewWords }} </span> </span>
             </button>
         </li>
 
         <li class="nav-item">
-            <button type="button" class="btn btn-primary noradius" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">
-                <span class="h2">Known: <span class="badge badge-success">{{ $totalKnownWords }}</span> </span>
+            <button type="button" class="btn btn-primary noradius" id="show_known_words">
+                <span class="h2">KNOWN: <span class="badge badge-success">{{ $totalKnownWords }}</span> </span>
             </button>
         </li>
 
     </ul>
-    <div class="tab-content" id="pills-tabContent">
-
-        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
-
-            <table class="table">
-                <thead class="thead-dark">
-                <tr>
-                    <th scope="col">Controls</th>
-                    <th scope="col">Word</th>
-                    <th scope="col">Google translation</th>
-                    <th scope="col">Comminity translation</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <th scope="row" style="width: 20%;">
-
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-                            <label class="custom-control-label" for="customRadioInline1">Known</label>
-                        </div>
-
-                        <div class="custom-control custom-radio custom-control-inline">
-                            <input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
-                            <label class="custom-control-label" for="customRadioInline2">To study</label>
-                        </div>
-
-                    </th>
-
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                </tr>
-                </tbody>
-            </table>
-
-        </div>
-
-        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-            3
-        </div>
-
-    </div>
 
 
 
-
-
-
-
-    {{--<ul class="nav nav-pills mb-3 w-100" id="pills-tab" role="tablist">--}}
-        {{--<li class="nav-item">--}}
-            {{--<a class="nav-link active" style="border-radius: 0" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Home</a>--}}
-        {{--</li>--}}
-        {{--<li class="nav-item">--}}
-            {{--<a class="nav-link" style="border-radius: 0" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Profile</a>--}}
-        {{--</li>--}}
-        {{--<li class="nav-item">--}}
-            {{--<a class="nav-link" style="border-radius: 0" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">Contact</a>--}}
-        {{--</li>--}}
-    {{--</ul>--}}
-    {{--<div class="tab-content" id="pills-tabContent">--}}
-        {{--<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">home </div>--}}
-        {{--<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">2</div>--}}
-        {{--<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">3</div>--}}
-    {{--</div>--}}
-
-
+    <table class="table" id="all_text_words">
+        <thead class="thead-light">
+        <tr>
+            <th>State</th>
+            <th scope="col">Word</th>
+            <th scope="col">Google Translation</th>
+        </tr>
+        </thead>
+        <tbody>
 
 
 
 
     @foreach($words as $word)
 
+        <tr>
+            <td>
+
+                {{--
+                    для всех слов - нужно показывать две кнопки. знакомое или к изучению
+                    для незнакомых слов - показывать кнопку - "сделать слово знакомым"
+                    для знакомых слов - только badge
+                --}}
 
 
-        <p>word - {{$word->word}} </p>
-        <p>state - {{$word->pivot->state}} </p>
-        <p>google translation - {{$word->googleTranslation->translation}}</p>
 
-        <p>community  translation -
-            @foreach($word->communityTranslations as $translation)
-                <span> {{ $translation->translation }} </span> ,
-            @endforeach
-        </p>
 
-        <hr>
+
+                {{--All words tab - allow user to set any state wor a word--}}
+                @if(\Illuminate\Support\Facades\Cookie::get('show_words') == 0)
+
+                    @if($word->pivot->state == \App\Config\Word::TO_STUDY )
+                        <span class="badge badge-warning h4">To study</span>
+                        <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\Word::KNOWN}}">Known</button>
+                    @endif
+
+                    @if($word->pivot->state == \App\Config\Word::KNOWN )
+                        <button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\Word::TO_STUDY}}">To study</button>
+                        <span class="badge badge-success h4">Known</span>
+                    @endif
+
+
+                 {{--To study tab - --}}
+                @elseif(\Illuminate\Support\Facades\Cookie::get('show_words') == 1)
+
+                    <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\Word::KNOWN}}">Mark as known</button>
+
+                {{-- Know words tab - --}}
+                @elseif(\Illuminate\Support\Facades\Cookie::get('show_words') == 2)
+
+                    <span class="badge badge-success h4">Known</span>
+
+                @endif
+
+
+            </td>
+            <td>{{$word->word}}</td>
+            <td> </td>
+        </tr>
+
+
+        {{--<p>word - {{$word->word}} </p>--}}
+        {{--<p>state - {{$word->pivot->state}} </p>--}}
+        {{--<p>google translation - {{$word->googleTranslation->translation}}</p>--}}
+
+        {{--<p>community  translation ---}}
+            {{--@foreach($word->communityTranslations as $translation)--}}
+                {{--<span> {{ $translation->translation }} </span> ,--}}
+            {{--@endforeach--}}
+        {{--</p>--}}
+
+        {{--<hr>--}}
 
     @endforeach
+
+        </tbody>
+    </table>
+
+    {{$words->links()}}
 
 
 @endsection

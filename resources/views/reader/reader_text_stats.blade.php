@@ -19,36 +19,50 @@
 
     </div>
 
-    <h1>Words</h1>
+    <h1>Words</h1> <span class="text-muted">Click on buttons to filter words</span>
 
-    <ul>
-        <li>Unknown words - <b>{{ count($text->getUnknownWords()) }}</b></li>
-        <li>Known words - <b>{{ count($knownWords) }} </b></li>
+    <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
+
+        <li class="nav-item" style="margin-right: 50px;">
+            <button type="button" class="btn btn-primary noradius active" id="show_all_words">
+                <span class="h2">ALL: <span class="badge badge-dark"> {{ $text->unique_words}}</span> </span>
+            </button>
+        </li>
+
+
+        <li class="nav-item" style="margin-right: 50px;">
+            <button type="button" class="btn btn-primary noradius active" id="show_unknown_words">
+                <span class="h2">UNKNOWN: <span class="badge badge-warning"> {{ count($text->getUnknownWords()) }}</span> </span>
+            </button>
+        </li>
+
+        <li class="nav-item">
+            <button type="button" class="btn btn-primary noradius" id="show_known_words">
+                <span class="h2">KNOWN: <span class="badge badge-success">{{ count($knownWords) }}</span> </span>
+            </button>
+        </li>
+
     </ul>
 
-    {{--<ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">--}}
+    <hr>
 
+    <form action="{{route('reader_add_new_word')}}" method="POST">
+@csrf
+        word <input type="text" name="word">
+        lang id <input type="text" name="lang_id" value="1">
+        state <input type="text" name="state" value="1">
+        <button type="submit">Send</button>
 
-        {{--<li class="nav-item" style="margin-right: 50px;">--}}
-            {{--<button type="button" class="btn btn-primary noradius active" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">--}}
-                {{--<span class="h2">UNKNOWN / NEW: <span class="badge badge-warning"> 11</span> </span>--}}
-            {{--</button>--}}
-        {{--</li>--}}
+    </form>
 
-        {{--<li class="nav-item">--}}
-            {{--<button type="button" class="btn btn-primary noradius" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false">--}}
-                {{--<span class="h2">KNOWN: <span class="badge badge-success">11</span> </span>--}}
-            {{--</button>--}}
-        {{--</li>--}}
-
-    {{--</ul>--}}
+    <hr>
 
     <div class="row">
 
         <table class="table" id="all_text_words">
             <thead class="thead-light">
             <tr>
-                <th></th>
+                <th>State</th>
                 <th scope="col">Word</th>
                 <th scope="col">Usage frequency</th>
                 <th scope="col">Percent</th>
@@ -74,8 +88,6 @@
                                 <span class="badge badge-success h4">Known</span>
                             @endif
 
-
-
                         @endif
 
 
@@ -92,17 +104,9 @@
             </tbody>
         </table>
 
-       {{--{{$words->links()}}--}}
+</div>
 
-
-
-
-
-    </div>
-
-
-
-
+    {{$paginator->links()}}
 
 
 

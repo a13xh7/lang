@@ -47,9 +47,10 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
 
 
+
 <!-- App JavaScript -->
 <script src="{{asset('js/reader.js')}}"></script>
-
+<script src="{{asset('js/js.cookie.js')}}"></script>
 
 
 </body>

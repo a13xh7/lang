@@ -21,6 +21,6 @@ class Word extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_word',  'word_id', 'user_id' );
+        return $this->belongsToMany(User::class, 'user_word',  'word_id', 'user_id' )->withPivot('state');;
     }
 }
