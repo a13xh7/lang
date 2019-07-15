@@ -1,6 +1,6 @@
-<aside class="col-3 sidebar">
+<aside class="col-2 sidebar">
 
-    <h4 class="px-3 mt-4 mb-1 reader_sidebar_block_name">
+    <h4 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
         <span>Reader</span>
     </h4>
 
@@ -10,7 +10,7 @@
         <a href="{{route('reader_words')}}" class="list-group-item list-group-item-action bg-light"><i class="icofont-file-text"></i> My words</a>
     </div>
 
-    <h4 class="px-3 mt-4 mb-1 reader_sidebar_block_name">
+    <h4 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
         <span>Read together</span>
     </h4>
 

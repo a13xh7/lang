@@ -42,29 +42,27 @@ $('a[data-target="#text_edit_modal"]').on('click',function(){
 //AJAX - update word state
 // 1 - to study
 // 2 - known
-
-$('button.words_btn').on('click', function(){
+//$('button.words_btn').on('click', function(){
+$('td').on('click', 'button.words_btn', function(){
 
     td = $(this).parent();
 
-    // if(td.find('button').hasClass('btn-success')) {
-    //     alert('wth');
-    //     td.find('button').replaceWith('<span class="badge badge-success h4">Known</span>');
-    //     td.find('span.badge-warning').replaceWith('<button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="' + $(this).data('word_id') + '" data-state="1">To study</button>');
-    // } else {
-    //     alert(' else fuck');
-    //     td.find('button').replaceWith('<span class="badge badge-warning h4">To study</span>');
-    //     td.find('span.badge-success').replaceWith('<button type="button" class="btn btn-success btn-sm words_btn" data-word_id="' + $(this).data('word_id') + '" data-state="2">Known</button>');
-    // }
-
-    td.children().remove();
-
-
-    if($(this).data('state') == 1) {
-        td.append('<span class="badge badge-warning h4">To study</span>')
+    if(td.find('button').hasClass('btn-success')) {
+        td.find('button').replaceWith('<span class="badge badge-success h4">Known</span>');
+        td.find('span.badge-warning').replaceWith('<button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="' + $(this).data('word_id') + '" data-state="1">To study</button>');
     } else {
-        td.append('<span class="badge badge-success h4">Known</span>')
+        td.find('button').replaceWith('<span class="badge badge-warning h4">To study</span>');
+        td.find('span.badge-success').replaceWith('<button type="button" class="btn btn-success btn-sm words_btn" data-word_id="' + $(this).data('word_id') + '" data-state="2">Known</button>');
     }
+
+    // td.children().remove();
+    //
+    //
+    // if($(this).data('state') == 1) {
+    //     td.append('<span class="badge badge-warning h4">To study</span>')
+    // } else {
+    //     td.append('<span class="badge badge-success h4">Known</span>')
+    // }
 
 
 

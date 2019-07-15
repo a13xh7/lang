@@ -13,6 +13,6 @@ class QuestionsIndexController extends Controller
     {
         $question = Question::where('group_id', Group::NO_GROUP)->paginate(2);
 
-        return view('qa.index')->with('questions', $question);
+        return view('qa.qa_index')->with('questions', $question);
     }
 }

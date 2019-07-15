@@ -21,7 +21,8 @@
                 @endguest
 
                 <a href="">Read Together</a>
-                <a href="">Q & A</a>
+
+                <a href="{{route('qa_index')}}">Q & A</a>
 
             </nav>
 

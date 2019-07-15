@@ -14,7 +14,7 @@ class QuestionController extends Controller
         $question = Question::find($questionId);
         $answers = Answer::where('question_id', $questionId)->get();
 
-        return view('qa.question_page')->with('question', $question)->with('answers', $answers);
+        return view('qa.qa_question')->with('question', $question)->with('answers', $answers);
     }
 
     public function addAnswer(Request $request)

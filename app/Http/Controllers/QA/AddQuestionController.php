@@ -11,8 +11,7 @@ class AddQuestionController extends Controller
 {
     public function showPage()
     {
-        $languages = Language::all();
-        return view('qa.add_question')->with('languages', $languages);
+        return view('qa.qa_add_question');
     }
 
     public function addQuestion(Request $request)
@@ -21,7 +20,7 @@ class AddQuestionController extends Controller
         $question = new Question();
 
         $question->user_id = auth()->user()->id;
-        $question->group_id = $request->get('group_id');
+        $question->group_id = 0;
         $question->type = 0;
         $question->lang_from_id = $request->get('lang_from');
         $question->lang_to_id = $request->get('lang_to');

@@ -1,11 +1,11 @@
-@extends('layouts.main')
+@extends('layouts.qa.qa_layout')
 
-@section('main')
+@section('qa_content')
 
 
     <p>{{$question->title}}</p>
 
-    <p>{{$question->content}}</p>
+    <p>{!!  $question->content !!}</p>
 
     <hr>
 

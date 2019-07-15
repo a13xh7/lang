@@ -10,7 +10,7 @@
         <div class="text_item border-bottom text_item_wrapper">
 
             <span class="text_title">
-               <a class="h4" href="{{route('reader_read_text_page', $text->id)}}?page=@if($text->pivot->current_page <= 0){{$text->pivot->current_page + 1}}@else{{$text->pivot->current_page}}@endif">{{$text->title}}</a> <i class="text-muted">({{$text->created_at}})</i>
+               <a class="h4" href="{{route('reader_read_text_page', $text->id)}}?page=@if($text->pivot->current_page <= 0){{$text->pivot->current_page + 1}}@else{{$text->pivot->current_page}}@endif">{{$text->title}}</a> <i class="text-muted">({{$text->created_at->format('d-m-Y')}})</i>
             </span>
 
             <div>

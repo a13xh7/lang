@@ -87,6 +87,12 @@ h1 {
     padding-right: 0;
 }
 
+.reader_sidebar_block_name {
+    text-transform: uppercase;
+    color: #606060;
+    font-weight: bold;
+}
+
 .sidebar a {
     font-size: large;
     text-transform: uppercase;
@@ -150,3 +156,14 @@ button[data-id="lang_to"], button[data-id="lang_from"] {
     width: 33%;
 }
 /**************************READER STYLES END*************************/
+
+
+
+/**************************QA STYLES START*************************/
+.question_answers_count {
+    text-align: center;
+}
+
+.trix {
+    min-height: 300px;
+}

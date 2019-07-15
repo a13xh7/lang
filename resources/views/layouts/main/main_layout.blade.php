@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="{{ asset('css/icofont.min.css') }}">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css">
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.1.1/trix.css">
 
     <title>Hello, world!</title>
 </head>
@@ -46,6 +46,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.1.1/trix.js"></script>
 
 
 <!-- App JavaScript -->
