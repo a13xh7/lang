@@ -1,6 +1,6 @@
-@extends('layouts.reader')
+@extends('layouts.main.main_layout')
 
-@section('reader_main')
+@section('reader_content')
 
     <h1>READER landing</h1>
 

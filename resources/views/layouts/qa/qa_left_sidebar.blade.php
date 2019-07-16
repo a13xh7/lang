@@ -1,13 +1,18 @@
-<aside class="col-2 sidebar">
+<aside class="col-3 sidebar">
 
-    <h4 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-        <span>Reader</span>
-    </h4>
+    @auth()
+        <h4 class="px-3 mt-4 mb-1 reader_sidebar_block_name">
+            <span>Q & A</span>
+        </h4>
 
-    <div class="list-group list-group-flush">
-        <a href="{{route('reader_add_text_page')}}" class="list-group-item list-group-item-action bg-light"><i class="icofont-plus-square"></i> Add text</a>
-        <a href="{{route('reader_texts')}}" class="list-group-item list-group-item-action bg-light"><i class="icofont-book"></i> My Texts</a>
-        <a href="{{route('reader_words')}}" class="list-group-item list-group-item-action bg-light"><i class="icofont-file-text"></i> My words</a>
-    </div>
+        <div class="list-group list-group-flush">
+            <a href="{{route('qa_add_question_page')}}" class="list-group-item list-group-item-action bg-light"><i class="icofont-question-square"></i> Ask Question</a>
+            <a href="{{route('qa_index')}}" class="list-group-item list-group-item-action bg-light"><i class="icofont-world"></i> All questions</a>
+            <a href="{{route('qa_my_questions')}}" class="list-group-item list-group-item-action bg-light"><i class="icofont-search-user"></i> My questions</a>
+        </div>
+
+    @endauth
+
+
 
 </aside>

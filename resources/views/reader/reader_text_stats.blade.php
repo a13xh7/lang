@@ -46,16 +46,15 @@
 
     <hr>
 
-    <form action="{{route('reader_add_new_word')}}" method="POST">
-@csrf
-        word <input type="text" name="word">
-        lang id <input type="text" name="lang_id" value="1">
-        state <input type="text" name="state" value="1">
-        <button type="submit">Send</button>
+    {{--<form action="{{route('reader_add_new_word')}}" method="POST">--}}
+{{--@csrf--}}
+        {{--word <input type="text" name="word">--}}
+        {{--lang id <input type="text" name="lang_id" value="1">--}}
+        {{--state <input type="text" name="state" value="1">--}}
+        {{--<button type="submit">Send</button>--}}
 
-    </form>
+    {{--</form>--}}
 
-    <hr>
 
     <div class="row">
 

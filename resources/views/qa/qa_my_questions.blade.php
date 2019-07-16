@@ -2,53 +2,7 @@
 
 @section('qa_content')
 
-
-
-    <div class="row mt-3 mb-1">
-        <div class="col"><span class="h1" style="color: #606060">All Questions</span></div>
-        <div class="col col-auto"> <a class="btn btn-primary noradius" href="{{route('qa_add_question_page')}}">ASK QUESTION</a></div>
-    </div>
-    <hr>
-
-
-    <div class="q_lang_filter">
-
-        <label for="lang_from">Question language</label>
-        <select class="selectpicker" name="lang_from" id="lang_from" data-live-search="true" data-width="100%">
-
-            @foreach(\App\Config\Lang::all() as $lang)
-
-                <option
-                        value="{{$lang['id']}}"
-                        data-subtext="{{$lang['eng_title']}}"
-                        data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
-                </option>
-
-            @endforeach
-
-        </select>
-
-
-        <label for="lang_to">Question about language</label>
-
-            <select class="selectpicker" name="lang_to" id="lang_to" data-live-search="true" data-width="100%">
-
-                @foreach(\App\Config\Lang::all() as $lang)
-
-                    <option
-                            value="{{$lang['id']}}"
-                            data-subtext="{{$lang['eng_title']}}"
-                            data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
-                    </option>
-
-                @endforeach
-
-            </select>
-
-        <button type="submit" class="btn w-100 btn-primary noradius" style="margin: 15px 0;"><b>FILTER</b></button>
-
-    </div>
-
+    <h1 class="uc">My Questions</h1>
 
 
     @foreach($questions as $question)

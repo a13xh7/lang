@@ -27,9 +27,12 @@ body,h1,h2,h3,h4,h5,h6 {
 
 h1 {
     color: #606060;
-    text-transform: uppercase;
     border-bottom: 1px solid #afafaf;
+    margin-bottom: 20px;
+}
 
+.uc{
+    text-transform: uppercase;
 }
 
 /************************** HEADER*************************/
@@ -160,10 +163,52 @@ button[data-id="lang_to"], button[data-id="lang_from"] {
 
 
 /**************************QA STYLES START*************************/
+
+.trix {
+    min-height: 300px;
+}
+
+/* All question page */
+
+.qa_main h1 {
+    padding-top: 15px;
+}
+
+.q_lang_filter {
+    border: 2px solid lightgray;
+    padding: 10px 20px;
+    margin-bottom: 30px;
+}
+
+/* single question page */
+
 .question_answers_count {
     text-align: center;
 }
 
-.trix {
-    min-height: 300px;
+.q_lang_arrow {
+    font-size: x-large;
+    vertical-align: middle;
+}
+
+.question_info {
+    margin-bottom: 30px;
+}
+
+.question_content {
+    margin-bottom: 30px;
+}
+
+.answers_title {
+    border-bottom: 1px solid lightgray;
+}
+
+.answer_wrapper {
+    margin-top: 30px;
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 20px;
+}
+
+.answer_form {
+    margin-top: 30px;
 }

@@ -75,18 +75,25 @@ Route::middleware(['auth'])->group(function ()
  * Q & A
  ****************************************************************/
 
-Route::get('/questions', 'QA\QuestionsIndexController@showPage')->name('qa_index');
+Route::get('/questions', 'QA\QuestionsController@showQuestionsIndexPage')->name('qa_index');
 Route::get('/question/{questionId}', 'QA\QuestionController@showQuestionPage')->name('qa_question');
 
 Route::middleware(['auth'])->group(function ()
 {
 
+    //Add question
     Route::get('/questions/add', 'QA\AddQuestionController@showPage')->name('qa_add_question_page');
     Route::post('/questions/add', 'QA\AddQuestionController@addQuestion')->name('qa_add_question');
 
+    // Edit question
+    Route::get('/questions/edit/{questionId}', 'QA\AddQuestionController@showEditPage')->name('qa_edit_question_page');
+    Route::post('/questions/update/{questionId}', 'QA\AddQuestionController@updateQuestion')->name('qa_update_question');
+
+    // add answer
     Route::post('/answer/add', 'QA\QuestionController@addAnswer')->name('qa_add_answer');
 
-
+    // show my questions
+    Route::get('/questions/my', 'QA\QuestionsController@showMyQuestions')->name('qa_my_questions');
 
 });
 

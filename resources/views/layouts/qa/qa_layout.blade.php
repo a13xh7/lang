@@ -2,7 +2,7 @@
 
 @section('main_content')
 
-    <main class="row">
+    <main class="row qa_main">
 
         <div class="container" > {{--style="max-width: 1440px !important;"--}}
 
@@ -16,7 +16,7 @@
 
                 </div>
 
-                @include('layouts.qa.qa_right_sidebar')
+                {{--@include('layouts.qa.qa_right_sidebar')--}}
 
             </div>
         </div>
