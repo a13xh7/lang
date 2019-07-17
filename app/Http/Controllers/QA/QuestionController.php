@@ -13,7 +13,7 @@ class QuestionController extends Controller
 {
     public function showQuestionPage($questionId)
     {
-        $question = Question::find($questionId);
+        $question = Question::findOrFail($questionId);
         $question->views = $question->views + 1;
         $question->save();
 
@@ -43,4 +43,7 @@ class QuestionController extends Controller
 
         return redirect()->route('qa_question', $request->get('question_id'));
     }
+
+
+
 }

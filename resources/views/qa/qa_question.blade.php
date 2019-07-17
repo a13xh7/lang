@@ -13,7 +13,6 @@
             <span class="text-muted small">{{$question->views}} views</span>
         </div>
 
-
         <div class="col col-auto">
 
             <img src="{{asset('img/flags/'. \App\Config\Lang::get($question->lang_from_id)['code'] .'.svg')}}" class="text_flag" alt="">
@@ -36,8 +35,21 @@
 
     <div class="question_content">
         {!!  $question->content !!}
-    </div>
 
+
+        <div>
+
+            @auth()
+
+                @if($question->user_id == auth()->user()->id)
+                    <a class="btn btn-primary noradius pl-5 pr-5 mt-3" href="{{route('qa_edit_question_page', $question->id)}}"><b>EDIT</b></a>
+                @endif
+
+            @endauth
+
+
+        </div>
+    </div>
 
 
     <div class="question_answers">

@@ -7,10 +7,13 @@
 
 
 
-        <h1>Ask a question</h1>
+        <h1>Ask question</h1>
 
         <form action="{{route('qa_add_question')}}" method="POST">
             @csrf
+
+            <input type="hidden" name="text_id" value="0">
+
             <div class="form-group">
                 <label for="lang_from">Question language</label>
 

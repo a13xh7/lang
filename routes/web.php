@@ -87,7 +87,7 @@ Route::middleware(['auth'])->group(function ()
 
     // Edit question
     Route::get('/questions/edit/{questionId}', 'QA\AddQuestionController@showEditPage')->name('qa_edit_question_page');
-    Route::post('/questions/update/{questionId}', 'QA\AddQuestionController@updateQuestion')->name('qa_update_question');
+    Route::post('/questions/update', 'QA\AddQuestionController@updateQuestion')->name('qa_update_question');
 
     // add answer
     Route::post('/answer/add', 'QA\QuestionController@addAnswer')->name('qa_add_answer');

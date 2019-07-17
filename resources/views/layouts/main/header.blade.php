@@ -6,7 +6,7 @@
 
             <div class="col-md-12 col-lg-2">
                 <a href="/" class="logo">
-                    MANYLANG
+                    WEXLANG
                 </a>
             </div>
 

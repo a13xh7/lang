@@ -26,4 +26,6 @@ class QuestionsController extends Controller
 
         return view('qa.qa_my_questions')->with('questions', $question);
     }
+
+
 }
