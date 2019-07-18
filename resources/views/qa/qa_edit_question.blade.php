@@ -26,7 +26,7 @@
                             data-subtext="{{$lang['eng_title']}}"
                             data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
 
-                            @if($lang['id'] == $question->lang_from_id)
+                            @if($lang['id'] == $question->lang_id)
                             selected
                             @endif
                     >
@@ -50,7 +50,7 @@
                             data-subtext="{{$lang['eng_title']}}"
                             data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
 
-                            @if($lang['id'] == $question->lang_to_id)
+                            @if($lang['id'] == $question->about_lang_id)
                             selected
                             @endif
                     >

@@ -20,7 +20,14 @@
                     <a href="{{ route('reader_landing') }}">READER</a>
                 @endguest
 
-                <a href="">Read Together</a>
+                @auth
+                    <a href="{{ route('rt_my_texts') }}">Read Together</a>
+                @endauth
+
+                @guest
+                    <a href="{{ route('rt_landing') }}">Read Together</a>
+                @endguest
+
 
                 <a href="{{route('qa_index')}}">Q & A</a>
 

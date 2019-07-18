@@ -8,10 +8,9 @@
 
 namespace App\Http\Controllers\Reader;
 
-use App\Config\Group;
+
 use App\Config\Lang;
 use App\Http\Controllers\Controller;
-
 use App\Models\Main\User;
 use App\Models\Reader\Text;
 use Illuminate\Http\Request;

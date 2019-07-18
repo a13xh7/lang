@@ -31,9 +31,9 @@ class WordsController extends Controller
 
         // Filter Words - get only known or only new. By default we get all words.
         if($request->cookie('show_words') == 1) {
-            $words = $user->words()->where('state', \App\Config\Word::TO_STUDY)->paginate($perPage);
+            $words = $user->words()->where('state', \App\Config\WordConfig::TO_STUDY)->paginate($perPage);
         } elseif ($request->cookie('show_words') == 2) {
-            $words = $user->words()->where('state', \App\Config\Word::KNOWN)->paginate($perPage);
+            $words = $user->words()->where('state', \App\Config\WordConfig::KNOWN)->paginate($perPage);
         }
 
 
@@ -41,8 +41,8 @@ class WordsController extends Controller
         return view('reader.reader_words')
             ->with('words', $words)
             ->with('totalWords', $user->words->count())
-            ->with('totalKnownWords', $user->words()->where('state', \App\Config\Word::KNOWN)->count())
-            ->with('totalNewWords', $user->words()->where('state', \App\Config\Word::TO_STUDY)->count())
+            ->with('totalKnownWords', $user->words()->where('state', \App\Config\WordConfig::KNOWN)->count())
+            ->with('totalNewWords', $user->words()->where('state', \App\Config\WordConfig::TO_STUDY)->count())
             ;
     }
 

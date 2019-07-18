@@ -19,6 +19,10 @@ Auth::routes();
 Route::middleware(['auth'])->group(function ()
 {
     Route::get('/dashboard', 'Main\DashboardController@showDashboard')->name('main_dashboard');
+
+    //User settings
+    Route::get('/user/settings/', 'Main\UserController@showUserSettingsPage')->name('main_user_settings');
+    Route::post('/user/settings/', 'Main\UserController@updateUserSettings')->name('main_user_settings_update');
 });
 
 
@@ -58,15 +62,17 @@ Route::middleware(['auth'])->group(function ()
 });
 
 /****************************************************************
- * READER GROUPS
+ * READ TOGETHER
  ****************************************************************/
+
+Route::get('/read-together', 'PublicController@showReadTogetherLanding')->name('rt_landing');
 
 Route::middleware(['auth'])->group(function ()
 {
 
-    Route::get('/reader/my-groups', 'ReaderGroups\MyGroupsController@showPage')->name('reader_my_groups');
+    Route::get('/rt/public-texts', 'RT\PublicTextsController@showPage')->name('rt_public_texts');
 
-
+    Route::get('/rt/my-texts', 'RT\MyTextsController@showPage')->name('rt_my_texts');
 
 
 });

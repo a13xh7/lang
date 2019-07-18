@@ -75,13 +75,13 @@
                 {{--All words tab - allow user to set any state wor a word--}}
                 @if(\Illuminate\Support\Facades\Cookie::get('show_words') == 0)
 
-                    @if($word->pivot->state == \App\Config\Word::TO_STUDY )
+                    @if($word->pivot->state == \App\Config\WordConfig::TO_STUDY )
                         <span class="badge badge-warning h4">To study</span>
-                        <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\Word::KNOWN}}">Known</button>
+                        <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                     @endif
 
-                    @if($word->pivot->state == \App\Config\Word::KNOWN )
-                        <button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\Word::TO_STUDY}}">To study</button>
+                    @if($word->pivot->state == \App\Config\WordConfig::KNOWN )
+                        <button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
                         <span class="badge badge-success h4">Known</span>
                     @endif
 
@@ -89,7 +89,7 @@
                  {{--To study tab - --}}
                 @elseif(\Illuminate\Support\Facades\Cookie::get('show_words') == 1)
 
-                    <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\Word::KNOWN}}">Mark as known</button>
+                    <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Mark as known</button>
 
                 {{-- Know words tab - --}}
                 @elseif(\Illuminate\Support\Facades\Cookie::get('show_words') == 2)

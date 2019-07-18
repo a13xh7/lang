@@ -75,13 +75,13 @@
                     <td>
 
                         @if(!in_array($word[0], $knownWords))
-                            <button type="button" class="btn btn-warning btn-sm word_btn" data-word="{{$word[0]}}" data-lang_id="{{$text->lang_id}}" data-state="{{\App\Config\Word::TO_STUDY}}">To study</button>
-                            <button type="button" class="btn btn-success btn-sm word_btn" data-word="{{$word[0]}}" data-lang_id="{{$text->lang_id}}" data-state="{{\App\Config\Word::KNOWN}}">Known</button>
+                            <button type="button" class="btn btn-warning btn-sm word_btn" data-word="{{$word[0]}}" data-lang_id="{{$text->lang_id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
+                            <button type="button" class="btn btn-success btn-sm word_btn" data-word="{{$word[0]}}" data-lang_id="{{$text->lang_id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
 
                         @else
 
 
-                            @if($myWords->where('word', $word[0])->first()->pivot->state == \App\Config\Word::TO_STUDY)
+                            @if($myWords->where('word', $word[0])->first()->pivot->state == \App\Config\WordConfig::TO_STUDY)
                                 <span class="badge badge-warning h4">To study</span>
                             @else
                                 <span class="badge badge-success h4">Known</span>

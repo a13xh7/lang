@@ -9,7 +9,7 @@
 namespace App\Config;
 
 
-class Word
+class WordConfig
 {
     const TO_STUDY = 1;
     const KNOWN = 2;

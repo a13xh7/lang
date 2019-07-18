@@ -1,3 +1,8 @@
+
+const show_all_words = 0;
+const show_unknown_words = 1;
+const show_known_words = 2;
+
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -109,23 +114,17 @@ $('button.word_btn').on('click',function(){
 });
 
 
-/* SHOW words
-0 - all
-1 - unknown
-2 - known
- */
-
 $( document ).ready(function() {
 
-    if(Cookies.get('show_words') == 0) {
+    if(Cookies.get('show_words') == show_all_words) {
         $('#show_all_words').prop( "disabled", true );
     }
 
-    if(Cookies.get('show_words') == 1) {
+    if(Cookies.get('show_words') == show_unknown_words) {
         $('#show_unknown_words').prop( "disabled", true );
     }
 
-    if(Cookies.get('show_words') == 2) {
+    if(Cookies.get('show_words') == show_known_words) {
         $('#show_known_words').prop( "disabled", true );
     }
 

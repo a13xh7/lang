@@ -9,24 +9,25 @@
     <div class="row question_info">
 
         <div class="col">
+            {{--<div class="rounded-circle" style="width: 30px; height: 30px; background-color: gray;">AL</div>--}}
             <b>{{$question->user->name}}</b><span class="text-muted small">, {{$question->created_at->diffForHumans()}},</span>
             <span class="text-muted small">{{$question->views}} views</span>
         </div>
 
         <div class="col col-auto">
 
-            <img src="{{asset('img/flags/'. \App\Config\Lang::get($question->lang_from_id)['code'] .'.svg')}}" class="text_flag" alt="">
+            <img src="{{asset('img/flags/'. \App\Config\Lang::get($question->lang_id)['code'] .'.svg')}}" class="text_flag" alt="">
             <span class="text-muted small">
-                        {{\App\Config\Lang::get($question->lang_from_id)['title']}}
-                        <i>({{\App\Config\Lang::get($question->lang_from_id)['eng_title']}})</i>
+                        {{\App\Config\Lang::get($question->lang_id)['title']}}
+                        <i>({{\App\Config\Lang::get($question->lang_id)['eng_title']}})</i>
             </span>
 
             <span class="q_lang_arrow">&#10230;</span>
 
-            <img src="{{asset('img/flags/'. \App\Config\Lang::get($question->lang_to_id)['code'] .'.svg')}}" class="text_flag" alt="">
+            <img src="{{asset('img/flags/'. \App\Config\Lang::get($question->about_lang_id)['code'] .'.svg')}}" class="text_flag" alt="">
             <span class="text-muted small">
-                        {{\App\Config\Lang::get($question->lang_to_id)['title']}}
-                        <i>({{\App\Config\Lang::get($question->lang_to_id)['eng_title']}})</i>
+                        {{\App\Config\Lang::get($question->about_lang_id)['title']}}
+                        <i>({{\App\Config\Lang::get($question->about_lang_id)['eng_title']}})</i>
             </span>
 
         </div>

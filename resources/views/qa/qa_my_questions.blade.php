@@ -16,18 +16,18 @@
 
 
 
-                    <img src="{{asset('img/flags/'. \App\Config\Lang::get($question->lang_from_id)['code'] .'.svg')}}" class="text_flag" alt="">
+                    <img src="{{asset('img/flags/'. \App\Config\Lang::get($question->lang_id)['code'] .'.svg')}}" class="text_flag" alt="">
                     <span class="text-muted small">
-                        {{\App\Config\Lang::get($question->lang_from_id)['title']}}
-                        <i>({{\App\Config\Lang::get($question->lang_from_id)['eng_title']}})</i>
+                        {{\App\Config\Lang::get($question->lang_id)['title']}}
+                        <i>({{\App\Config\Lang::get($question->lang_id)['eng_title']}})</i>
                     </span>
 
                     <span class="q_lang_arrow">&#10230;</span>
 
-                    <img src="{{asset('img/flags/'. \App\Config\Lang::get($question->lang_to_id)['code'] .'.svg')}}" class="text_flag" alt="">
+                    <img src="{{asset('img/flags/'. \App\Config\Lang::get($question->about_lang_id)['code'] .'.svg')}}" class="text_flag" alt="">
                     <span class="text-muted small">
-                        {{\App\Config\Lang::get($question->lang_to_id)['title']}}
-                        <i>({{\App\Config\Lang::get($question->lang_to_id)['eng_title']}})</i>
+                        {{\App\Config\Lang::get($question->about_lang_id)['title']}}
+                        <i>({{\App\Config\Lang::get($question->about_lang_id)['eng_title']}})</i>
                     </span>
 
 

@@ -9,12 +9,11 @@
 namespace App\Config;
 
 
-class Question
+class QuestionConfig
 {
 
-    const DEFAULT = 0;
+    const PUBLIC = 0;
 
-    const UNDERSTANDING = 1;
 
-    const HELP_WITH_TRANSLATION = 0;
+
 }

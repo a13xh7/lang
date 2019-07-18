@@ -20,10 +20,10 @@ class AddQuestionController extends Controller
         $question = new Question();
 
         $question->user_id = auth()->user()->id;
-        $question->group_id = 0;
+        $question->text_id = 0;
         $question->type = 0;
-        $question->lang_from_id = $request->get('lang_from');
-        $question->lang_to_id = $request->get('lang_to');
+        $question->lang_id = $request->get('lang_from');
+        $question->about_lang_id = $request->get('lang_to');
         $question->title = $request->get('title');
         $question->content = $request->get('content');
         $question->views = 0;
@@ -46,8 +46,8 @@ class AddQuestionController extends Controller
     {
         $question = Question::find($request->get('question_id'));
 
-        $question->lang_from_id = $request->get('lang_from');
-        $question->lang_to_id = $request->get('lang_to');
+        $question->lang_id = $request->get('lang_from');
+        $question->about_lang_id = $request->get('lang_to');
         $question->title = $request->get('title');
         $question->content = $request->get('content');
 
