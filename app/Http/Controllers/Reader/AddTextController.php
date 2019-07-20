@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Reader;
 use App\Http\Controllers\Controller;
 use App\Models\Reader\Text;
 use App\Models\Reader\TextPage;
-use App\Models\Reader\TextSettings;
-use App\Services\SimpleFB2\SimpleFB2;
+use App\Services\EpubParser;
+use App\Services\FB2Parser;
 use App\Services\TextHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,43 +25,38 @@ class AddTextController extends Controller
     public function addText(Request $request)
     {
 
+        // 1 - Validate form
+
         $request->validate([
             'text_title' => 'required|max:255',
+            'text_file' => 'max:10240',
         ]);
 
 
+        // 2 - Validate file extension
+
         $exploded = explode('.', $request->file('text_file')->getClientOriginalName());
         $fileExtension = $exploded[count($exploded)-1];
-        $allowedExtensions = ['txt', 'fb2'];
+        $allowedExtensions = ['txt', 'fb2', 'pdf'];
 
         if(in_array($fileExtension, $allowedExtensions) == false) {
-            return redirect()->route('reader_add_text_page');
+            return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'File extension in not supported']);
         }
 
-        $fb2 = new SimpleFB2($request->file('text_file')->getRealPath());
 
-
+        // 3 - extract text from file
 
         switch ($fileExtension) {
             case 'txt':
+                $text = $request->file('text_file')->get();
                 break;
             case 'fb2':
-                $fb2 = new SimpleFB2($request->file('text_file')->getRealPath());
+                $fb2 = new FB2Parser($request->file('text_file')->getRealPath());
+                $text = $fb2->getText();
+                break;
+            case 'epub':
                 break;
         }
-
-        /**
-         * load file
-         * save text
-         * split text to pages
-         * save pages
-         * calculate words
-         * save text stats
-         */
-
-
-        // 1 - Load file
-        $text = $request->file('text_file')->get();
 
         $textHandler = new TextHandler($text);
 
@@ -110,7 +105,7 @@ class AddTextController extends Controller
             $textPage = new TextPage();
             $textPage->text_id = $text->id;
             $textPage->page_number = $page_number + 1; // because array starts from 0
-            $textPage->content = $page;
+            $textPage->content = base64_encode($page);
             $textPage->save();
         }
 

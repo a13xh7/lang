@@ -18,8 +18,7 @@
         <b>Allowed file types:</b>
         <span class="badge badge-info">.txt</span>
         <span class="badge badge-info">.fb2</span>
-        <span class="badge badge-info">.epub</span>
-        <span class="badge badge-info">.mobi</span>
+        <span class="badge badge-info">.pdf</span>
     </p>
 
     <form action="{{route('reader_add_text')}}" method="POST" enctype="multipart/form-data">

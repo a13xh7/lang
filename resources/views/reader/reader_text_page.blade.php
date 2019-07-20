@@ -10,7 +10,7 @@
 
         <div class="col">
             <div style="white-space: pre-wrap;">
-                {!! $page->content !!}
+                {!! base64_decode($page->content) !!}
             </div>
         </div>
 

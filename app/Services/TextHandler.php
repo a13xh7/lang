@@ -28,37 +28,23 @@ class TextHandler
     /** @var array all unique words from text*/
     public $uniqueWords = [];
 
-    private $wordRegex = '#\b[^\s]+\b#ui';
-
     public function __construct($text)
     {
         $this->text = $text;
 
         // Find all words using regex
 
-        preg_match_all($this->wordRegex, $text, $output_array);
-
-//        if(empty($output_array[0])) {
-//            preg_match_all("#\b[^\s]+\b#i", $text, $output_array);
-//        }
-
-        // Find all unique words
-        $uniqueWords = array_unique($output_array[0]);
-
-
-        //$uniqueWords = array_unique(    preg_split('/((^\p{P}+)|(\p{P}*\s+\p{P}*)|(\p{P}+$))/', $text, -1, PREG_SPLIT_NO_EMPTY));
-
-
+        $allWords = preg_split('/((^\p{P}+)|(\p{P}*\s+\p{P}*)|(\p{P}+$))/', $text, -1, PREG_SPLIT_NO_EMPTY);
 
         // Add all words to array
-        $this->allWords = $output_array[0];
+        $this->allWords = $allWords;
 
         // Count and save unique words to array. Array format - ['word_key' => 'usage_frequency]
         $words = array_count_values(array_map('mb_strtolower', $this->allWords));
         arsort($words);
 
         // count usage frequency percent
-        $this->totalWords = count($output_array[0]);
+        $this->totalWords = count($allWords);
 
         $wordsFinal = [];
 
@@ -114,10 +100,13 @@ class TextHandler
             return $pageLength;
         }
 
-        while($this->text[$realLength] !== '.'
+        while(
+            $this->text[$realLength] !== '.'
             || $this->text[$realLength] !== '!'
             || $this->text[$realLength] !== '?'
-            || $this->text[$realLength] !== '. ')
+            || $this->text[$realLength] !== '. '
+            || $this->text[$realLength] !== ' ')
+
         {
             $realLength++;
 

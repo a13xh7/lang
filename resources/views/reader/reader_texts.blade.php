@@ -32,9 +32,8 @@
             </div>
 
             <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: {{ $text->pivot->current_page / $text->total_pages  * 100 }}%;" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100">
-                    {{--{{ $text->total_pages  / 100 * $text->settings()->current_page }}--}}
-                </div>
+                {{--<div class="progress-bar" role="progressbar" style="width: {{ @$text->pivot->current_page / $text->total_pages  * 100 }}%;" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100">--}}
+                {{--</div>--}}
             </div>
 
             <div class="text_controls">
