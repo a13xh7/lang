@@ -1,13 +1,30 @@
 
+// SET HIGHT
+
+//$('header').height() + $('footer').height()
+
+var mainHeight = window.innerHeight - ( 65+80 );
+
+$('main').css("min-height", mainHeight);
+$('.sidebar').css("min-height", mainHeight);
+
+$( document ).ready(function() {
+
 const show_all_words = 0;
 const show_unknown_words = 1;
 const show_known_words = 2;
+
+// CSRF init
 
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
     }
 });
+
+
+
+// Set file name in file input
 
 $('#text_file').on('change',function(){
     //get the file name
@@ -17,10 +34,11 @@ $('#text_file').on('change',function(){
 });
 
 
+
 // TEXTS PAGE ----------------------------------------------------------------------------------------------------
 
 
-// TEXT UPDATE
+// Update text modal window. Set form fields values
 
 $('a[data-target="#text_edit_modal"]').on('click',function(){
 
@@ -114,7 +132,7 @@ $('button.word_btn').on('click',function(){
 });
 
 
-$( document ).ready(function() {
+
 
     if(Cookies.get('show_words') == show_all_words) {
         $('#show_all_words').prop( "disabled", true );
@@ -128,7 +146,7 @@ $( document ).ready(function() {
         $('#show_known_words').prop( "disabled", true );
     }
 
-});
+
 
 
 
@@ -152,3 +170,8 @@ $('#show_known_words').on('click',function(){
     url = window.location.href.split('?')[0];
     location.href = url;
 });
+
+
+
+
+}); // document ready end

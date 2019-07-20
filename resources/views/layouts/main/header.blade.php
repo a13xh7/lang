@@ -1,4 +1,4 @@
-<header class="row border-bottom sticky-top bg-white shadow-sm header">
+<header class="row border-bottom sticky-top header">
 
     <div class="container align-self-center nopadding">
 
@@ -6,7 +6,8 @@
 
             <div class="col-md-12 col-lg-2">
                 <a href="/" class="logo">
-                    WEXLANG
+                    {{--WEXLANG--}}
+                    <img src="https://2code.info/demo/themes/Discy/Main/wp-content/themes/discy/images/logo.png" alt="">
                 </a>
             </div>
 

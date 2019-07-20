@@ -26,7 +26,7 @@ class TextPageController extends Controller
             ->update(['current_page' => $request->get('page')]);
 
 
-        return view('reader.text_read_page')->with('page', $page)->with('pages', $pages);
+        return view('reader.reader_text_page')->with('page', $page)->with('pages', $pages);
     }
 
 }

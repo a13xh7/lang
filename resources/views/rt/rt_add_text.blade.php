@@ -1,18 +1,8 @@
-@extends('layouts.reader.reader_layout')
+@extends('layouts.rt.rt_layout')
 
-@section('reader_content')
+@section('rt_content')
 
     <h1>Upload text file</h1>
-
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
 
     <p>
         <b>Allowed file types:</b>
@@ -22,7 +12,7 @@
         <span class="badge badge-info">.mobi</span>
     </p>
 
-    <form action="{{route('reader_add_text')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('rt_add_text')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group row">
             <label for="text_title" class="col-sm-2 col-form-label">Title</label>
@@ -84,7 +74,7 @@
             <div class="col-sm-10">
                 <div class="custom-file">
                     <label class="custom-file-label" for="text_file">Choose file</label>
-                    <input type="file" class="custom-file-input" name="text_file" id="text_file" required>
+                    <input type="file" class="custom-file-input" name="text_file" id="text_file" required accept=".txt">
                 </div>
             </div>
         </div>

@@ -70,6 +70,11 @@ Route::get('/read-together', 'PublicController@showReadTogetherLanding')->name('
 Route::middleware(['auth'])->group(function ()
 {
 
+    // ADD TEXT PAGE
+    Route::get('/rt/add/text', 'RT\AddTextController@showPage')->name('rt_add_text_page');
+    Route::post('/rt/add/text', 'RT\AddTextController@addText')->name('rt_add_text');
+
+
     Route::get('/rt/public-texts', 'RT\PublicTextsController@showPage')->name('rt_public_texts');
 
     Route::get('/rt/my-texts', 'RT\MyTextsController@showPage')->name('rt_my_texts');

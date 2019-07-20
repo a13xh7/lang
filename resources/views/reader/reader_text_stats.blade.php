@@ -44,8 +44,6 @@
 
     </ul>
 
-    <hr>
-
     {{--<form action="{{route('reader_add_new_word')}}" method="POST">--}}
 {{--@csrf--}}
         {{--word <input type="text" name="word">--}}

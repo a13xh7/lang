@@ -21,9 +21,10 @@ class TextsController extends Controller
 
     public function showTexts()
     {
+        $perPage = 10;
 
         $user = User::where('id', auth()->user()->id)->first();
-        $texts = $user->texts()->where('public', false)->orderBy('id', 'DESC')->paginate(2);
+        $texts = $user->texts()->where('public', false)->orderBy('id', 'DESC')->paginate($perPage);
 
         $myWords = $user->words()->where('user_id', auth()->user()->id)->get();
 
@@ -31,7 +32,7 @@ class TextsController extends Controller
 
 
 
-        return view('reader.reader_texts')->with('texts', $texts)->with('languages');
+        return view('reader.reader_texts')->with('texts', $texts);
     }
 
     public function updateText(Request $request)

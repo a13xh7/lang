@@ -35,10 +35,20 @@ class TextHandler
         $this->text = $text;
 
         // Find all words using regex
+
         preg_match_all($this->wordRegex, $text, $output_array);
+
+//        if(empty($output_array[0])) {
+//            preg_match_all("#\b[^\s]+\b#i", $text, $output_array);
+//        }
 
         // Find all unique words
         $uniqueWords = array_unique($output_array[0]);
+
+
+        //$uniqueWords = array_unique(    preg_split('/((^\p{P}+)|(\p{P}*\s+\p{P}*)|(\p{P}+$))/', $text, -1, PREG_SPLIT_NO_EMPTY));
+
+
 
         // Add all words to array
         $this->allWords = $output_array[0];

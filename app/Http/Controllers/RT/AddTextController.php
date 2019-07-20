@@ -1,54 +1,25 @@
 <?php
 
-namespace App\Http\Controllers\Reader;
+namespace App\Http\Controllers\RT;
 
 use App\Http\Controllers\Controller;
 use App\Models\Reader\Text;
 use App\Models\Reader\TextPage;
-use App\Models\Reader\TextSettings;
-use App\Services\SimpleFB2\SimpleFB2;
 use App\Services\TextHandler;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
 
 class AddTextController extends Controller
 {
 
     public function showPage()
     {
-        return view('reader.reader_add_text')->with('languages');
+        return view('rt.rt_add_text');
     }
 
     public function addText(Request $request)
     {
-
-        $request->validate([
-            'text_title' => 'required|max:255',
-        ]);
-
-
-        $exploded = explode('.', $request->file('text_file')->getClientOriginalName());
-        $fileExtension = $exploded[count($exploded)-1];
-        $allowedExtensions = ['txt', 'fb2'];
-
-        if(in_array($fileExtension, $allowedExtensions) == false) {
-            return redirect()->route('reader_add_text_page');
-        }
-
-        $fb2 = new SimpleFB2($request->file('text_file')->getRealPath());
-
-
-
-        switch ($fileExtension) {
-            case 'txt':
-                break;
-            case 'fb2':
-                $fb2 = new SimpleFB2($request->file('text_file')->getRealPath());
-                break;
-        }
 
         /**
          * load file
@@ -75,7 +46,7 @@ class AddTextController extends Controller
 
         $text = new Text();
         $text->lang_id = $request->get('lang_from');
-        $text->public = false;
+        $text->public = true;
         $text->title = $request->get('text_title');
         $text->total_pages = count($pages);
         $text->total_symbols = $textHandler->totalSymbols;
@@ -98,14 +69,6 @@ class AddTextController extends Controller
 
         foreach ($pages as $page_number => $page)
         {
-//            $sentences = explode('.', $page);
-//            $finalContent = '';
-//
-//            foreach ($sentences as $sentence)
-//            {
-//                $finalContent.= '<p>'.$sentence.'</p>'.PHP_EOL;
-//            }
-
 
             $textPage = new TextPage();
             $textPage->text_id = $text->id;
@@ -116,7 +79,7 @@ class AddTextController extends Controller
 
         DB::commit();
 
-        return redirect()->route('reader_texts');
+        return redirect()->route('rt_my_texts');
 
 
     }

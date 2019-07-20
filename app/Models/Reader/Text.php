@@ -56,7 +56,7 @@ class Text extends Model
         }
 
         $user = User::where('id', auth()->user()->id)->first();
-        $allMyWords = $user->words()->where('user_id', auth()->user()->id)->get();
+        $allMyWords = $user->words()->where('user_id', auth()->user()->id)->where('lang_id', $this->lang_id)->get();
 
         $myKnownWordsInThisText = [];
 
@@ -80,7 +80,7 @@ class Text extends Model
         }
 
         $user = User::where('id', auth()->user()->id)->first();
-        $allMyWords = $user->words()->where('user_id', auth()->user()->id)->get();
+        $allMyWords = $user->words()->where('user_id', auth()->user()->id)->where('lang_id', $this->lang_id)->get();
 
         $myWordsArray = [];
         foreach ($allMyWords as $myWord) {
