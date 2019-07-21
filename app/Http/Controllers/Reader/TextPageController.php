@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Main\User;
 use App\Models\Reader\TextPage;
 use App\Services\TextHandler;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,19 +20,22 @@ class TextPageController extends Controller
         // Get pages and current page
 
         $pages = TextPage::where('text_id', $textId)->paginate(1);
-        $page = TextPage::where('text_id', $textId)->where('page_number', $pages->currentPage())->first();
+        $page = TextPage::where('text_id', $textId)->where('page_number', $pages->currentPage())->firstOrFail();
 
         // Set languages
 
         $text_lang_id = $page->text->lang_id;
-        $translate_to_lang_id = auth()->user()->texts()->find($textId)->pivot->translate_to_lang_id;
+        $translate_to_lang_id = $user->texts()->find($textId)->pivot->translate_to_lang_id;
 
         // Handle page content - decode, add marks
 
         $pageContent = base64_decode($page->content);
         $textHandler = new TextHandler($pageContent);
 
-        $userWords = auth()->user()->words()->where('lang_id', $page->text->lang_id)->get();
+        $userWords = $user->words()->where('lang_id', $text_lang_id)->whereHas('googleTranslation', function (Builder $query) use ($translate_to_lang_id) {
+            $query->where('lang_id', '=', $translate_to_lang_id);
+        })->get();
+
         $userWords = $this->getUserWordsArray($userWords);
 
         $pageContent = $textHandler->handleTextPage($userWords, $text_lang_id, $translate_to_lang_id);
@@ -39,7 +43,9 @@ class TextPageController extends Controller
         // Get user known words
 
         $knownWords = [];
-        $allUserWords = $user->words()->where('user_id', $user->id)->where('lang_id', $text_lang_id)->get();
+        $allUserWords = $user->words()->where('lang_id', $text_lang_id)->whereHas('googleTranslation', function (Builder $query) use ($translate_to_lang_id) {
+            $query->where('lang_id', '=', $translate_to_lang_id);
+        })->get();
 
         foreach ($allUserWords as $myWord) {
             $knownWords[] = $myWord->word;
@@ -47,7 +53,9 @@ class TextPageController extends Controller
 
         // Get all user words
 
-        $myWords = $user->words()->with('googleTranslation')->where('user_id', $user->id)->get();
+        $myWords =  $user->words()->where('lang_id', $text_lang_id)->whereHas('googleTranslation', function (Builder $query) use ($translate_to_lang_id) {
+            $query->where('lang_id', '=', $translate_to_lang_id);
+        })->get();
 
         // Update current page
 

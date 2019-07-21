@@ -79,7 +79,7 @@ class TextHandler
 
         while(!empty($text))
         {
-            $pageEnd = $this->findPageEnd($pageLength);
+            $pageEnd = $this->findPageEnd($text, $pageLength);
             $pages[] = substr($text, 0, $pageEnd);
 
             $text = substr($text, $pageEnd, strlen($text) - 1);
@@ -147,37 +147,24 @@ class TextHandler
 
 
 
-    private function findPageEnd($pageLength):int
+    private function findPageEnd($text, $pageLength):int
     {
         $realLength = $pageLength;
 
-        if(isset($this->text[$realLength]) === false)
+        if(isset($text[$realLength]) === false)
         {
             return $pageLength;
         }
 
-        while(
-            $this->text[$realLength] !== '.'
-            || $this->text[$realLength] !== '!'
-            || $this->text[$realLength] !== '?'
-            || $this->text[$realLength] !== '. '
-            || $this->text[$realLength] !== ' ')
 
-        {
-            $realLength++;
-
-            if(isset($this->text[$realLength]) === false)
-            {
-                return $pageLength;
-            }
+        $pageEndOffset = strpos($text, '.', $realLength);
 
 
-            if($realLength > $pageLength + 100) {
-                break;
-            }
-        }
 
-        return $realLength + 1; //  +1 means + dot
+
+
+        //return $realLength + $pageEndOffset + 1; //  +1 means + dot
+        return $pageEndOffset + 1; //  +1 means + dot
     }
 
     

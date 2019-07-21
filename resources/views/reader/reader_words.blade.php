@@ -18,7 +18,34 @@
         {{--</button>--}}
     {{--</div>--}}
 
+    <div class="form-group row">
+        <label class="col-md-auto col-form-label" for="w_lang"><b>Words language</b></label>
+        <div class="col">
+            <select class="selectpicker" name="w_lang" id="w_lang" data-live-search="true" data-width="100%">
 
+                @foreach(\App\Config\Lang::all() as $lang)
+
+                    <option
+                            value="{{$lang['id']}}"
+                            data-subtext="{{$lang['eng_title']}}"
+                            data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
+
+                            @if(\Illuminate\Support\Facades\Cookie::get('w_lang') == $lang['id'])
+
+                                selected
+
+                            @endif
+                    >
+                        
+                    </option>
+
+                @endforeach
+
+            </select>
+        </div>
+    </div>
+
+    <hr>
 
     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
 

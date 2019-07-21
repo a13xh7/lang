@@ -25,8 +25,10 @@ class WordsController extends Controller
     public function showPage(Request $request)
     {
         $perPage = 100;
+        $wordsLangId = $request->cookie('w_lang');
+
+
         $user = User::where('id', auth()->user()->id)->first();
-        $words = $user->words()->with('googleTranslation')->paginate($perPage);
 
         /* SHOW words
             1 - unknown
@@ -34,19 +36,20 @@ class WordsController extends Controller
          */
 
         // Filter Words - get only known or only new. By default we get all words.
-        if($request->cookie('show_words') == 1) {
-            $words = $user->words()->where('state', \App\Config\WordConfig::TO_STUDY)->paginate($perPage);
-        } elseif ($request->cookie('show_words') == 2) {
-            $words = $user->words()->where('state', \App\Config\WordConfig::KNOWN)->paginate($perPage);
+        if($request->cookie('show_words') == WordConfig::TO_STUDY) {
+            $words = $user->words()->where('state', WordConfig::TO_STUDY)->where('lang_id', $wordsLangId)->paginate($perPage);
+        } elseif ($request->cookie('show_words') == WordConfig::KNOWN) {
+            $words = $user->words()->where('state', WordConfig::KNOWN)->where('lang_id', $wordsLangId)->paginate($perPage);
+        } else {
+            $words = $user->words()->with('googleTranslation')->where('lang_id', $wordsLangId)->paginate($perPage);
         }
-
 
 
         return view('reader.reader_words')
             ->with('words', $words)
-            ->with('totalWords', $user->words->count())
-            ->with('totalKnownWords', $user->words()->where('state', \App\Config\WordConfig::KNOWN)->count())
-            ->with('totalNewWords', $user->words()->where('state', \App\Config\WordConfig::TO_STUDY)->count())
+            ->with('totalWords', $user->words()->where('lang_id',$wordsLangId)->count())
+            ->with('totalKnownWords', $user->words()->where('state', WordConfig::KNOWN)->where('lang_id',$wordsLangId)->count())
+            ->with('totalNewWords', $user->words()->where('state', WordConfig::TO_STUDY)->where('lang_id',$wordsLangId)->count())
             ;
     }
 

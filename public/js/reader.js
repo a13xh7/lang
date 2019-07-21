@@ -70,7 +70,7 @@ $('div.page_text_wrapper').on('click', 'mark.study, mark.unknown', function() {
 
                 success: function (data) {
 
-                    translation = '<b class="text-success">('+ data +')</b>';
+                    translation = '<b class="text-success small">('+ data +')</b>';
 
                     word.html( translation + ' ' + word.html());
 
@@ -141,6 +141,16 @@ $('a[data-target="#text_edit_modal"]').on('click',function(){
 
 
 // MY WORDS PAGE -  -----------------------------------------------------------------------------------------------
+
+
+$('#w_lang').on('change', function(){
+
+    document.cookie = "w_lang=" + $(this).val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC"
+
+    url = window.location.href.split('?')[0];
+    location.href = url;
+});
+
 
 
 

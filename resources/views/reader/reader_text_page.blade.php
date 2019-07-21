@@ -29,7 +29,7 @@
         </div>
 
         {{-- CONTENT START--}}
-        <div class="col-7">
+        <div class="col-8">
 
             <div class="row justify-content-md-center mt-3">
 
@@ -55,9 +55,7 @@
 
                 <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
 
-                    <div class="page_text_wrapper">
-                        {!! $pageContent !!}
-                    </div>
+                    <div class="page_text_wrapper">{!! $pageContent !!}</div>
 
                 </div>
 
@@ -158,7 +156,7 @@
 
         {{--</div>--}}
 
-        <div class="col-3 bg-light">
+        <div class="col-2 bg-light">
             translation and wor settings
         </div>
 

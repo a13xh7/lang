@@ -14,9 +14,9 @@
             </span>
 
             <div>
-                Text language: <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->lang_id)['code'] .'.svg')}}" class="text_flag" alt=""> <i class="text-muted">({{\App\Config\Lang::get($text->lang_id)['eng_title']}})</i>
+                Text language: <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->lang_id)['code'] .'.svg')}}" class="text_flag" alt=""> <i class="text-muted">({{\App\Config\Lang::get($text->lang_id)['title']}})</i>
                 <span class="q_lang_arrow">⟶</span>
-                Translate to: <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->pivot->translate_to_lang_id)['code']  .'.svg')}}" class="text_flag" alt=""> <i class="text-muted">({{\App\Config\Lang::get($text->pivot->translate_to_lang_id)['eng_title']}})</i>
+                Translate to: <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->pivot->translate_to_lang_id)['code']  .'.svg')}}" class="text_flag" alt=""> <i class="text-muted">({{\App\Config\Lang::get($text->pivot->translate_to_lang_id)['title']}})</i>
             </div>
 
             <div class="text_stats">
@@ -33,7 +33,15 @@
             </div>
 
             <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width: {{ @$text->pivot->current_page / $text->total_pages  * 100 }}%;" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100">
+                <div class="progress-bar" role="progressbar"
+                     style="width: @php
+                         try {
+                             echo $text->pivot->current_page / $text->total_pages  * 100 . "%";
+                         } catch (\Exception $e) {
+                             echo "0%";
+                         }
+                     @endphp
+                     " aria-valuenow="2" aria-valuemin="0" aria-valuemax="100">
                 </div>
             </div>
 

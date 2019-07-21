@@ -12,6 +12,7 @@ class EncryptCookies extends Middleware
      * @var array
      */
     protected $except = [
-        'show_words'
+        'show_words',
+        'w_lang'
     ];
 }
