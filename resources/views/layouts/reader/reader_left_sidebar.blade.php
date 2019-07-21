@@ -5,8 +5,8 @@
     </h4>
 
     <div class="list-group list-group-flush">
-        <a href="{{route('reader_add_text_page')}}" class="list-group-item list-group-item-action bg-light"><i class="icofont-plus-square"></i> Add text</a>
         <a href="{{route('reader_texts')}}" class="list-group-item list-group-item-action bg-light"><i class="icofont-book"></i> My Texts</a>
+        <a href="{{route('reader_add_text_page')}}" class="list-group-item list-group-item-action bg-light"><i class="icofont-plus-square"></i> Add text</a>
     </div>
 
 

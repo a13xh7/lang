@@ -11,6 +11,7 @@ namespace App\Config;
 
 class WordConfig
 {
+    const NEW = 0;
     const TO_STUDY = 1;
     const KNOWN = 2;
 }

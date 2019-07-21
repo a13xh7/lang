@@ -8,6 +8,7 @@
 
 namespace App\Http\Controllers\Reader;
 
+use App\Config\WordConfig;
 use App\Http\Controllers\Controller;
 use App\Models\Main\User;
 use App\Models\Reader\Text;
@@ -38,7 +39,7 @@ class TextStatsController extends Controller
          */
 
         // Filter Words - get only known or only new. By default we get all words.
-        if($request->cookie('show_words') == 1) {
+        if($request->cookie('show_words') == WordConfig::TO_STUDY) {
             $filteredWords = [];
 
             foreach ($words as $word) {
@@ -48,7 +49,7 @@ class TextStatsController extends Controller
             }
             $words = $filteredWords;
 
-        } elseif ($request->cookie('show_words') == 2) {
+        } elseif ($request->cookie('show_words') == WordConfig::KNOWN) {
 
             $filteredWords = [];
 

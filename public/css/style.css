@@ -160,6 +160,29 @@ button[data-id="lang_to"], button[data-id="lang_from"] {
     text-align: center;
     width: 33%;
 }
+
+/**********************READER TEXT PAGE*********************/
+
+.page_text_wrapper {
+    white-space: pre-wrap;
+    font-size: 18px;
+    line-height: 2;
+}
+
+mark {
+    background-color: white;
+    border-radius: 10%
+}
+
+mark.study {
+    background-color: #fcf8e3;
+}
+
+mark.unknown {
+    background-color: #aee0f4;
+}
+
+
 /**************************READER STYLES END*************************/
 
 

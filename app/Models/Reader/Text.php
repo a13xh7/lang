@@ -46,6 +46,9 @@ class Text extends Model
 //
 //    }
 
+    /**
+     * @return array - просто массив со словами. обычные индексы в качестве ключей
+     */
     public function getKnownWords()
     {
         $textWords = $this->getWords();
@@ -70,6 +73,9 @@ class Text extends Model
 
     }
 
+    /**
+     * @return array - просто массив со словами. обычные индексы в качестве ключей
+     */
     public function getUnknownWords()
     {
         $textWords = $this->getWords();

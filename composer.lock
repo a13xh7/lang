@@ -4,37 +4,45 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a8a31abafe853bc46f236dcdd686140",
+    "content-hash": "afd4d42bc05db5483c7a297f384c1cf2",
     "packages": [
         {
-            "name": "aleksei-anisimov/simple-fb2",
-            "version": "dev-master",
+            "name": "dejurin/php-google-translate-for-free",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
-                "url": "https://github.com/AlekseiAnisimov/SimpleFB2.git",
-                "reference": "219be3fc106a52ef05c846bd3086b46e2a5e5bb4"
+                "url": "https://github.com/dejurin/php-google-translate-for-free.git",
+                "reference": "db5e3d0ac66e711dc41ed59618595aa3e3a7e475"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/AlekseiAnisimov/SimpleFB2/zipball/219be3fc106a52ef05c846bd3086b46e2a5e5bb4",
-                "reference": "219be3fc106a52ef05c846bd3086b46e2a5e5bb4",
+                "url": "https://api.github.com/repos/dejurin/php-google-translate-for-free/zipball/db5e3d0ac66e711dc41ed59618595aa3e3a7e475",
+                "reference": "db5e3d0ac66e711dc41ed59618595aa3e3a7e475",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.4.0"
+                "php": ">=5.4"
             },
             "type": "library",
             "autoload": {
                 "psr-4": {
-                    "Simple\\SimpleFB2\\": "src"
+                    "Dejurin\\": "src/"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
-            "description": "Parsing fb2 files",
-            "keywords": [
-                "fb2"
+            "license": [
+                "GPL-3.0+"
             ],
-            "time": "2019-01-13T13:11:34+00:00"
+            "description": "Library for free use Google Translator. With attempts connecting on failure and array support.",
+            "homepage": "https://github.com/dejurin/php-google-translate-for-free",
+            "keywords": [
+                "api",
+                "free",
+                "google",
+                "translate",
+                "translator"
+            ],
+            "time": "2018-03-02T19:36:37+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -408,6 +416,122 @@
             "time": "2019-01-10T14:06:47+00:00"
         },
         {
+            "name": "guzzlehttp/guzzle",
+            "version": "6.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/guzzle.git",
+                "reference": "407b0cb880ace85c9b63c5f9551db498cb2d50ba"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/guzzle/zipball/407b0cb880ace85c9b63c5f9551db498cb2d50ba",
+                "reference": "407b0cb880ace85c9b63c5f9551db498cb2d50ba",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/promises": "^1.0",
+                "guzzlehttp/psr7": "^1.4",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "phpunit/phpunit": "^4.8.35 || ^5.7 || ^6.4 || ^7.0",
+                "psr/log": "^1.0"
+            },
+            "suggest": {
+                "psr/log": "Required for using the Log middleware"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "6.3-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "src/functions_include.php"
+                ],
+                "psr-4": {
+                    "GuzzleHttp\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle is a PHP HTTP client library",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "client",
+                "curl",
+                "framework",
+                "http",
+                "http client",
+                "rest",
+                "web service"
+            ],
+            "time": "2018-04-22T15:46:56+00:00"
+        },
+        {
+            "name": "guzzlehttp/promises",
+            "version": "v1.3.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/promises.git",
+                "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/promises/zipball/a59da6cf61d80060647ff4d3eb2c03a2bc694646",
+                "reference": "a59da6cf61d80060647ff4d3eb2c03a2bc694646",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Promise\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Guzzle promises library",
+            "keywords": [
+                "promise"
+            ],
+            "time": "2016-12-20T10:07:11+00:00"
+        },
+        {
             "name": "guzzlehttp/psr7",
             "version": "1.6.1",
             "source": {
@@ -477,125 +601,6 @@
                 "url"
             ],
             "time": "2019-07-01T23:21:34+00:00"
-        },
-        {
-            "name": "imangazaliev/didom",
-            "version": "1.14.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Imangazaliev/DiDOM.git",
-                "reference": "a8389cc26897f6bb8843363b4ea16e7ef16fb3c3"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Imangazaliev/DiDOM/zipball/a8389cc26897f6bb8843363b4ea16e7ef16fb3c3",
-                "reference": "a8389cc26897f6bb8843363b4ea16e7ef16fb3c3",
-                "shasum": ""
-            },
-            "require": {
-                "ext-dom": "*",
-                "ext-iconv": "*",
-                "php": ">=5.4"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "2.9",
-                "phpunit/phpunit": "^4.8"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "DiDom\\": "src/DiDom/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Imangazaliev Muhammad",
-                    "email": "imangazalievm@gmail.com"
-                }
-            ],
-            "description": "Simple and fast HTML parser",
-            "homepage": "https://github.com/Imangazaliev/DiDOM",
-            "keywords": [
-                "didom",
-                "html",
-                "parser",
-                "xml"
-            ],
-            "time": "2019-01-17T11:01:36+00:00"
-        },
-        {
-            "name": "intervention/image",
-            "version": "2.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Intervention/image.git",
-                "reference": "39eaef720d082ecc54c64bf54541c55f10db546d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Intervention/image/zipball/39eaef720d082ecc54c64bf54541c55f10db546d",
-                "reference": "39eaef720d082ecc54c64bf54541c55f10db546d",
-                "shasum": ""
-            },
-            "require": {
-                "ext-fileinfo": "*",
-                "guzzlehttp/psr7": "~1.1",
-                "php": ">=5.4.0"
-            },
-            "require-dev": {
-                "mockery/mockery": "~0.9.2",
-                "phpunit/phpunit": "^4.8 || ^5.7"
-            },
-            "suggest": {
-                "ext-gd": "to use GD library based image processing.",
-                "ext-imagick": "to use Imagick based image processing.",
-                "intervention/imagecache": "Caching extension for the Intervention Image library"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.4-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "Intervention\\Image\\ImageServiceProvider"
-                    ],
-                    "aliases": {
-                        "Image": "Intervention\\Image\\Facades\\Image"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Intervention\\Image\\": "src/Intervention/Image"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Oliver Vogel",
-                    "email": "oliver@olivervogel.com",
-                    "homepage": "http://olivervogel.com/"
-                }
-            ],
-            "description": "Image handling and manipulation library with support for Laravel integration",
-            "homepage": "http://image.intervention.io/",
-            "keywords": [
-                "gd",
-                "image",
-                "imagick",
-                "laravel",
-                "thumbnail",
-                "watermark"
-            ],
-            "time": "2019-06-24T14:06:31+00:00"
         },
         {
             "name": "jakub-onderka/php-console-color",
@@ -1715,6 +1720,102 @@
             "time": "2018-07-19T23:38:55+00:00"
         },
         {
+            "name": "spatie/pdf-to-text",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/pdf-to-text.git",
+                "reference": "53b43c592c0a3f2df7bc0ceb48c6ce8bd51bb7e5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/pdf-to-text/zipball/53b43c592c0a3f2df7bc0ceb48c6ce8bd51bb7e5",
+                "reference": "53b43c592c0a3f2df7bc0ceb48c6ce8bd51bb7e5",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.0",
+                "symfony/process": "^3.3|^4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^6.4|^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\PdfToText\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Extract text from a pdf",
+            "homepage": "https://github.com/spatie/pdf-to-text",
+            "keywords": [
+                "pdf-to-text",
+                "spatie"
+            ],
+            "time": "2019-05-15T06:12:04+00:00"
+        },
+        {
+            "name": "stichoza/google-translate-php",
+            "version": "v4.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Stichoza/google-translate-php.git",
+                "reference": "612d79e129176c67ed0c094165746c63c4cba1e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Stichoza/google-translate-php/zipball/612d79e129176c67ed0c094165746c63c4cba1e3",
+                "reference": "612d79e129176c67ed0c094165746c63c4cba1e3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "guzzlehttp/guzzle": "~6.0",
+                "php": "^7.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Stichoza\\GoogleTranslate\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Levan Velijanashvili",
+                    "email": "me@stichoza.com"
+                }
+            ],
+            "description": "Free Google Translate API PHP Package",
+            "homepage": "http://github.com/Stichoza/google-translate-php",
+            "keywords": [
+                "google",
+                "php",
+                "translate",
+                "translator"
+            ],
+            "time": "2018-12-04T00:15:54+00:00"
+        },
+        {
             "name": "swiftmailer/swiftmailer",
             "version": "v6.2.1",
             "source": {
@@ -2087,56 +2188,6 @@
                 "standards"
             ],
             "time": "2019-06-20T06:46:26+00:00"
-        },
-        {
-            "name": "symfony/filesystem",
-            "version": "v4.3.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/filesystem.git",
-                "reference": "b9896d034463ad6fd2bf17e2bf9418caecd6313d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/filesystem/zipball/b9896d034463ad6fd2bf17e2bf9418caecd6313d",
-                "reference": "b9896d034463ad6fd2bf17e2bf9418caecd6313d",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1.3",
-                "symfony/polyfill-ctype": "~1.8"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Filesystem\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Filesystem Component",
-            "homepage": "https://symfony.com",
-            "time": "2019-06-23T08:51:25+00:00"
         },
         {
             "name": "symfony/finder",
@@ -3184,57 +3235,6 @@
             "time": "2017-11-27T11:13:29+00:00"
         },
         {
-            "name": "tizis/fb2-parser",
-            "version": "0.5.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tizis/FB2-Parser.git",
-                "reference": "8783349e7c380693db4a97fc1f216e7919c5ea4c"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/tizis/FB2-Parser/zipball/8783349e7c380693db4a97fc1f216e7919c5ea4c",
-                "reference": "8783349e7c380693db4a97fc1f216e7919c5ea4c",
-                "shasum": ""
-            },
-            "require": {
-                "imangazaliev/didom": "^1.13",
-                "intervention/image": "^2.4",
-                "php": ">=7.0.0",
-                "symfony/filesystem": "^4.1"
-            },
-            "require-dev": {
-                "roave/security-advisories": "dev-master",
-                "symfony/var-dumper": "^4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Tizis\\FB2\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Epanchenko Roman",
-                    "email": "podstavat@gmail.com"
-                }
-            ],
-            "description": "Simple FB2 to HTML parser",
-            "homepage": "https://github.com/tizis/FB2-Parser",
-            "keywords": [
-                "FB2Parser",
-                "fb2",
-                "html",
-                "parser",
-                "php"
-            ],
-            "time": "2018-07-19T12:40:54+00:00"
-        },
-        {
             "name": "vlucas/phpdotenv",
             "version": "v3.4.0",
             "source": {
@@ -3340,6 +3340,36 @@
                 "pagination"
             ],
             "time": "2017-09-23T15:19:47+00:00"
+        },
+        {
+            "name": "aleksei-anisimov/simple-fb2",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/AlekseiAnisimov/SimpleFB2.git",
+                "reference": "219be3fc106a52ef05c846bd3086b46e2a5e5bb4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/AlekseiAnisimov/SimpleFB2/zipball/219be3fc106a52ef05c846bd3086b46e2a5e5bb4",
+                "reference": "219be3fc106a52ef05c846bd3086b46e2a5e5bb4",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Simple\\SimpleFB2\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Parsing fb2 files",
+            "keywords": [
+                "fb2"
+            ],
+            "time": "2019-01-13T13:11:34+00:00"
         },
         {
             "name": "amamarul/laravel-paginator",
@@ -3725,6 +3755,125 @@
                 "test"
             ],
             "time": "2016-01-20T08:20:44+00:00"
+        },
+        {
+            "name": "imangazaliev/didom",
+            "version": "1.14.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Imangazaliev/DiDOM.git",
+                "reference": "a8389cc26897f6bb8843363b4ea16e7ef16fb3c3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Imangazaliev/DiDOM/zipball/a8389cc26897f6bb8843363b4ea16e7ef16fb3c3",
+                "reference": "a8389cc26897f6bb8843363b4ea16e7ef16fb3c3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-iconv": "*",
+                "php": ">=5.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "2.9",
+                "phpunit/phpunit": "^4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "DiDom\\": "src/DiDom/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Imangazaliev Muhammad",
+                    "email": "imangazalievm@gmail.com"
+                }
+            ],
+            "description": "Simple and fast HTML parser",
+            "homepage": "https://github.com/Imangazaliev/DiDOM",
+            "keywords": [
+                "didom",
+                "html",
+                "parser",
+                "xml"
+            ],
+            "time": "2019-01-17T11:01:36+00:00"
+        },
+        {
+            "name": "intervention/image",
+            "version": "2.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Intervention/image.git",
+                "reference": "39eaef720d082ecc54c64bf54541c55f10db546d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Intervention/image/zipball/39eaef720d082ecc54c64bf54541c55f10db546d",
+                "reference": "39eaef720d082ecc54c64bf54541c55f10db546d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-fileinfo": "*",
+                "guzzlehttp/psr7": "~1.1",
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "~0.9.2",
+                "phpunit/phpunit": "^4.8 || ^5.7"
+            },
+            "suggest": {
+                "ext-gd": "to use GD library based image processing.",
+                "ext-imagick": "to use Imagick based image processing.",
+                "intervention/imagecache": "Caching extension for the Intervention Image library"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Intervention\\Image\\ImageServiceProvider"
+                    ],
+                    "aliases": {
+                        "Image": "Intervention\\Image\\Facades\\Image"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Intervention\\Image\\": "src/Intervention/Image"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Oliver Vogel",
+                    "email": "oliver@olivervogel.com",
+                    "homepage": "http://olivervogel.com/"
+                }
+            ],
+            "description": "Image handling and manipulation library with support for Laravel integration",
+            "homepage": "http://image.intervention.io/",
+            "keywords": [
+                "gd",
+                "image",
+                "imagick",
+                "laravel",
+                "thumbnail",
+                "watermark"
+            ],
+            "time": "2019-06-24T14:06:31+00:00"
         },
         {
             "name": "maximebf/debugbar",
@@ -5184,6 +5333,56 @@
             "time": "2016-10-03T07:35:21+00:00"
         },
         {
+            "name": "symfony/filesystem",
+            "version": "v4.3.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/filesystem.git",
+                "reference": "b9896d034463ad6fd2bf17e2bf9418caecd6313d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/filesystem/zipball/b9896d034463ad6fd2bf17e2bf9418caecd6313d",
+                "reference": "b9896d034463ad6fd2bf17e2bf9418caecd6313d",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3",
+                "symfony/polyfill-ctype": "~1.8"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.3-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Filesystem\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Filesystem Component",
+            "homepage": "https://symfony.com",
+            "time": "2019-06-23T08:51:25+00:00"
+        },
+        {
             "name": "theseer/tokenizer",
             "version": "1.1.3",
             "source": {
@@ -5222,6 +5421,57 @@
             ],
             "description": "A small library for converting tokenized PHP source code into XML and potentially other formats",
             "time": "2019-06-13T22:48:21+00:00"
+        },
+        {
+            "name": "tizis/fb2-parser",
+            "version": "0.5.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tizis/FB2-Parser.git",
+                "reference": "8783349e7c380693db4a97fc1f216e7919c5ea4c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tizis/FB2-Parser/zipball/8783349e7c380693db4a97fc1f216e7919c5ea4c",
+                "reference": "8783349e7c380693db4a97fc1f216e7919c5ea4c",
+                "shasum": ""
+            },
+            "require": {
+                "imangazaliev/didom": "^1.13",
+                "intervention/image": "^2.4",
+                "php": ">=7.0.0",
+                "symfony/filesystem": "^4.1"
+            },
+            "require-dev": {
+                "roave/security-advisories": "dev-master",
+                "symfony/var-dumper": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Tizis\\FB2\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Epanchenko Roman",
+                    "email": "podstavat@gmail.com"
+                }
+            ],
+            "description": "Simple FB2 to HTML parser",
+            "homepage": "https://github.com/tizis/FB2-Parser",
+            "keywords": [
+                "FB2Parser",
+                "fb2",
+                "html",
+                "parser",
+                "php"
+            ],
+            "time": "2018-07-19T12:40:54+00:00"
         },
         {
             "name": "webmozart/assert",
@@ -5277,9 +5527,7 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "aleksei-anisimov/simple-fb2": 20
-    },
+    "stability-flags": [],
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

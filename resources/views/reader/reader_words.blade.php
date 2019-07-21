@@ -49,7 +49,7 @@
         <tr>
             <th>State</th>
             <th scope="col">Word</th>
-            <th scope="col">Google Translation</th>
+            <th scope="col">Translation</th>
         </tr>
         </thead>
         <tbody>
@@ -70,8 +70,6 @@
 
 
 
-
-
                 {{--All words tab - allow user to set any state wor a word--}}
                 @if(\Illuminate\Support\Facades\Cookie::get('show_words') == 0)
 
@@ -87,12 +85,12 @@
 
 
                  {{--To study tab - --}}
-                @elseif(\Illuminate\Support\Facades\Cookie::get('show_words') == 1)
+                @elseif(\Illuminate\Support\Facades\Cookie::get('show_words') == \App\Config\WordConfig::TO_STUDY)
 
                     <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Mark as known</button>
 
                 {{-- Know words tab - --}}
-                @elseif(\Illuminate\Support\Facades\Cookie::get('show_words') == 2)
+                @elseif(\Illuminate\Support\Facades\Cookie::get('show_words') == \App\Config\WordConfig::KNOWN)
 
                     <span class="badge badge-success h4">Known</span>
 
@@ -101,7 +99,7 @@
 
             </td>
             <td>{{$word->word}}</td>
-            <td> </td>
+            <td> {{$word->googleTranslation->translation}} </td>
         </tr>
 
 

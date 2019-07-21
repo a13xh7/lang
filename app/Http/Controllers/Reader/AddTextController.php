@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Spatie\PdfToText\Pdf;
 
 class AddTextController extends Controller
 {
@@ -37,10 +38,11 @@ class AddTextController extends Controller
 
         $exploded = explode('.', $request->file('text_file')->getClientOriginalName());
         $fileExtension = $exploded[count($exploded)-1];
-        $allowedExtensions = ['txt', 'fb2', 'pdf'];
 
-        if(in_array($fileExtension, $allowedExtensions) == false) {
-            return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'File extension in not supported']);
+        $allowedExtensions = ['txt', 'fb2', 'pdf'];
+        if(in_array($fileExtension, $allowedExtensions) == false)
+        {
+            return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'File extension is not supported']);
         }
 
 
@@ -54,7 +56,8 @@ class AddTextController extends Controller
                 $fb2 = new FB2Parser($request->file('text_file')->getRealPath());
                 $text = $fb2->getText();
                 break;
-            case 'epub':
+            case 'pdf':
+                $text = Pdf::getText($request->file('text_file')->getRealPath());
                 break;
         }
 
@@ -62,7 +65,7 @@ class AddTextController extends Controller
 
         // 2 - split text to pages
 
-        $pages = $textHandler->splitTextToPages();
+        $pages = $textHandler->splitTextToPages(1000);
 
         DB::beginTransaction();
 

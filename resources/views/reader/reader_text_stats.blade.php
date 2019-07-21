@@ -6,11 +6,15 @@
     <h1>Stats</h1>
     <div class="w3-border-bottom">
         <ul>
-            <li>Text language <b>{{ \App\Config\Lang::get($text->lang_id)['eng_title']}}</b></li>
-            <li>Pages - <b>{{$text->total_pages}}</b></li>
-            <li>Symbols - <b>{{ $text->total_symbols}}</b></li>
-            <li>Total words - <b>{{ $text->total_words}}</b></li>
-            <li>Unique words - <b>{{ $text->unique_words}}</b></li>
+
+            <li>
+                Text language: <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->lang_id)['code'] .'.svg')}}" class="text_flag" alt="">{{\App\Config\Lang::get($text->lang_id)['title']}}
+                <i class="text-muted">({{\App\Config\Lang::get($text->lang_id)['eng_title']}})</i>
+            </li>
+            <li>Pages: <b>{{$text->total_pages}}</b></li>
+            <li>Symbols: <b>{{ $text->total_symbols}}</b></li>
+            <li>Total words: <b>{{ $text->total_words}}</b></li>
+            <li>Unique words: <b>{{ $text->unique_words}}</b></li>
         </ul>
 
         <p> </p>
@@ -73,8 +77,8 @@
                     <td>
 
                         @if(!in_array($word[0], $knownWords))
-                            <button type="button" class="btn btn-warning btn-sm word_btn" data-word="{{$word[0]}}" data-lang_id="{{$text->lang_id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
-                            <button type="button" class="btn btn-success btn-sm word_btn" data-word="{{$word[0]}}" data-lang_id="{{$text->lang_id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                            <button type="button" class="btn btn-warning btn-sm word_btn" data-word="{{$word[0]}}" data-lang_id="{{$text->lang_id}}" data-translate_to_lang_id="{{$text->pivot->translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
+                            <button type="button" class="btn btn-success btn-sm word_btn" data-word="{{$word[0]}}" data-lang_id="{{$text->lang_id}}" data-translate_to_lang_id="{{$text->pivot->translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
 
                         @else
 

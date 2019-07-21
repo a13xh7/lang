@@ -17,7 +17,7 @@ class CreateTextPagesTable extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('text_id');
             $table->integer('page_number');
-            $table->binary('content');
+            $table->text('content');
 
             $table->foreign('text_id')->references('id')->on('texts')->onDelete('cascade');
         });

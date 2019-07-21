@@ -8,21 +8,25 @@
 
 namespace App\Http\Controllers\Reader;
 
+use App\Config\Lang;
+use App\Config\WordConfig;
 use App\Http\Controllers\Controller;
 use App\Models\Main\User;
 
+use App\Models\Reader\GoogleTranslation;
 use App\Models\Reader\Word;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Dejurin\GoogleTranslateForFree;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class WordsController extends Controller
 {
 
     public function showPage(Request $request)
     {
-        $perPage = 10;
+        $perPage = 100;
         $user = User::where('id', auth()->user()->id)->first();
-        $words = $user->words()->paginate($perPage);
+        $words = $user->words()->with('googleTranslation')->paginate($perPage);
 
         /* SHOW words
             1 - unknown
@@ -49,48 +53,88 @@ class WordsController extends Controller
 
     public function ajaxAddNewWord(Request $request)
     {
+        // Если это новое слово, статус сразу меняется на TO_STUDY
 
-        /**
-         *  Логика - новое слово. в базе его нет
-         *
-         * 1. Проверить существует ли слово в таблице words
-         * 2. Если слова в базе нет - достать перевод, сохранить слово, сохранить перевод, сохранить связть в таблице user_word
-         *
-         * Логика - слово уже есть в базе
-         *
-         *  1. проверить есть ли это слово у пользователя
-         *  2. Если слова нет - добавить запись в таблицу
-         *
-        */
-
-
-        // 1. Try to find word in database
+        if($request->get('state') == 0) {
+            $request->merge([
+                'state' => WordConfig::TO_STUDY,
+            ]);
+        }
 
         $user = User::where('id', auth()->user()->id)->first();
 
+        $wordFromRequest = mb_strtolower($request->get('word'));
+        $wordLangId = $request->get('lang_id');
+        $wordTranslateToLangId = $request->get('translate_to_lang_id');
+        $wordState = $request->get('state');
 
-        // if word doesn't exist add word to database
-        $word = Word::where('word', $request->get('word'))->where('lang_id', $request->get('lang_id'))->first();
-        if($word == null){
-            $word = new Word;
-            $word->word = $request->get('word');
-            $word->lang_id = $request->get('lang_id');
-            $word->save();
+        // Найти слово в базе по слову и языку
 
-            $word->users()->attach( auth()->user()->id, ['state' => $request->get('state')]);
+        $word = Word::where('word', $wordFromRequest)->where('lang_id', $wordLangId)->first();
 
-            // add translation
+        if($word != null) {
 
-        } else {
-            // if word exists. check if user has this word
+            // Если слово существует, проверить есть ли оно у пользователя, который сейчас перевел его
 
             $userWord = $user->words()->where('word_id', $word->id)->first();
 
+            // Если у пользователя нет этого слова. добавить пользователую слово. добавив запись в user_words table
 
-            // if user doesn't have this word. add word for this user
             if($userWord == null) {
-                $user->words()->attach( $word->id, ['state' => $request->get('state')]);
+                $user->words()->attach( $word->id, ['state' => $wordState]);
             }
+
+            // Если перевод слова существует и если язык перевода равен языку на который переводится текст, вернуть перевод слова
+
+            $existingTranslation = $word->googleTranslation()->where('word_id', $word->id)->where('lang_id', $wordTranslateToLangId)->get();
+
+            if($existingTranslation != null)
+            {
+                return $existingTranslation->translation;
+
+            } else {
+
+                // Иначе - достать перевод из гугла и сохранить его в базу
+                $google = new GoogleTranslateForFree();
+
+                $translation = new GoogleTranslation();
+                $translation->word_id = $word->id;
+                $translation->lang_id = $wordTranslateToLangId;
+                $translation->translation = $google->translate(Lang::get($word->lang_id)['code'], Lang::get($wordTranslateToLangId)['code'], $wordFromRequest, 5);
+                $translation->save();
+
+                // затем вернуть перевод
+
+                return $translation->translation;
+
+            }
+
+        } else {
+
+            // Если слова нет в базе - добавить слово в базе
+
+            $word = new Word;
+            $word->word = $wordFromRequest;
+            $word->lang_id = $wordLangId;
+            $word->save();
+
+            // Добавить это слово пользователю
+
+            $word->users()->attach( auth()->user()->id, ['state' => $wordState]);
+
+            // Перевести слово и сохранить перевод
+
+            $google = new GoogleTranslateForFree();
+
+            $translation = new GoogleTranslation();
+            $translation->word_id = $word->id;
+            $translation->lang_id = $wordTranslateToLangId;
+            $translation->translation = $google->translate(Lang::get($word->lang_id)['code'], Lang::get($wordTranslateToLangId)['code'], $wordFromRequest, 5);
+            $translation->save();
+
+            // вернуть перевод
+
+            return $translation->translation;
         }
 
 
@@ -101,5 +145,17 @@ class WordsController extends Controller
         $word = Word::find($request->get('word_id'));
         $word->users()->updateExistingPivot(auth()->user()->id, ['state' => $request->get('state')]);
         $word->save();
+    }
+
+    public function getTranslationFromDatabase(Request $request)
+    {
+        $wordFromRequest = mb_strtolower($request->get('word'));
+        $wordLangId = $request->get('lang_id');
+        $wordTranslateToLangId = $request->get('translate_to_lang_id');
+
+        $word = Word::where('word', $wordFromRequest)->where('lang_id', $wordLangId)->first();
+
+
+        return $word->googleTranslation->translation;
     }
 }

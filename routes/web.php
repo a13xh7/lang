@@ -59,6 +59,8 @@ Route::middleware(['auth'])->group(function ()
     Route::post('/reader/words/add', 'Reader\WordsController@ajaxAddNewWord')->name('reader_add_new_word');
     Route::post('/reader/words/update', 'Reader\WordsController@ajaxUpdateWordState')->name('reader_update_word');
 
+    Route::post('/reader/word/translate/', 'Reader\WordsController@getTranslationFromDatabase')->name('reader_get_translation');
+
 });
 
 /****************************************************************
