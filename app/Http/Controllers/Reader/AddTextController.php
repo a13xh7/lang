@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Mockery\Exception;
 use Spatie\PdfToText\Pdf;
 
 class AddTextController extends Controller
@@ -25,12 +26,13 @@ class AddTextController extends Controller
 
     public function addText(Request $request)
     {
+        $pageLength = 2000;
 
         // 1 - Validate form
 
         $request->validate([
             'text_title' => 'required|max:255',
-            'text_file' => 'max:10240',
+//            'text_file' => 'max:100240',
         ]);
 
 
@@ -53,11 +55,20 @@ class AddTextController extends Controller
                 $text = $request->file('text_file')->get();
                 break;
             case 'fb2':
-                $fb2 = new FB2Parser($request->file('text_file')->getRealPath());
-                $text = $fb2->getText();
+                try {
+                    $fb2 = new FB2Parser($request->file('text_file')->getRealPath());
+                    $text = $fb2->getText();
+                } catch (\Exception $e) {
+                    return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'FB2 file parsing error']);
+                }
                 break;
             case 'pdf':
-                $text = Pdf::getText($request->file('text_file')->getRealPath());
+
+                try {
+                    $text = Pdf::getText($request->file('text_file')->getRealPath());
+                } catch (\Exception $e) {
+                    return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'PDF file parsing error']);
+                }
                 break;
         }
 
@@ -65,7 +76,7 @@ class AddTextController extends Controller
 
         // 2 - split text to pages
 
-        $pages = $textHandler->splitTextToPages(1000);
+        $pages = $textHandler->splitTextToPages($pageLength);
 
         DB::beginTransaction();
 

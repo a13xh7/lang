@@ -4,10 +4,9 @@
 
     <main class="row">
 
-        <div class="col-2 bg-light ">
+        <div class="col-2 bg-light nopadding pl-2">
 
             <div class="position-fixed">
-
 
                 <h4 class="sidebar-heading mt-4 mb-1 text-muted">
                     <span>Text</span>
@@ -44,19 +43,30 @@
                 <hr>
 
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">Highlight to study words</label>
+                    <input type="checkbox" class="custom-control-input" id="h_known" checked>
+                    <label class="custom-control-label" for="h_known">Highlight to study words</label>
                 </div>
 
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">Highlight unknown words</label>
+                    <input type="checkbox" class="custom-control-input" id="h_unknown" checked>
+                    <label class="custom-control-label" for="h_unknown">Highlight unknown words</label>
                 </div>
 
-                translation mode - replace
-
-                <p>select text and press T to translate</p>
+                <h4 class="sidebar-heading mt-4 mb-1 text-muted">
+                    <span>Other</span>
+                </h4>
                 <hr>
+
+                <div style="Word-Wrap: break-word; max-width: 300px;">
+                    Select text and press
+                    <span style="font-size: 20px; border: 1px solid gray; width: 30px; display: inline-block; text-align: center; border-radius: 20%;"><b>T</b></span> to
+                    translate selected text in google translate
+                </div>
+                <hr>
+                <div>
+                    <a class="btn btn-primary noradius w-100 mr-5 mt-3" href="{{route('qa_add_question')}}" target="_blank"><b>ASK QUESTION</b></a>
+                </div>
+
 
 
             </div>
@@ -177,28 +187,44 @@
 
 
         </div>
-        {{-- CONTENT END--}}
 
-
-
-
-
-
-
-
-
-
-
-
-            {{--<div style="white-space: pre-wrap;">--}}
-            {{--<div class="page_text_wrapper">--}}
-                {{--{!! $pageContent !!}--}}
-            {{--</div>--}}
-
-        {{--</div>--}}
 
         <div class="col-2 bg-light">
-            translation and wor settings
+
+            <div class="position-fixed">
+
+                <span style="font-size:30px">word</span> (<span class="badge badge-success h4">Known</span>)
+
+                <hr>
+
+                <div>
+                    <b>Translation:</b>
+                </div>
+
+
+                <hr>
+
+                <div>
+                    <b>Change state:</b> <br>
+                    <button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="184" data-state="1">To study</button>
+                    <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="188" data-state="2">Known</button>
+                </div>
+
+                <hr>
+
+
+                <div class="pr-3 pt-3">
+                    <button type="button" class="btn btn-primary w-100 mb-2">Translate in Google</button>
+
+                    <button type="button" class="btn btn-primary w-100 mb-2">Translate in Yandex</button>
+                </div>
+
+
+
+
+
+            </div>
+
         </div>
 
     </main>

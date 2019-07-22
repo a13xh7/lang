@@ -127,7 +127,7 @@ class TextHandler
 
                         $translation = $myWords->where('word', $wordKey)->first()->googleTranslation->translation;
 
-                        return '<mark><span class="translation">('.$translation.')'.$matches[0] . '</span></mark>'; // если слово знакомое, уже изученное, никак не выделять его
+                        return '<mark><span class="translation" style="display: none;">('.$translation.')</span>'.$matches[0] . '</mark>'; // если слово знакомое, уже изученное, никак не выделять его
                     }
 
                 } else {

@@ -20,6 +20,9 @@ class AddTextController extends Controller
 
     public function addText(Request $request)
     {
+        $pageLength = 2000;
+
+        dd($pageLength);
 
         /**
          * load file
@@ -38,7 +41,7 @@ class AddTextController extends Controller
 
         // 2 - split text to pages
 
-        $pages = $textHandler->splitTextToPages();
+        $pages = $textHandler->splitTextToPages($pageLength);
 
         DB::beginTransaction();
 

@@ -77,6 +77,7 @@ $('div.page_text_wrapper').on('click', 'mark.study, mark.unknown', function() {
                     $('mark[data-word="'+ word.data('word') +'"]').each(function(index,element) {
                         $(element).removeClass();
                         $(element).html( translation + ' ' + word.html());
+                        $(element).css("background-color", "white");
                     });
 
                 }
@@ -99,18 +100,67 @@ $('div.page_text_wrapper').on('click', 'mark.study, mark.unknown', function() {
                 $('mark[data-word="'+ word.data('word') +'"]').each(function(index,element) {
                     $(element).removeClass();
                     $(element).html( translation + ' ' + word.html());
+                    $(element).css("background-color", "white");
                 });
 
             }
         });
     }
 
+});
 
+// Toggle word translation
 
+$('div.page_text_wrapper').on('click', 'mark', function() {
+    word = $(this);
 
+    word.find('span').toggle();
+});
+
+// Highlight to study words
+
+$("#h_known").change(function() {
+
+    selector = "mark[data-state='" + word_to_study + "']";
+
+    if(this.checked == false) {
+
+        $(selector).each(function(index,element) {
+            $(element).css("background-color", "white");
+        });
+
+    } else {
+
+        $(selector).each(function(index,element) {
+            $(element).css("background-color", "#fcf8e3");
+        });
+    }
+});
+
+// Highlight unknown words
+
+$("#h_unknown").change(function() {
+
+    selector = "mark[data-state='" + word_new + "']";
+
+    if(this.checked == false) {
+
+        $(selector).each(function(index,element) {
+            $(element).css("background-color", "white");
+        });
+
+    } else {
+
+        $(selector).each(function(index,element) {
+            $(element).css("background-color", "#aee0f4");
+        });
+    }
 });
 
 
+$("input").keypress(function(){
+    $("span").text(i += 1);
+});
 
 
 // USER TEXTS PAGE ----------------------------------------------------------------------------------------------------
