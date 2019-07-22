@@ -5,13 +5,13 @@ namespace App\Models\Reader;
 use App\Models\Main\Language;
 use App\Models\Main\User;
 use App\Models\Reader\TextSettings;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Text extends Model
 {
     protected $table = 'texts';
 
-    /** @var TextSettings */
     protected $settings = null;
 
     public function getWords()
@@ -19,32 +19,6 @@ class Text extends Model
         return unserialize($this->words);
     }
 
-//    public function getKnownWords()
-//    {
-//        $textWords = $this->getWords();
-//        $textWordsClean = [];
-//
-//        foreach ($textWords as $textWord) {
-//            $textWordsClean[] = $textWord[0];
-//        }
-//
-//
-//        $user = User::where('id', auth()->user()->id)->first();
-//        $allMyWords = $user->words()->where('user_id', auth()->user()->id)->get();
-//
-//        $allMyWordsArray = [];
-//        foreach ($allMyWords as $myWord) {
-//            $allMyWordsArray[] = $myWord->word;
-//        }
-//
-//
-//        //dd(array_intersect($textWordsClean, $allMyWordsArray));
-//
-//
-//
-//       return array_intersect($textWordsClean, $allMyWordsArray);
-//
-//    }
 
     /**
      * @return array - просто массив со словами. обычные индексы в качестве ключей
@@ -59,7 +33,12 @@ class Text extends Model
         }
 
         $user = User::where('id', auth()->user()->id)->first();
-        $allMyWords = $user->words()->where('user_id', auth()->user()->id)->where('lang_id', $this->lang_id)->get();
+
+        $translate_to_lang_id = $user->texts()->find($this->id)->pivot->translate_to_lang_id;
+
+        $allMyWords = $user->words()->where('lang_id', $this->lang_id)->whereHas('googleTranslation', function (Builder $query) use ($translate_to_lang_id) {
+            $query->where('lang_id', '=', $translate_to_lang_id);
+        })->get();
 
         $myKnownWordsInThisText = [];
 
@@ -86,7 +65,12 @@ class Text extends Model
         }
 
         $user = User::where('id', auth()->user()->id)->first();
-        $allMyWords = $user->words()->where('user_id', auth()->user()->id)->where('lang_id', $this->lang_id)->get();
+
+        $translate_to_lang_id = $user->texts()->find($this->id)->pivot->translate_to_lang_id;
+
+        $allMyWords = $user->words()->where('lang_id', $this->lang_id)->whereHas('googleTranslation', function (Builder $query) use ($translate_to_lang_id) {
+            $query->where('lang_id', '=', $translate_to_lang_id);
+        })->get();
 
         $myWordsArray = [];
         foreach ($allMyWords as $myWord) {
@@ -102,23 +86,6 @@ class Text extends Model
         }
 
         return $myUnknownWordsInThisText;
-
-//        $textWords = $this->getWords();
-//        $textWordsClean = [];
-//
-//        foreach ($textWords as $textWord) {
-//            $textWordsClean[] = $textWord[0];
-//        }
-//
-//        $user = User::where('id', auth()->user()->id)->first();
-//        $allMyWords = $user->words()->where('user_id', auth()->user()->id)->get();
-//
-//        $allMyWordsArray = [];
-//        foreach ($allMyWords as $myWord) {
-//            $allMyWordsArray[] = $myWord->word;
-//        }
-//
-//        return array_diff($textWordsClean, $allMyWordsArray);
     }
 
     public function users()
@@ -131,12 +98,5 @@ class Text extends Model
         return $this->hasMany('App\Models\Reader\TextPage', 'text_id', 'id');
     }
 
-    public function settings():?TextSettings
-    {
-        if($this->settings == null) {
-            $this->settings = TextSettings::where('id', $this->id)->where('user_id', auth()->user()->id)->first();
-        }
 
-        return $this->settings;
-    }
 }

@@ -6,26 +6,62 @@
 
         <div class="col-2 bg-light ">
 
-            <p>ask question</p>
+            <div class="position-fixed">
 
-            <hr>
 
-            translation mode - replace
+                <h4 class="sidebar-heading mt-4 mb-1 text-muted">
+                    <span>Text</span>
+                </h4>
+                <hr>
 
-            <hr>
+                <div>
+                    <p>
+                        Text language:
+                        <img src="{{asset('img/flags/'. \App\Config\Lang::get($text_lang_id)['code'] .'.svg')}}" class="text_flag" alt="">
+                        <i class="text-muted">({{\App\Config\Lang::get($text_lang_id)['title']}})</i>
+                    </p>
+                    <p>
+                      Translate to:
+                      <img src="{{asset('img/flags/'. \App\Config\Lang::get($translate_to_lang_id)['code']  .'.svg')}}" class="text_flag" alt="">
+                      <i class="text-muted">({{\App\Config\Lang::get($translate_to_lang_id)['title']}})</i>
+                    </p>
+                </div>
 
-            <p>color - to study words</p>
-            <p>color - unknown words</p>
-            <p>no color - known words</p>
 
-            <hr>
 
-            <p>checkbox - highlight to study words</p>
-            <p>checkbox - highlight unknown words</p>
+                <h4 class="sidebar-heading mt-4 mb-1 text-muted">
+                    <span>Words</span>
+                </h4>
+                <hr>
 
-            <hr>
+                <p><mark class="study">word</mark> - to study words</p>
+                <p><mark class="unknown">word</mark> - unknown words</p>
+                <p><mark>word</mark> - known words</p>
 
-            <p>select text and press T to translate</p>
+                <h4 class="sidebar-heading mt-4 mb-1 text-muted">
+                    <span>Options</span>
+                </h4>
+                <hr>
+
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                    <label class="custom-control-label" for="customCheck1">Highlight to study words</label>
+                </div>
+
+                <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customCheck1">
+                    <label class="custom-control-label" for="customCheck1">Highlight unknown words</label>
+                </div>
+
+                translation mode - replace
+
+                <p>select text and press T to translate</p>
+                <hr>
+
+
+            </div>
+
+
         </div>
 
         {{-- CONTENT START--}}
@@ -135,6 +171,11 @@
 
             </div>
 
+            <div class="mt-3">
+                {{$pages->links()}}
+            </div>
+
+
         </div>
         {{-- CONTENT END--}}
 
@@ -167,7 +208,7 @@
 
 
 
-    {{$pages->links()}}
+
 
 
 

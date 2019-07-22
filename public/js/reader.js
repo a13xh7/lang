@@ -72,9 +72,8 @@ $('div.page_text_wrapper').on('click', 'mark.study, mark.unknown', function() {
 
                     translation = '<b class="text-success small">('+ data +')</b>';
 
-                    word.html( translation + ' ' + word.html());
-
-                    word.removeClass();
+                    $('mark[data-word="'+ $(this).data('word') +'"]').removeClass();
+                    $('mark[data-word="'+ $(this).html( translation + ' ' + word.html()));
                 }
             });
 
@@ -92,25 +91,14 @@ $('div.page_text_wrapper').on('click', 'mark.study, mark.unknown', function() {
 
                 translation = '<b class="text-success">('+ data +')</b>';
 
-                word.html( translation + ' ' + word.html());
-
-                word.removeClass();
+                $('mark[data-word="'+ $(this).data('word') +'"]').removeClass();
+                $('mark[data-word="'+ $(this).html( translation + ' ' + word.html()));
             }
         });
     }
 
 
-    // $.ajax({
-    //
-    //     url: "/reader/words/add",
-    //     method: "POST",
-    //     data: {"word": $(this).data('word'), "lang_id": $(this).data('lang_id'), "state": $(this).data('state') },
-    //
-    //     success: function (data) {
-    //
-    //
-    //     }
-    // });
+
 
 });
 
@@ -142,7 +130,7 @@ $('a[data-target="#text_edit_modal"]').on('click',function(){
 
 // MY WORDS PAGE -  -----------------------------------------------------------------------------------------------
 
-
+// word language filter
 $('#w_lang').on('change', function(){
 
     document.cookie = "w_lang=" + $(this).val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC"
@@ -151,6 +139,14 @@ $('#w_lang').on('change', function(){
     location.href = url;
 });
 
+// word translation language filter
+$('#wt_lang').on('change', function(){
+
+    document.cookie = "wt_lang=" + $(this).val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC"
+
+    url = window.location.href.split('?')[0];
+    location.href = url;
+});
 
 
 

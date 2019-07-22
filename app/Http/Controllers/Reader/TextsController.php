@@ -28,10 +28,6 @@ class TextsController extends Controller
 
         $myWords = $user->words()->where('user_id', auth()->user()->id)->get();
 
-
-
-
-
         return view('reader.reader_texts')->with('texts', $texts);
     }
 
