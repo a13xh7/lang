@@ -88,7 +88,7 @@ class TextHandler
         return $pages;
     }
 
-    public function handleTextPage(array $userWords, $wordsLangId, $translateToLangId):string
+    public function handleTextPage(array $userWords, $wordsLangId, $translateToLangId, $myWords):string
     {
         $userOnlyWords = array_keys($userWords);
 
@@ -113,9 +113,8 @@ class TextHandler
 
         $result = preg_replace_callback($wordRegex,
 
-            function ($matches) use ($userOnlyWords, $userWords, $wordsLangId, $translateToLangId)
+            function ($matches) use ($userOnlyWords, $userWords, $wordsLangId, $translateToLangId, $myWords)
             {
-
                 $wordKey = mb_strtolower($matches[0]);
 
                 if(in_array($wordKey, $userOnlyWords)) {
@@ -125,7 +124,10 @@ class TextHandler
                         $state = WordConfig::TO_STUDY;
                         return "<mark class='study' data-word='{$matches[0]}' data-state='{$state}' data-lang_id='{$wordsLangId}'  data-translate_to_lang_id='{$translateToLangId}'>{$matches[0]}</mark>"; // если слово изучаемое, выделить его оранжевым
                     } else {
-                        return $matches[0]; // если слово знакомое, уже изученное, никак не выделять его
+
+                        $translation = $myWords->where('word', $wordKey)->first()->googleTranslation->translation;
+
+                        return '<mark><span class="translation">('.$translation.')'.$matches[0] . '</span></mark>'; // если слово знакомое, уже изученное, никак не выделять его
                     }
 
                 } else {
@@ -133,8 +135,6 @@ class TextHandler
                     $state = WordConfig::NEW;
                     return "<mark class='unknown' data-word='{$matches[0]}' data-state='{$state}' data-lang_id='{$wordsLangId}'  data-translate_to_lang_id='{$translateToLangId}'>{$matches[0]}</mark>"; // если слово незнакомое, выделить его
                 }
-
-
             },
 
             $this->text);
@@ -156,14 +156,8 @@ class TextHandler
             return $pageLength;
         }
 
-
         $pageEndOffset = strpos($text, '.', $realLength);
 
-
-
-
-
-        //return $realLength + $pageEndOffset + 1; //  +1 means + dot
         return $pageEndOffset + 1; //  +1 means + dot
     }
 

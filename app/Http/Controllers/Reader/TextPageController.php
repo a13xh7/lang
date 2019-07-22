@@ -31,7 +31,7 @@ class TextPageController extends Controller
         // Выбирать только слова язык которых совпадает я языком текста
         // и перевод которых совпадает с языком на который переводится текст
 
-        $myWords = $user->words()->where('lang_id', $text_lang_id)->whereHas('googleTranslation', function (Builder $query) use ($translate_to_lang_id) {
+        $myWords = $user->words()->with('googleTranslation')->where('lang_id', $text_lang_id)->whereHas('googleTranslation', function (Builder $query) use ($translate_to_lang_id) {
             $query->where('lang_id', '=', $translate_to_lang_id);
         })->get();
 
@@ -45,7 +45,7 @@ class TextPageController extends Controller
 
         $userWords = $this->getUserWordsArray($myWords);
 
-        $pageContent = $textHandler->handleTextPage($userWords, $text_lang_id, $translate_to_lang_id);
+        $pageContent = $textHandler->handleTextPage($userWords, $text_lang_id, $translate_to_lang_id, $myWords);
 
         // Get user known words
         // Создать обычный массив со словами. без ключей, только слова

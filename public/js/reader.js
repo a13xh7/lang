@@ -54,7 +54,6 @@ $('#text_file').on('change',function(){
 *
 */
 $('div.page_text_wrapper').on('click', 'mark.study, mark.unknown', function() {
-    // alert($(this).html());
 
     word = $(this);
 
@@ -70,10 +69,16 @@ $('div.page_text_wrapper').on('click', 'mark.study, mark.unknown', function() {
 
                 success: function (data) {
 
-                    translation = '<b class="text-success small">('+ data +')</b>';
+                    translation = '<span class="translation">('+ data +')</span>';
 
-                    $('mark[data-word="'+ $(this).data('word') +'"]').removeClass();
-                    $('mark[data-word="'+ $(this).html( translation + ' ' + word.html()));
+                    // word.html( translation + ' ' + word.html());
+                    // alert( 'mark[data-word="'+ word.data('word') +'"]');
+
+                    $('mark[data-word="'+ word.data('word') +'"]').each(function(index,element) {
+                        $(element).removeClass();
+                        $(element).html( translation + ' ' + word.html());
+                    });
+
                 }
             });
 
@@ -89,10 +94,13 @@ $('div.page_text_wrapper').on('click', 'mark.study, mark.unknown', function() {
 
             success: function (data) {
 
-                translation = '<b class="text-success">('+ data +')</b>';
+                translation = '<span class="translation">('+ data +')</span>';
 
-                $('mark[data-word="'+ $(this).data('word') +'"]').removeClass();
-                $('mark[data-word="'+ $(this).html( translation + ' ' + word.html()));
+                $('mark[data-word="'+ word.data('word') +'"]').each(function(index,element) {
+                    $(element).removeClass();
+                    $(element).html( translation + ' ' + word.html());
+                });
+
             }
         });
     }
