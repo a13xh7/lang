@@ -197,7 +197,11 @@ class WordsController extends Controller
 
     public function ajaxUpdateWordStateFromPageReader(Request $request)
     {
-        $word = Word::where('word', $request->get('word'));
+        $word = Word::where('word', $request->get('word'))->where('lang_id', $request->get('lang_id'))
+            ->whereHas('googleTranslation', function (Builder $query) use ($request) {
+                $query->where('lang_id', '=', $request->get('translate_to_lang_id'));
+            })->first();
+
         $word->users()->updateExistingPivot(auth()->user()->id, ['state' => $request->get('state')]);
         $word->save();
     }

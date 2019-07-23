@@ -207,17 +207,23 @@
 
                 <textarea id="rs_word_translation" cols="30" rows="3">word translation</textarea>
 
-                <hr>
 
-                <div>
+
+                <div id="rs_mark_known_wrapper">
+                    <hr>
                     <b>Mark this word as known:</b> <br>
-                    <button type="button" class="btn btn-success btn-sm words_btn" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                    <button type="button" id="rs_mark_as_known_btn" class="btn btn-success btn-sm"
+                            data-lang_id="{{$text_lang_id}}"
+                            data-translate_to_lang_id = "{{$translate_to_lang_id}}"
+                            data-word=""
+                            data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                 </div>
 
+
                 <hr>
 
-
                 <div class="pr-3 pt-3">
+
                     <a href="#" class="btn btn-primary w-100 mb-2" id="gt_btn">Translate in Google</a>
 
                     <a href="#" class="btn btn-primary w-100 mb-2" id="yt_btn">Translate in Yandex</a>

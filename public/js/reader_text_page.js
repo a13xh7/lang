@@ -57,26 +57,6 @@ $( document ).ready(function() {
 
         }
 
-        // Поменять state слова на word_to_study
-
-        // $(word).attr('data-state', word_to_study);
-        //
-        // // ПРАВЫЙ САЙДБАР
-        //
-        // // заменить слово
-        //
-        // $('#rs_word').html(word.html());
-        //
-        // //указать ссылку в кнопке "Translate in google"
-        //
-        // googleUrl = 'https://translate.google.com/#view=home&op=translate&sl='+ text_lang_code +'&tl='+ text_translate_to_lang_code +'&text=' + word.html();
-        //
-        // $('#gt_btn').attr('href', googleUrl);
-        //
-        // yandexUrl = 'https://translate.yandex.com/?lang=' + text_lang_code + '-' + text_translate_to_lang_code +'&text=' + word.html();
-        //
-        // $('#yt_btn').attr('href', yandexUrl);
-
     });
 
     // Right sidebar - open window on translate buttons click
@@ -126,6 +106,18 @@ $( document ).ready(function() {
             $('#rs_word_state').replaceWith(' <span class="badge badge-success h4" id="rs_word_state" style="vertical-align: middle">Known</span>')
         }
 
+        // Скрыть или показать блок  кнопкой "mark as known"
+        // если кнопка показывается, установить ей дата атрибуты
+        if(word.data('state') == word_known) {
+            $('#rs_mark_known_wrapper').hide();
+        } else {
+            $('#rs_mark_known_wrapper').show();
+
+            $('#rs_mark_as_known_btn').attr('data-word', wordText);
+            $('#rs_mark_as_known_btn').prop('disabled', false);
+
+        }
+
         //указать ссылку в кнопке "Translate in google"
 
         googleUrl = 'https://translate.google.com/#view=home&op=translate&sl='+ text_lang_code +'&tl='+ text_translate_to_lang_code +'&text=' + wordText;
@@ -134,6 +126,41 @@ $( document ).ready(function() {
         yandexUrl = 'https://translate.yandex.com/?lang=' + text_lang_code + '-' + text_translate_to_lang_code +'&text=' + wordText;
         $('#yt_btn').attr('href', yandexUrl);
     });
+
+    // Клик на кнопку #rs_mark_as_known_btn
+    // 1 - обновить статус слова в базе
+    // 2 - найти в тексте копии этго слова и установить им новый статус
+
+    $('#rs').on('click', '#rs_mark_as_known_btn', function() {
+
+        $(this).prop('disabled', true);
+
+
+        $.ajax({
+            url: "/reader/words/update2",
+            method: "POST",
+            data: {
+                "word": $(this).data('word'),
+                "lang_id": $(this).data('lang_id'),
+                "translate_to_lang_id": $(this).data('translate_to_lang_id'),
+                "state": $(this).data('state')
+            },
+
+            success: function (data) {
+
+                $('mark[data-word="'+ $(this).data('word') +'"]').each(function(index,element) {
+                    $(element).attr('data-state', word_known);
+                    $(element).removeClass();
+                });
+
+            }
+
+        });
+
+
+
+    });
+
 
 // Highlight to study words
 

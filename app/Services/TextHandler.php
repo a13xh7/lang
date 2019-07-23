@@ -135,10 +135,10 @@ class TextHandler
                     } else {
 
                         $translation = $myWords->where('word', $wordKey)->first()->googleTranslation->translation;
-
+                        $state = WordConfig::KNOWN;
                         // если слово знакомое, уже изученное, никак не выделять его
 
-                        return '<mark><span class="translation" style="display: none;">('.$translation.')</span>'.$matches[0] . '</mark>';
+                        return '<mark  data-state='.$state.' ><span class="translation" style="display: none;">('.$translation.')</span>'.$matches[0] . '</mark>';
 
                     }
 
