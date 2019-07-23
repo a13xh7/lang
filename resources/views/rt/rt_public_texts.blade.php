@@ -17,7 +17,7 @@
             <div>
                 Text language: <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->lang_id)['code'] .'.svg')}}" class="text_flag" alt=""> <i class="text-muted">({{\App\Config\Lang::get($text->lang_id)['title']}})</i>
                 <span class="q_lang_arrow">⟶</span>
-                {{--Translate to: <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->pivot->translate_to_lang_id)['code']  .'.svg')}}" class="text_flag" alt=""> <i class="text-muted">({{\App\Config\Lang::get($text->pivot->translate_to_lang_id)['title']}})</i>--}}
+                Translate to: <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->translate_to_lang_id)['code']  .'.svg')}}" class="text_flag" alt=""> <i class="text-muted">({{\App\Config\Lang::get($text->translate_to_lang_id)['title']}})</i>
             </div>
 
             <div class="text_stats">
@@ -26,10 +26,14 @@
                 Unique words: <span class="badge badge-dark">{{ $text->unique_words}}</span> <b>|</b>
                 Known words: <span class="badge badge-dark">{{ count($text->getKnownWords()) }}</span> <b>|</b>
                 Unknown Words: <span class="badge badge-dark">{{ count($text->getUnknownWords()) }}</span>
+                <br>
+
+                <b>Users:</b> <span class="badge badge-warning">111</span> <b>|</b>
+                <b>Questions:</b> <span class="badge badge-warning">111</span>
             </div>
 
 
-            <div class="text_controls">
+            <div class="text_controls" align="right">
 
                 <a class="btn btn-primary text-light noradius" href="#">
                     <i class="icofont-read-book"></i> READ

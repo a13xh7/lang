@@ -37,12 +37,8 @@ class TextsController extends Controller
 
         $text->title = $request->get('text_title');
         $text->lang_id = $request->get('lang_from');
+        $text->translate_to_lang_id = $request->get('lang_to');
         $text->save();
-
-        DB::table('user_text')
-            ->where('user_id', auth()->user()->id)
-            ->where('text_id', $text->id)
-            ->update(['translate_to_lang_id' => $request->get('lang_to')]);
 
         return redirect()->route('reader_texts');
     }

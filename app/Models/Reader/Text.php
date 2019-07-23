@@ -34,7 +34,7 @@ class Text extends Model
 
         $user = User::where('id', auth()->user()->id)->first();
 
-        $translate_to_lang_id = $user->texts()->find($this->id)->pivot->translate_to_lang_id;
+        $translate_to_lang_id = $user->texts()->find($this->id)->translate_to_lang_id;
 
         $allMyWords = $user->words()->where('lang_id', $this->lang_id)->whereHas('googleTranslation', function (Builder $query) use ($translate_to_lang_id) {
             $query->where('lang_id', '=', $translate_to_lang_id);
@@ -66,7 +66,7 @@ class Text extends Model
 
         $user = User::where('id', auth()->user()->id)->first();
 
-        $translate_to_lang_id = $user->texts()->find($this->id)->pivot->translate_to_lang_id;
+        $translate_to_lang_id = $user->texts()->find($this->id)->translate_to_lang_id;
 
         $allMyWords = $user->words()->where('lang_id', $this->lang_id)->whereHas('googleTranslation', function (Builder $query) use ($translate_to_lang_id) {
             $query->where('lang_id', '=', $translate_to_lang_id);
@@ -90,7 +90,7 @@ class Text extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class, 'user_text',  'text_id', 'user_id')->withPivot('translate_to_lang_id', 'current_page');;
+        return $this->belongsToMany(User::class, 'user_text',  'text_id', 'user_id')->withPivot( 'current_page');;
     }
 
     public function pages()

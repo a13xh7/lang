@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Reader;
 use App\Http\Controllers\Controller;
 use App\Models\Reader\Text;
 use App\Models\Reader\TextPage;
-use App\Services\EpubParser;
 use App\Services\FB2Parser;
 use App\Services\TextHandler;
 use Illuminate\Http\Request;
@@ -94,6 +93,7 @@ class AddTextController extends Controller
 
         $text = new Text();
         $text->lang_id = $request->get('lang_from');
+        $text->translate_to_lang_id = $request->get('lang_to');
         $text->public = (bool)$request->get('text_pubic');
         $text->title = $request->get('text_title');
         $text->total_pages = count($pages);
@@ -105,12 +105,8 @@ class AddTextController extends Controller
         $text->save();
 
 
-
-        // Add row to user_text table
-        $text->users()->attach(auth()->user()->id, ['translate_to_lang_id' => $request->get('lang_to')]);
-
-        // 4 - Save text settings to database
-
+         // Add row to user_text table
+        $text->users()->attach(auth()->user()->id);
 
 
         // 5 - save pages to database

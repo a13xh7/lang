@@ -23,7 +23,7 @@
             <div>
                 Text language: <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->lang_id)['code'] .'.svg')}}" class="text_flag" alt=""> <i class="text-muted">({{\App\Config\Lang::get($text->lang_id)['title']}})</i>
                 <span class="q_lang_arrow">⟶</span>
-                Translate to: <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->pivot->translate_to_lang_id)['code']  .'.svg')}}" class="text_flag" alt=""> <i class="text-muted">({{\App\Config\Lang::get($text->pivot->translate_to_lang_id)['title']}})</i>
+                Translate to: <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->translate_to_lang_id)['code']  .'.svg')}}" class="text_flag" alt=""> <i class="text-muted">({{\App\Config\Lang::get($text->translate_to_lang_id)['title']}})</i>
             </div>
 
             <div class="text_stats">
@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="text_controls">
+            <div class="text_controls" align="right">
 
                 <a class="btn btn-primary text-light noradius" href="{{route('reader_read_text_page', $text->id)}}?page=@if($text->pivot->current_page <= 0){{$text->pivot->current_page + 1}}@else{{$text->pivot->current_page}}@endif">
                     <i class="icofont-read-book"></i> Read
@@ -66,7 +66,7 @@
                    data-text_id="{{$text->id}}"
                    data-text_title="{{$text->title}}"
                    data-text_lang="{{$text->lang_id}}"
-                   data-translate_to_lang_id="{{$text->pivot->translate_to_lang_id}}">
+                   data-translate_to_lang_id="{{$text->translate_to_lang_id}}">
 
                     <i class="icofont-ui-edit"></i> Edit
                 </a>

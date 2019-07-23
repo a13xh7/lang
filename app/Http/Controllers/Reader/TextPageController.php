@@ -25,7 +25,7 @@ class TextPageController extends Controller
         // Set languages
 
         $text_lang_id = $page->text->lang_id;
-        $translate_to_lang_id = $user->texts()->find($textId)->pivot->translate_to_lang_id;
+        $translate_to_lang_id = $user->texts()->find($textId)->translate_to_lang_id;
 
         // Get all user words.
         // Выбирать только слова язык которых совпадает я языком текста

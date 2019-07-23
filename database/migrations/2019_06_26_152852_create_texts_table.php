@@ -18,6 +18,7 @@ class CreateTextsTable extends Migration
             $table->bigIncrements('id');
             $table->boolean('public')->default(false);
             $table->integer('lang_id');
+            $table->integer('translate_to_lang_id');
             $table->string('title');
             $table->integer('total_symbols');
             $table->integer('total_pages')->default(1);
