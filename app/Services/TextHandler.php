@@ -121,19 +121,35 @@ class TextHandler
 
                     // если слово есть в массиве знакомых слов, проверить статус (знакомое или изучаемое)
                     if($userWords[$wordKey] == WordConfig::TO_STUDY ) {
+
                         $state = WordConfig::TO_STUDY;
-                        return "<mark class='study' data-word='{$matches[0]}' data-state='{$state}' data-lang_id='{$wordsLangId}'  data-translate_to_lang_id='{$translateToLangId}'>{$matches[0]}</mark>"; // если слово изучаемое, выделить его оранжевым
+                        $translation = $myWords->where('word', $wordKey)->first()->googleTranslation->translation;
+
+                        // если слово изучаемое, выделить его оранжевым
+
+                        return "<mark class='study' 
+                                data-word='{$matches[0]}' 
+                                data-state='{$state}' 
+                                data-lang_id='{$wordsLangId}'
+                                data-translate_to_lang_id='{$translateToLangId}'><span class='translation' style='display: none;'>(".$translation.")</span>{$matches[0]}</mark>";
                     } else {
 
                         $translation = $myWords->where('word', $wordKey)->first()->googleTranslation->translation;
 
-                        return '<mark><span class="translation" style="display: none;">('.$translation.')</span>'.$matches[0] . '</mark>'; // если слово знакомое, уже изученное, никак не выделять его
+                        // если слово знакомое, уже изученное, никак не выделять его
+
+                        return '<mark><span class="translation" style="display: none;">('.$translation.')</span>'.$matches[0] . '</mark>';
+
                     }
 
                 } else {
 
                     $state = WordConfig::NEW;
-                    return "<mark class='unknown' data-word='{$matches[0]}' data-state='{$state}' data-lang_id='{$wordsLangId}'  data-translate_to_lang_id='{$translateToLangId}'>{$matches[0]}</mark>"; // если слово незнакомое, выделить его
+                    return "<mark class='unknown'
+                             data-word='{$matches[0]}' 
+                             data-state='{$state}' 
+                             data-lang_id='{$wordsLangId}' 
+                             data-translate_to_lang_id='{$translateToLangId}'>{$matches[0]}</mark>"; // если слово незнакомое, выделить его
                 }
             },
 

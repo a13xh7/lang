@@ -195,6 +195,14 @@ class WordsController extends Controller
         $word->save();
     }
 
+    public function ajaxUpdateWordStateFromPageReader(Request $request)
+    {
+        $word = Word::where('word', $request->get('word'));
+        $word->users()->updateExistingPivot(auth()->user()->id, ['state' => $request->get('state')]);
+        $word->save();
+    }
+
+
     public function getTranslationFromDatabase(Request $request)
     {
         $wordFromRequest = mb_strtolower($request->get('word'));

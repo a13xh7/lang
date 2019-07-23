@@ -29,7 +29,7 @@
 
 
                 <h4 class="sidebar-heading mt-4 mb-1 text-muted">
-                    <span>Words</span>
+                    <span>Words</span> <span style="font-size: 16px">(Click to translate)</span>
                 </h4>
                 <hr>
 
@@ -189,11 +189,15 @@
         </div>
 
 
-        <div class="col-2 bg-light">
+        <div class="col-2 bg-light" id="rs">
 
             <div class="position-fixed">
 
-                <span style="font-size:30px">word</span> (<span class="badge badge-success h4">Known</span>)
+                <div>
+                    <span style="font-size:30px" id="rs_word">Word</span>
+                    <span class="badge badge-warning h4" id="rs_word_state" style="vertical-align: middle">To study</span>
+                </div>
+
 
                 <hr>
 
@@ -201,22 +205,22 @@
                     <b>Translation:</b>
                 </div>
 
+                <textarea id="rs_word_translation" cols="30" rows="3">word translation</textarea>
 
                 <hr>
 
                 <div>
-                    <b>Change state:</b> <br>
-                    <button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="184" data-state="1">To study</button>
-                    <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="188" data-state="2">Known</button>
+                    <b>Mark this word as known:</b> <br>
+                    <button type="button" class="btn btn-success btn-sm words_btn" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                 </div>
 
                 <hr>
 
 
                 <div class="pr-3 pt-3">
-                    <button type="button" class="btn btn-primary w-100 mb-2">Translate in Google</button>
+                    <a href="#" class="btn btn-primary w-100 mb-2" id="gt_btn">Translate in Google</a>
 
-                    <button type="button" class="btn btn-primary w-100 mb-2">Translate in Yandex</button>
+                    <a href="#" class="btn btn-primary w-100 mb-2" id="yt_btn">Translate in Yandex</a>
                 </div>
 
 
@@ -231,6 +235,13 @@
 
 
 
+    <script type="text/javascript">
+
+        var text_lang_code = "<?php echo \App\Config\Lang::get($text_lang_id)['code'] ?>";
+
+        var text_translate_to_lang_code = "<?php echo \App\Config\Lang::get($translate_to_lang_id)['code'] ?>";
+
+    </script>
 
 
 
