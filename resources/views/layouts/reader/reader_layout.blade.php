@@ -8,7 +8,7 @@
 
             <div class="row">
 
-                @include('layouts.reader.reader_left_sidebar')
+                @yield('reader_sidebar')
 
                 <div class="col reader_main_content">
 

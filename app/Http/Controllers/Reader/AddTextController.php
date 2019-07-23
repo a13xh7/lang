@@ -32,45 +32,56 @@ class AddTextController extends Controller
 
         $request->validate([
             'text_title' => 'required|max:255',
-//            'text_file' => 'max:100240',
         ]);
 
+        // Если загружен файл - достать текст из файла
 
-        // 2 - Validate file extension
+        if ($request->file('text_file') != null) {
+            // 2 - Validate file extension
 
-        $exploded = explode('.', $request->file('text_file')->getClientOriginalName());
-        $fileExtension = $exploded[count($exploded)-1];
+            $exploded = explode('.', $request->file('text_file')->getClientOriginalName());
+            $fileExtension = $exploded[count($exploded)-1];
 
-        $allowedExtensions = ['txt', 'fb2', 'pdf'];
-        if(in_array($fileExtension, $allowedExtensions) == false)
-        {
-            return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'File extension is not supported']);
+            $allowedExtensions = ['txt', 'fb2', 'pdf'];
+            if(in_array($fileExtension, $allowedExtensions) == false)
+            {
+                return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'File extension is not supported']);
+            }
+
+            // 3 - extract text from file
+
+            switch ($fileExtension) {
+                case 'txt':
+                    $text = $request->file('text_file')->get();
+                    break;
+                case 'fb2':
+                    try {
+                        $fb2 = new FB2Parser($request->file('text_file')->getRealPath());
+                        $text = $fb2->getText();
+                    } catch (\Exception $e) {
+                        return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'FB2 file parsing error']);
+                    }
+                    break;
+                case 'pdf':
+
+                    try {
+                        $text = Pdf::getText($request->file('text_file')->getRealPath());
+                    } catch (\Exception $e) {
+                        return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'PDF file parsing error']);
+                    }
+                    break;
+            }
+        } else {
+            // если файла нет, достать текст из текстового поля
+
+            $request->validate([
+                'text' => 'required',
+            ]);
+
+            $text = $request->get('text');
         }
 
 
-        // 3 - extract text from file
-
-        switch ($fileExtension) {
-            case 'txt':
-                $text = $request->file('text_file')->get();
-                break;
-            case 'fb2':
-                try {
-                    $fb2 = new FB2Parser($request->file('text_file')->getRealPath());
-                    $text = $fb2->getText();
-                } catch (\Exception $e) {
-                    return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'FB2 file parsing error']);
-                }
-                break;
-            case 'pdf':
-
-                try {
-                    $text = Pdf::getText($request->file('text_file')->getRealPath());
-                } catch (\Exception $e) {
-                    return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'PDF file parsing error']);
-                }
-                break;
-        }
 
         $textHandler = new TextHandler($text);
 

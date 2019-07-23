@@ -134,7 +134,7 @@ $( document ).ready(function() {
     $('#rs').on('click', '#rs_mark_as_known_btn', function() {
 
         $(this).prop('disabled', true);
-
+        wordText = word.clone().children().remove().end().text();
 
         $.ajax({
             url: "/reader/words/update2",
@@ -148,7 +148,7 @@ $( document ).ready(function() {
 
             success: function (data) {
 
-                $('mark[data-word="'+ $(this).data('word') +'"]').each(function(index,element) {
+                $('mark[data-word="'+ wordText +'"]').each(function(index,element) {
                     $(element).attr('data-state', word_known);
                     $(element).removeClass();
                 });

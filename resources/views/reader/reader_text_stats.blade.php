@@ -1,5 +1,11 @@
 @extends('layouts.reader.reader_layout')
 
+@section('reader_sidebar')
+
+    @include('layouts.reader.reader_left_sidebar')
+
+@endsection
+
 @section('reader_content')
 
 

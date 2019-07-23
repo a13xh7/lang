@@ -2,11 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1ca118c3-b82e-4caf-aacb-afc0027ed609" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reader/WordsController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reader/WordsController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/Services/TextHandler.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Services/TextHandler.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Http/Controllers/Reader/AddTextController.php" beforeDir="false" afterPath="$PROJECT_DIR$/app/Http/Controllers/Reader/AddTextController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/public/js/reader_text_page.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/js/reader_text_page.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/views/reader/reader_text_page.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reader/reader_text_page.blade.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/web.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/web.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/layouts/reader/reader_layout.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/layouts/reader/reader_layout.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reader/reader_add_text.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reader/reader_add_text.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reader/reader_dashboard.blade.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reader/reader_text_stats.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reader/reader_text_stats.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reader/reader_texts.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reader/reader_texts.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/reader/reader_words.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/reader/reader_words.blade.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/resources/views/rt/rt_add_text.blade.php" beforeDir="false" afterPath="$PROJECT_DIR$/resources/views/rt/rt_add_text.blade.php" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,51 +44,26 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/routes/web.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="438">
+            <state relative-caret-position="855">
               <caret line="59" column="112" selection-start-line="59" selection-start-column="112" selection-end-line="59" selection-end-column="112" />
             </state>
           </provider>
         </entry>
       </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_add_text.blade.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="618">
+              <caret line="161" column="90" selection-start-line="161" selection-start-column="90" selection-end-line="161" selection-end-column="90" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/public/js/reader_text_page.js">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Reader/AddTextController.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="645">
-              <caret line="161" column="7" lean-forward="true" selection-start-line="161" selection-start-column="7" selection-end-line="161" selection-end-column="7" />
-              <folding>
-                <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Reader/WordsController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-12">
-              <caret line="170" column="21" selection-start-line="170" selection-start-column="21" selection-end-line="170" selection-end-column="21" />
-              <folding>
-                <element signature="e#127#147#0#PHP" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Reader/TextPageController.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="70" column="64" selection-start-line="70" selection-start-column="43" selection-end-line="70" selection-end-column="64" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_text_page.blade.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="183">
-              <caret line="216" column="80" selection-start-line="216" selection-start-column="80" selection-end-line="216" selection-end-column="80" />
+            <state relative-caret-position="-240">
+              <caret line="36" column="37" selection-start-line="36" selection-start-column="37" selection-end-line="36" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -123,9 +103,7 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/database/seeds/DatabaseSeeder.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/QA/QuestionsController.php" />
-        <option value="$PROJECT_DIR$/resources/views/rt/rt_add_text.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/RT/PublicTextsController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/RT/MyTextsController.php" />
         <option value="$PROJECT_DIR$/resources/views/rt/rt_my_texts.blade.php" />
@@ -143,30 +121,25 @@
         <option value="$PROJECT_DIR$/app/Services/SimpleFB2/SimpleFB2.php" />
         <option value="$PROJECT_DIR$/app/Services/SimpleFB2.php" />
         <option value="$PROJECT_DIR$/app/Services/EpubParser.php" />
-        <option value="$PROJECT_DIR$/resources/views/reader/reader_add_text.blade.php" />
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/resources/views/layouts/reader/reader_left_sidebar.blade.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_06_27_090106_create_text_pages_table.php" />
         <option value="$PROJECT_DIR$/app/Config/WordConfig.php" />
-        <option value="$PROJECT_DIR$/resources/views/reader/reader_text_stats.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Reader/TextStatsController.php" />
         <option value="$PROJECT_DIR$/resources/views/main/main_login.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" />
         <option value="$PROJECT_DIR$/resources/views/auth/register.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/main/main_register.blade.php" />
-        <option value="$PROJECT_DIR$/resources/views/reader/reader_texts.blade.php" />
         <option value="$PROJECT_DIR$/.env" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Reader/TextsController.php" />
         <option value="$PROJECT_DIR$/app/Models/Reader/Text.php" />
         <option value="$PROJECT_DIR$/DOCUMENTATION.md" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/EncryptCookies.php" />
-        <option value="$PROJECT_DIR$/resources/views/reader/reader_words.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Reader/TextPageController.php" />
         <option value="$PROJECT_DIR$/public/css/style.css" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/RT/AddTextController.php" />
         <option value="$PROJECT_DIR$/public/index.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Reader/AddTextController.php" />
         <option value="$PROJECT_DIR$/public/js/reader.js" />
         <option value="$PROJECT_DIR$/resources/views/layouts/main/main_layout.blade.php" />
         <option value="$PROJECT_DIR$/app/Services/TextHandler.php" />
@@ -174,8 +147,18 @@
         <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Reader/WordsController.php" />
         <option value="$PROJECT_DIR$/public/js/reader_text_page.js" />
+        <option value="$PROJECT_DIR$/resources/views/layouts/reader/reader_layout.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/reader/reader_texts.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/reader/reader_text_stats.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/reader/reader_words.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/rt/rt_add_text.blade.php" />
+        <option value="$PROJECT_DIR$/resources/views/reader/reader_add_text.blade.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Reader/AddTextController.php" />
       </list>
     </option>
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -293,6 +276,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -532,7 +516,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -625,18 +608,21 @@
       <workItem from="1563809495353" duration="9297000" />
       <workItem from="1563867773526" duration="7885000" />
       <workItem from="1563881324482" duration="3513000" />
+      <workItem from="1563885822433" duration="39000" />
+      <workItem from="1563887150681" duration="105000" />
+      <workItem from="1563890160907" duration="1781000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="384112000" />
+    <option name="totallyTimeSpent" value="386037000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="25" width="1920" height="1012" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" order="0" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.4989083" visible="true" weight="0.26840982" />
+      <window_info active="true" content_ui="combo" id="Project" order="1" sideWeight="0.4989083" visible="true" weight="0.27801493" />
       <window_info id="Structure" order="2" sideWeight="0.5010917" weight="0.2524013" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3286026" />
@@ -689,65 +675,6 @@
     </ignored-roots>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/vendor/phpunit/php-code-coverage/src/Report/Html/Renderer/Template/js/jquery.min.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Models/Reader/GoogleTranslation.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="6" selection-start-line="6" selection-start-column="6" selection-end-line="6" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/psy/psysh/src/Exception/ErrorException.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="16" column="6" selection-start-line="16" selection-start-column="6" selection-end-line="16" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendor/stichoza/google-translate-php/src/GoogleTranslate.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="217" column="21" lean-forward="true" selection-start-line="217" selection-start-column="21" selection-end-line="217" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar://$APPLICATION_HOME_DIR$/plugins/php/lib/php.jar!/stubs/Core/Core_c.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="470">
-          <caret line="532" column="6" selection-start-line="532" selection-start-column="6" selection-end-line="532" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Reader/TextStatsController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="701">
-          <caret line="79" column="12" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="39" />
-          <folding>
-            <element signature="e#127#153#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_text_stats.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="327">
-          <caret line="67" column="52" selection-start-line="67" selection-start-column="52" selection-end-line="67" selection-end-column="52" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_add_text.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="40" column="6" lean-forward="true" selection-start-line="40" selection-start-column="6" selection-end-line="57" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Config/Lang.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="390">
@@ -890,24 +817,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_words.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="111" selection-start-line="111" selection-end-line="111" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/layouts/qa/qa_right_sidebar.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="12" column="1" lean-forward="true" selection-start-line="12" selection-start-column="1" selection-end-line="14" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_texts.blade.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="285">
-          <caret line="19" column="18" selection-start-line="15" selection-start-column="11" selection-end-line="19" selection-end-column="18" />
         </state>
       </provider>
     </entry>
@@ -919,13 +832,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/storage/logs/laravel-2019-07-21.log" />
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Reader/AddTextController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-42">
-          <caret line="81" selection-start-line="81" selection-end-line="81" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/public/index.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
@@ -973,23 +879,20 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Reader/TextPageController.php">
+    <entry file="file://$PROJECT_DIR$/public/js/reader_text_page.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="70" column="64" selection-start-line="70" selection-start-column="43" selection-end-line="70" selection-end-column="64" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/routes/web.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="438">
-          <caret line="59" column="112" selection-start-line="59" selection-start-column="112" selection-end-line="59" selection-end-column="112" />
+        <state relative-caret-position="675">
+          <caret line="153" column="19" selection-start-line="153" selection-start-column="19" selection-end-line="153" selection-end-column="19" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Reader/WordsController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-12">
+        <state relative-caret-position="798">
           <caret line="170" column="21" selection-start-line="170" selection-start-column="21" selection-end-line="170" selection-end-column="21" />
           <folding>
             <element signature="e#127#147#0#PHP" expanded="true" />
@@ -997,21 +900,93 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_text_page.blade.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Reader/TextPageController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="183">
-          <caret line="216" column="80" selection-start-line="216" selection-start-column="80" selection-end-line="216" selection-end-column="80" />
+        <state relative-caret-position="798">
+          <caret line="70" column="64" selection-start-line="70" selection-start-column="43" selection-end-line="70" selection-end-column="64" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/public/js/reader_text_page.js">
+    <entry file="file://$PROJECT_DIR$/routes/web.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="645">
-          <caret line="161" column="7" lean-forward="true" selection-start-line="161" selection-start-column="7" selection-end-line="161" selection-end-column="7" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#span#0;n#!!top" expanded="true" />
-          </folding>
+        <state relative-caret-position="855">
+          <caret line="59" column="112" selection-start-line="59" selection-start-column="112" selection-end-line="59" selection-end-column="112" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/reader/reader_layout.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_texts.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="6" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_dashboard.blade.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_text_page.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_words.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="6" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/layouts/rt/rt_layout.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="10" column="11" selection-start-line="10" selection-start-column="11" selection-end-line="10" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/rt/rt_add_text.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="32" selection-start-column="32" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_text_stats.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_landing.blade.php">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/vendor/laravel/framework/src/Illuminate/Http/Concerns/InteractsWithInput.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="433">
+          <caret line="371" column="20" selection-start-line="371" selection-start-column="20" selection-end-line="371" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/resources/views/reader/reader_add_text.blade.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="618">
+          <caret line="161" column="90" selection-start-line="161" selection-start-column="90" selection-end-line="161" selection-end-column="90" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Reader/AddTextController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-240">
+          <caret line="36" column="37" selection-start-line="36" selection-start-column="37" selection-end-line="36" selection-end-column="37" />
         </state>
       </provider>
     </entry>
