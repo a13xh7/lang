@@ -47,6 +47,10 @@
 
         <button type="submit" class="btn w-100 btn-primary noradius" style="margin: 15px 0;"><b>FILTER</b></button>
 
+        <p><b>How to use filter:</b> </p>
+        <p>Например - вы знаете русский и вы изучаете английский язык.</p>
+        <p>Вы можете задать вопрос русскоязычным пользоавателям установив язык вопроса - русский</p>
+
     </div>
 
 

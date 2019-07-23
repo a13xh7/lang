@@ -202,7 +202,8 @@ class WordsController extends Controller
                 $query->where('lang_id', '=', $request->get('translate_to_lang_id'));
             })->first();
 
-        $word->users()->updateExistingPivot(auth()->user()->id, ['state' => $request->get('state')]);
+        $word->users()->updateExistingPivot(auth()->user()->id, ['state' => WordConfig::KNOWN] );
+
         $word->save();
     }
 

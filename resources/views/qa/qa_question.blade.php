@@ -9,7 +9,7 @@
     <div class="row question_info">
 
         <div class="col">
-            {{--<div class="rounded-circle" style="width: 30px; height: 30px; background-color: gray;">AL</div>--}}
+            <img src="{{ (new \App\Services\Avatar\LetterAvatar($question->user->name, 'circle', 35)) }}" alt="">
             <b>{{$question->user->name}}</b><span class="text-muted small">, {{$question->created_at->diffForHumans()}},</span>
             <span class="text-muted small">{{$question->views}} views</span>
         </div>
@@ -38,7 +38,7 @@
         {!!  $question->content !!}
 
 
-        <div>
+        <div align="right">
 
             @auth()
 
@@ -61,7 +61,15 @@
         @foreach($answers as $answer)
 
             <div class="answer_wrapper">
-                <div class="answer_info"> <b>{{$answer->user->name}}</b><span class="text-muted small">, {{$question->created_at->diffForHumans()}}</span></div>
+
+                <div class="answer_info mb-3">
+
+                    <img src="{{ (new \App\Services\Avatar\LetterAvatar($answer->user->name, 'circle', 35)) }}" alt="">
+
+
+                    <b>{{$answer->user->name}}</b><span class="text-muted small">, {{$question->created_at->diffForHumans()}}</span>
+                </div>
+
                 <div class="answer_content">{!! $answer->content !!} </div>
             </div>
 
@@ -73,8 +81,6 @@
 
 
     @if($showAnswerForm)
-
-
 
         <div class="answer_form">
             <p class="h4">Your Answer</p>

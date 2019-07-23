@@ -1,7 +1,7 @@
 <aside class="col-3 sidebar">
 
     <h4 class="px-3 mt-4 mb-1 reader_sidebar_block_name">
-        <span>Texts</span>
+        <span>Reader</span>
     </h4>
 
     <div class="list-group list-group-flush">

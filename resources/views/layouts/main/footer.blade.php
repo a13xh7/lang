@@ -6,8 +6,11 @@
             <div class="row">
 
                 <div class="col text-white">
-                    <p>© 2019 Discy. All Rights Reserved</p>
+                    <p>© 2019 WexLang. All Rights Reserved</p>
+                    <p>About, Help, Contacts</p>
                 </div>
+
+             </div>
         </div>
 
     </footer>

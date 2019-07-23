@@ -43,20 +43,39 @@
 
                 @auth
 
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                        {{ Auth::user()->name }} <span class="caret"></span>
-                    </a>
+
+                        <div class="dropdown show">
 
 
-                    <a href="{{ route('logout') }}"
-                       onclick="event.preventDefault();
+
+                            <a class="header_user_name" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                                <span>
+
+                                    @php
+
+                                        $avatar =  new \App\Services\Avatar\LetterAvatar(auth()->user()->name, 'circle', 35);
+
+                                     echo "<img class='avatar' src='".$avatar."'/>"
+
+                                    @endphp
+
+                                    <span>{{auth()->user()->name}}</span>
+                                </span>
+                            </a>
+
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="margin-top: 10px;">
+                                <a href="{{route('main_user_settings')}}" class="dropdown-item"><i class="icofont-gear"></i> Settings</a>
+                                <a href="{{ route('logout') }}" class="dropdown-item"
+                                   onclick="event.preventDefault();
                                                  document.getElementById('logout-form').submit();">
-                        {{ __('Logout') }}
-                    </a>
-
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
+                                    <i class="icofont-logout"></i>Logout
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </div>
 
 
                 @endauth

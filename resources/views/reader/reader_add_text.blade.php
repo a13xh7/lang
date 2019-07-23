@@ -37,7 +37,7 @@
             </div>
         </div>
 
-        <input type="hidden" id="text_pubic" name="text_pubic" value="0">
+        <input type="hidden" id="text_pubic" name="text_pubic" value="@if(app('request')->get('public') == 1) 1 @else 0 @endif">
 
         {{--<div class="form-group row">--}}
             {{--<label for="exampleFormControlTextarea1" class="col-sm-2 col-form-label">Short about</label>--}}
@@ -114,7 +114,7 @@
             </div>
         </div>
 
-        <input type="hidden" id="text_pubic" name="text_pubic" value="0">
+        <input type="hidden" id="text_pubic" name="text_pubic" value="@if(app('request')->get('public') == 1) 1 @else 0 @endif">
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="lang_from">Translate from</label>

@@ -8,6 +8,8 @@ Route::get('/', 'PublicController@showIndexLanding')->name('index_landing');
 
 Route::get('/reader', 'PublicController@showReaderLanding')->name('reader_landing');
 
+Route::get('/read-together', 'PublicController@showReaderLanding')->name('rt_landing');
+
 
 
 /****************************************************************
@@ -18,8 +20,6 @@ Auth::routes();
 
 Route::middleware(['auth'])->group(function ()
 {
-    Route::get('/dashboard', 'Main\DashboardController@showDashboard')->name('main_dashboard');
-
     //User settings
     Route::get('/user/settings/', 'Main\UserController@showUserSettingsPage')->name('main_user_settings');
     Route::post('/user/settings/', 'Main\UserController@updateUserSettings')->name('main_user_settings_update');

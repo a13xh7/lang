@@ -36,6 +36,24 @@ h1 {
 }
 
 
+.avatar {
+    border: 2px solid white;
+    border-radius: 50%;
+}
+
+.header_user_name {
+    color: white !important;
+    font-weight: bold;
+}
+
+.header_user_name:hover {
+   text-decoration: none;
+}
+.header_user_name span {
+    padding-left: 10px;
+}
+
+
 /************************** HEADER*************************/
 
 .header {

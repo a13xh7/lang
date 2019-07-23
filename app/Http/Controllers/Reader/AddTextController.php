@@ -63,7 +63,6 @@ class AddTextController extends Controller
                     }
                     break;
                 case 'pdf':
-
                     try {
                         $text = Pdf::getText($request->file('text_file')->getRealPath());
                     } catch (\Exception $e) {
@@ -95,7 +94,7 @@ class AddTextController extends Controller
 
         $text = new Text();
         $text->lang_id = $request->get('lang_from');
-        $text->public = false;
+        $text->public = (bool)$request->get('text_pubic');
         $text->title = $request->get('text_title');
         $text->total_pages = count($pages);
         $text->total_symbols = $textHandler->totalSymbols;
@@ -135,6 +134,11 @@ class AddTextController extends Controller
         }
 
         DB::commit();
+
+
+        if($request->get('text_pubic') == 1) {
+            return redirect()->route('rt_public_texts');
+        }
 
         return redirect()->route('reader_texts');
 

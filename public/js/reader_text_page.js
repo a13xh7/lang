@@ -101,9 +101,9 @@ $( document ).ready(function() {
         // указать state слова
 
         if(word.data('state') == word_new || word.data('state') == word_to_study) {
-            $('#rs_word_state').replaceWith(' <span class="badge badge-warning h4" id="rs_word_state" style="vertical-align: middle">To study</span>')
+            $('#rs_word_state').replaceWith('<span class="badge badge-warning h4" id="rs_word_state" style="vertical-align: middle">To study</span>')
         } else {
-            $('#rs_word_state').replaceWith(' <span class="badge badge-success h4" id="rs_word_state" style="vertical-align: middle">Known</span>')
+            $('#rs_word_state').replaceWith('<span class="badge badge-success h4" id="rs_word_state" style="vertical-align: middle">Known</span>')
         }
 
         // Скрыть или показать блок  кнопкой "mark as known"
@@ -157,6 +157,7 @@ $( document ).ready(function() {
 
         });
 
+        $('#rs_word_state').replaceWith('<span class="badge badge-success h4" id="rs_word_state" style="vertical-align: middle">Known</span>');
 
 
     });
