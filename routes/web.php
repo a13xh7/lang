@@ -51,9 +51,8 @@ Route::middleware(['auth'])->group(function ()
     // TEXT PAGE. READ PAGE
     Route::get('/reader/read/text/{textId}', 'Reader\TextPageController@showPage')->name('reader_read_text_page');
 
+    // Words
     Route::get('/reader/words', 'Reader\WordsController@showPage')->name('reader_words');
-    Route::get('/reader/words/new', 'Reader\WordsController@showNewWords')->name('reader_new_words');
-    Route::get('/reader/words/known', 'Reader\WordsController@showKnownWords')->name('reader_known_words');
 
     // Words
     Route::post('/reader/words/add', 'Reader\WordsController@ajaxAddNewWord')->name('reader_add_new_word');
@@ -77,11 +76,20 @@ Route::middleware(['auth'])->group(function ()
     Route::get('/rt/add/text', 'RT\AddTextController@showPage')->name('rt_add_text_page');
     Route::post('/rt/add/text', 'RT\AddTextController@addText')->name('rt_add_text');
 
-
+    // Public texts
     Route::get('/rt/public-texts', 'RT\PublicTextsController@showPage')->name('rt_public_texts');
+    Route::get('/rt/public-texts/get/{textId}', 'RT\PublicTextsController@getPublicText')->name('rt_get_public_text');
 
-    Route::get('/rt/my-texts', 'RT\MyTextsController@showPage')->name('rt_my_texts');
+    // My texts
+    Route::get('/rt/my-texts', 'RT\MyPublicTextsController@showPage')->name('rt_my_texts');
+    Route::get('/rt/my-texts/delete/{textId}', 'RT\MyPublicTextsController@deleteText')->name('rt_delete_my_text');
 
+    // My text questions
+
+    Route::get('/rt/my-questions', 'RT\MyTextQuestionsController@showPage')->name('rt_my_questions');
+
+    //words
+    Route::get('/rt/words', 'RT\RTWordsController@showPage')->name('rt_words');
 
 });
 

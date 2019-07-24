@@ -26,9 +26,9 @@ class QuestionsController extends Controller
         $questionsAboutLanguage = $request->cookie('q_about_lang_id');
 
 
-        $question = Question::where('text_id', QuestionConfig::PUBLIC)->orderBy('id', 'DESC')->paginate($perPage);
+        $questions = Question::where('text_id', QuestionConfig::PUBLIC)->orderBy('id', 'DESC')->paginate($perPage);
 
-        return view('qa.qa_index')->with('questions', $question);
+        return view('qa.qa_index')->with('questions', $questions);
     }
 
     public function showMyQuestions()

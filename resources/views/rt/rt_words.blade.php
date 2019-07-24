@@ -1,5 +1,4 @@
-@extends('reader.reader_add_text')
-
+@extends('reader.reader_words')
 
 @section('reader_sidebar')
 

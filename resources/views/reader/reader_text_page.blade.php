@@ -64,7 +64,7 @@
                 </div>
                 <hr>
                 <div>
-                    <a class="btn btn-primary noradius w-100 mr-5 mt-3" href="{{route('qa_add_question')}}" target="_blank"><b>ASK QUESTION</b></a>
+                    <a class="btn btn-primary noradius w-100 mr-5 mt-3" href="{{route('qa_add_question')}}@if(app('request')->get('public') == 1)?public=1 @endif" target="_blank"><b>ASK QUESTION</b></a>
                 </div>
 
 

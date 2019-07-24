@@ -2,6 +2,7 @@
 
 namespace App\Models\Main;
 
+use App\Models\QA\Question;
 use App\Models\Reader\Text;
 use App\Models\Reader\Word;
 use Illuminate\Notifications\Notifiable;
@@ -48,5 +49,10 @@ class User extends Authenticatable
     public function words()
     {
         return $this->belongsToMany(Word::class, 'user_word',  'user_id', 'word_id' )->withPivot('state');
+    }
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class, 'user_id', 'id');
     }
 }

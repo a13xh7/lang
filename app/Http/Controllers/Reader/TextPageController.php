@@ -16,6 +16,7 @@ class TextPageController extends Controller
     public function showPage(int $textId, Request $request)
     {
         $user = User::where('id', auth()->user()->id)->first();
+        $pageNumber = $request->get('page') ? $request->get('page') : 1;
 
         // Get pages and current page
 
@@ -61,7 +62,7 @@ class TextPageController extends Controller
         DB::table('user_text')
             ->where('user_id', auth()->user()->id)
             ->where('text_id', $page->text->id)
-            ->update(['current_page' => $request->get('page')]);
+            ->update(['current_page' => $pageNumber]);
 
         return view('reader.reader_text_page')
             ->with('page', $page)

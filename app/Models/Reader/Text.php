@@ -34,10 +34,8 @@ class Text extends Model
 
         $user = User::where('id', auth()->user()->id)->first();
 
-        $translate_to_lang_id = $user->texts()->find($this->id)->translate_to_lang_id;
-
-        $allMyWords = $user->words()->where('lang_id', $this->lang_id)->whereHas('googleTranslation', function (Builder $query) use ($translate_to_lang_id) {
-            $query->where('lang_id', '=', $translate_to_lang_id);
+        $allMyWords = $user->words()->where('lang_id', $this->lang_id)->whereHas('googleTranslation', function (Builder $query) {
+            $query->where('lang_id', '=', $this->translate_to_lang_id);
         })->get();
 
         $myKnownWordsInThisText = [];
@@ -66,10 +64,8 @@ class Text extends Model
 
         $user = User::where('id', auth()->user()->id)->first();
 
-        $translate_to_lang_id = $user->texts()->find($this->id)->translate_to_lang_id;
-
-        $allMyWords = $user->words()->where('lang_id', $this->lang_id)->whereHas('googleTranslation', function (Builder $query) use ($translate_to_lang_id) {
-            $query->where('lang_id', '=', $translate_to_lang_id);
+        $allMyWords = $user->words()->where('lang_id', $this->lang_id)->whereHas('googleTranslation', function (Builder $query) {
+            $query->where('lang_id', '=', $this->translate_to_lang_id);
         })->get();
 
         $myWordsArray = [];

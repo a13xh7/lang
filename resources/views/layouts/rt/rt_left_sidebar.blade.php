@@ -15,7 +15,7 @@
     </h4>
 
     <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-light"><i class="icofont-file-text"></i> My questions</a>
+        <a href="{{route('rt_my_questions')}}" class="list-group-item list-group-item-action bg-light"><i class="icofont-file-text"></i> My questions</a>
     </div>
 
     <h4 class="px-3 mt-4 mb-1 reader_sidebar_block_name">
@@ -23,7 +23,7 @@
     </h4>
 
     <div class="list-group list-group-flush">
-        <a href="{{route('reader_words')}}" class="list-group-item list-group-item-action bg-light"><i class="icofont-file-text"></i> My words</a>
+        <a href="{{route('rt_words')}}" class="list-group-item list-group-item-action bg-light"><i class="icofont-file-text"></i> My words</a>
     </div>
 
 
