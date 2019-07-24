@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Reader;
 
 use App\Http\Controllers\Controller;
 use App\Models\Main\User;
+use App\Models\QA\Question;
 use App\Models\Reader\TextPage;
 use App\Services\TextHandler;
 use Illuminate\Database\Eloquent\Builder;
@@ -15,18 +16,22 @@ class TextPageController extends Controller
 
     public function showPage(int $textId, Request $request)
     {
+        $isPublic = (bool)$request->get('public');
+
         $user = User::where('id', auth()->user()->id)->first();
         $pageNumber = $request->get('page') ? $request->get('page') : 1;
 
         // Get pages and current page
 
         $pages = TextPage::where('text_id', $textId)->paginate(1);
+        $pages->appends(request()->except('wtf'));
+
         $page = TextPage::where('text_id', $textId)->where('page_number', $pages->currentPage())->firstOrFail();
 
         // Set languages
 
         $text_lang_id = $page->text->lang_id;
-        $translate_to_lang_id = $user->texts()->find($textId)->translate_to_lang_id;
+        $translate_to_lang_id = $page->text->translate_to_lang_id;
 
         // Get all user words.
         // Выбирать только слова язык которых совпадает я языком текста
@@ -63,6 +68,30 @@ class TextPageController extends Controller
             ->where('user_id', auth()->user()->id)
             ->where('text_id', $page->text->id)
             ->update(['current_page' => $pageNumber]);
+
+        // Достать вопросы относящиеся к этой странице если это публичный текст
+
+        if($isPublic) {
+
+//            $questions = Question::where('text_id', $page->text->id)->where('page', $page->page_number)->paginate(1)->appends(request()->except('wtf'));
+//            $questions->setPageName('q_page');
+//            $questions->setPath('?page='.$page->page_number);
+
+            $questions = Question::where('text_id', $page->text->id)->where('page', $page->page_number)->get();
+
+            return view('reader.reader_text_page')
+                ->with('page', $page)
+                ->with('pages', $pages)
+                ->with('pageContent', $pageContent)
+                ->with('text_lang_id', $text_lang_id)
+                ->with('translate_to_lang_id', $translate_to_lang_id)
+                ->with('words', $textHandler->uniqueWords)
+                ->with('knownWords', $knownWords)
+                ->with('myWords', $myWords)
+                ->with('questions', $questions);
+
+        }
+
 
         return view('reader.reader_text_page')
             ->with('page', $page)

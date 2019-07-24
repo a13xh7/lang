@@ -26,7 +26,7 @@ class QuestionsController extends Controller
         $questionsAboutLanguage = $request->cookie('q_about_lang_id');
 
 
-        $questions = Question::where('text_id', QuestionConfig::PUBLIC)->orderBy('id', 'DESC')->paginate($perPage);
+        $questions = Question::where('text_id', 0)->orderBy('id', 'DESC')->paginate($perPage);
 
         return view('qa.qa_index')->with('questions', $questions);
     }
@@ -35,7 +35,7 @@ class QuestionsController extends Controller
     {
         $perPage = 10;
 
-        $question = Question::where('text_id', QuestionConfig::PUBLIC)->where('user_id', auth()->user()->id)->orderBy('id', 'DESC')->paginate($perPage);
+        $question = Question::where('text_id', 0)->where('user_id', auth()->user()->id)->orderBy('id', 'DESC')->paginate($perPage);
 
         return view('qa.qa_my_questions')->with('questions', $question);
     }

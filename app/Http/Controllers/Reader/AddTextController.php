@@ -27,6 +27,8 @@ class AddTextController extends Controller
     {
         $pageLength = 2000;
 
+        $isPublicText = (bool)$request->get('text_pubic');
+
         // 1 - Validate form
 
         $request->validate([
@@ -94,7 +96,7 @@ class AddTextController extends Controller
         $text = new Text();
         $text->lang_id = $request->get('lang_from');
         $text->translate_to_lang_id = $request->get('lang_to');
-        $text->public = (bool)$request->get('text_pubic');
+        $text->public = $isPublicText;
         $text->title = $request->get('text_title');
         $text->total_pages = count($pages);
         $text->total_symbols = $textHandler->totalSymbols;
@@ -105,8 +107,11 @@ class AddTextController extends Controller
         $text->save();
 
 
-         // Add row to user_text table
-        $text->users()->attach(auth()->user()->id);
+        // Add row to user_text table
+
+        if($isPublicText == false) {
+            $text->users()->attach(auth()->user()->id);
+        }
 
 
         // 5 - save pages to database
@@ -132,7 +137,7 @@ class AddTextController extends Controller
         DB::commit();
 
 
-        if($request->get('text_pubic') == 1) {
+        if($isPublicText) {
             return redirect()->route('rt_public_texts');
         }
 

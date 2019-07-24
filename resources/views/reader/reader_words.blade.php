@@ -10,19 +10,6 @@
 
     <h1>MY WORDS</h1>
 
-    {{--<div>--}}
-        {{--<button type="button" class="btn btn-primary noradius">--}}
-            {{--<span class="h2">Total: <span class="badge badge-dark">11</span> </span>--}}
-        {{--</button>--}}
-
-        {{--<button type="button" class="btn btn-primary noradius">--}}
-            {{--<span class="h2">To study: <span class="badge badge-warning">11</span> </span>--}}
-        {{--</button>--}}
-
-        {{--<button type="button" class="btn btn-primary noradius">--}}
-            {{--<span class="h2">Known: <span class="badge badge-success">11</span> </span>--}}
-        {{--</button>--}}
-    {{--</div>--}}
 
     <div class="form-group row">
         <label class="col-md-auto col-form-label" for="w_lang"><b>Words language</b></label>
@@ -134,11 +121,15 @@
 
                     @if($word->pivot->state == \App\Config\WordConfig::TO_STUDY )
                         <span class="badge badge-warning h4">To study</span>
-                        <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                        <button type="button" class="btn btn-success btn-sm words_btn"
+                                data-word_id="{{$word->id}}"
+                                data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                     @endif
 
                     @if($word->pivot->state == \App\Config\WordConfig::KNOWN )
-                        <button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
+                        <button type="button" class="btn btn-warning btn-sm words_btn"
+                                data-word_id="{{$word->id}}"
+                                data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
                         <span class="badge badge-success h4">Known</span>
                     @endif
 
@@ -146,7 +137,9 @@
                  {{--To study tab - --}}
                 @elseif(\Illuminate\Support\Facades\Cookie::get('show_words') == \App\Config\WordConfig::TO_STUDY)
 
-                    <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Mark as known</button>
+                    <button type="button" class="btn btn-success btn-sm words_btn"
+                            data-word_id="{{$word->id}}"
+                            data-state="{{\App\Config\WordConfig::KNOWN}}">Mark as known</button>
 
                 {{-- Know words tab - --}}
                 @elseif(\Illuminate\Support\Facades\Cookie::get('show_words') == \App\Config\WordConfig::KNOWN)
@@ -162,17 +155,6 @@
         </tr>
 
 
-        {{--<p>word - {{$word->word}} </p>--}}
-        {{--<p>state - {{$word->pivot->state}} </p>--}}
-        {{--<p>google translation - {{$word->googleTranslation->translation}}</p>--}}
-
-        {{--<p>community  translation ---}}
-            {{--@foreach($word->communityTranslations as $translation)--}}
-                {{--<span> {{ $translation->translation }} </span> ,--}}
-            {{--@endforeach--}}
-        {{--</p>--}}
-
-        {{--<hr>--}}
 
     @endforeach
 

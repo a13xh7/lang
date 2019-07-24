@@ -1,27 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: alex
- * Date: 6/26/19
- * Time: 7:10 PM
- */
 
-namespace App\Http\Controllers\Reader;
+namespace App\Http\Controllers\RT;
 
 use App\Config\WordConfig;
 use App\Http\Controllers\Controller;
+
 use App\Models\Main\User;
-use App\Models\Reader\Text;
-use App\Models\Reader\Word;
-use App\Services\TextHandler;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
 
-class TextStatsController extends Controller
+class RTTextStatsController extends Controller
 {
-
     public function showTextStats(int $textId, Request $request)
     {
         $user = User::where('id', auth()->user()->id)->first();
@@ -72,7 +61,7 @@ class TextStatsController extends Controller
 
 
 
-        return view('reader.reader_text_stats')
+        return view('rt.rt_text_stats')
             ->with('text', $text)
             ->with('words', $wordsToShow)
             ->with('knownWords', $knownWords)

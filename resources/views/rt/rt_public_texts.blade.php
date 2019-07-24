@@ -36,18 +36,18 @@
 
                 <div style="vertical-align: middle">
                     <i class="icofont-users-alt-3" style="font-size: 30px; vertical-align: middle" ></i>
-                    <b>Users:</b> <span class="badge badge-secondary">111</span>
+                    <b>Users:</b> <span class="badge badge-secondary">{{ count($text->users) }}</span>
                 </div>
 
                 <div>
                     <i class="icofont-question-square" style="font-size: 25px; vertical-align: middle" ></i>
-                    <b>Questions:</b> <span class="badge badge-secondary">111</span>
+                    <b>Questions:</b> <span class="badge badge-secondary">{{ \App\Models\QA\Question::where('text_id', $text->id)->count() }}</span>
                 </div>
 
                 <div class="text_controls" align="right">
 
                     @if($text->users()->where('user_id', auth()->user()->id)->first() == null)
-                        <a class="btn btn-primary text-light noradius w-100" href="{{route('rt_get_public_text', $text->id)}}" >
+                        <a class="btn btn-primary text-light noradius w-100" href="{{ route('rt_get_public_text', $text->id) }}" >
                             <i class="icofont-read-book"></i> READ
                         </a>
                     @endif

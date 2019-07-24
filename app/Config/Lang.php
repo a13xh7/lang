@@ -120,6 +120,9 @@ class Lang
 
     public static function get($id)
     {
+//        if($id == 1) {
+//            $id++;
+//        }
         return static::$languages[$id-1];
     }
 

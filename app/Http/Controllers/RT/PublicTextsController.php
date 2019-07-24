@@ -22,8 +22,10 @@ class PublicTextsController extends Controller
     {
         $user = User::where('id', auth()->user()->id)->first();
 
-        $user->texts()->attach($textId);
+        if( $user->texts()->find($textId) == null) {
+            $user->texts()->attach($textId);
+        }
 
-        return redirect()->route('reader_read_text_page', $textId);
+        return redirect()->route('reader_read_text_page', [$textId, 'public=1']);
     }
 }

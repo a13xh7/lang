@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class AddQuestionController extends Controller
 {
-    public function showPage()
+    public function showPage(Request $request)
     {
         return view('qa.qa_add_question');
     }
@@ -17,17 +17,24 @@ class AddQuestionController extends Controller
     public function addQuestion(Request $request)
     {
 
+        $textId = $request->get('text') ? $request->get('text') : 0;
+        $page = $request->get('page') ? $request->get('page') : 0;
+
         $question = new Question();
 
         $question->user_id = auth()->user()->id;
-        $question->text_id = 0;
-        $question->type = 0;
+        $question->text_id = $textId;
+        $question->page = $page;
         $question->lang_id = $request->get('lang_from');
         $question->about_lang_id = $request->get('lang_to');
         $question->title = $request->get('title');
         $question->content = $request->get('content');
         $question->views = 0;
         $question->save();
+
+        if($textId > 0) {
+            return redirect()->route('rt_my_questions');
+        }
 
         return redirect()->route('qa_index');
     }

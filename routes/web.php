@@ -46,7 +46,7 @@ Route::middleware(['auth'])->group(function ()
     Route::get('/reader/texts/delete/{textId}', 'Reader\TextsController@deleteText')->name('reader_delete_text');
 
     // TEXT STATS PAGE
-    Route::get('/reader/texts/stats/{textId}', 'Reader\TextStatsController@showTextStats')->name('reader_text_stats');
+    Route::get('/reader/text/stats/{textId}', 'Reader\TextStatsController@showTextStats')->name('reader_text_stats');
 
     // TEXT PAGE. READ PAGE
     Route::get('/reader/read/text/{textId}', 'Reader\TextPageController@showPage')->name('reader_read_text_page');
@@ -74,7 +74,7 @@ Route::middleware(['auth'])->group(function ()
 
     // ADD TEXT PAGE
     Route::get('/rt/add/text', 'RT\AddTextController@showPage')->name('rt_add_text_page');
-    Route::post('/rt/add/text', 'RT\AddTextController@addText')->name('rt_add_text');
+    Route::post('/rt/add/text', 'Reader\AddTextController@addText')->name('rt_add_text');
 
     // Public texts
     Route::get('/rt/public-texts', 'RT\PublicTextsController@showPage')->name('rt_public_texts');
@@ -90,6 +90,9 @@ Route::middleware(['auth'])->group(function ()
 
     //words
     Route::get('/rt/words', 'RT\RTWordsController@showPage')->name('rt_words');
+
+    // TEXT STATS PAGE
+    Route::get('/rt/text/stats/{textId}', 'RT\RTTextStatsController@showTextStats')->name('rt_text_stats');
 
 });
 

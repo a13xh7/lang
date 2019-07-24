@@ -13,8 +13,8 @@ class RTWordsController extends Controller
     public function showPage(Request $request)
     {
         $perPage = 100;
-        $wordsLangId = $request->cookie('w_lang');
-        $wordsTranslationLangId = $request->cookie('wt_lang');
+        $wordsLangId = $request->cookie('w_lang') ? $request->cookie('wt_lang') : 1;
+        $wordsTranslationLangId = $request->cookie('wt_lang') ? $request->cookie('wt_lang') : 1 ;
 
         $user = User::where('id', auth()->user()->id)->first();
 
@@ -75,5 +75,7 @@ class RTWordsController extends Controller
             ->with('totalWords', $totalWords)
             ->with('totalKnownWords', $totalKnownWords)
             ->with('totalNewWords', $totalNewWords);
+
     }
+
 }

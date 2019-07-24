@@ -1,4 +1,4 @@
-@extends('layouts.qa.qa_layout')
+@extends('layouts.rt.rt_layout')
 
 @section('rt_content')
 

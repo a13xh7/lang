@@ -46,7 +46,7 @@ $( document ).ready(function() {
 
                     $('mark[data-word="'+ word.data('word') +'"]').each(function(index,element) {
                         $(element).removeClass();
-                        $(element).html( translation + ' ' + word.html());
+                        $(element).html( translation + ' ' + word.data('word'));
                     });
 
                     // добавить перевод слова в правом сайдбаре
@@ -83,7 +83,7 @@ $( document ).ready(function() {
 
 
 
-// Toggle word translation
+    // Toggle word translation
 
     $('div.page_text_wrapper').on('click', 'mark, mark.study, mark.unknown', function() {
         word = $(this);

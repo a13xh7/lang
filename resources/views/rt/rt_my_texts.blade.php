@@ -55,22 +55,34 @@
 
                 <div style="vertical-align: middle">
                     <i class="icofont-users-alt-3" style="font-size: 30px; vertical-align: middle" ></i>
-                    <b>Users:</b> <span class="badge badge-secondary">111</span>
+                    <b>Users:</b> <span class="badge badge-secondary">{{ count($text->users) }}</span>
                 </div>
 
                 <div>
                     <i class="icofont-question-square" style="font-size: 25px; vertical-align: middle" ></i>
-                    <b>Questions:</b> <span class="badge badge-secondary">111</span>
+                    <b>Questions:</b> <span class="badge badge-secondary">{{ \App\Models\QA\Question::where('text_id', $text->id)->count() }}</span>
                 </div>
 
 
                 <div class="text_controls" align="right">
 
-                    <a class="btn btn-primary text-light noradius w-100 mb-1" href="{{route('reader_read_text_page', $text->id)}}?page=@if($text->pivot->current_page <= 0){{$text->pivot->current_page + 1}}@else{{$text->pivot->current_page}}@endif&public=1">
+                    <?php
+
+                    if( $text->pivot->current_page <= 0 ) {
+                        $urlGetParam = "?page=1";
+                    } else {
+                        $urlGetParam = "?page=". $text->pivot->current_page;
+                    }
+
+                    $urlGetParam.="&public=1";
+
+                    ?>
+
+                    <a class="btn btn-primary text-light noradius w-100 mb-1" href="{{route('reader_read_text_page', $text->id)}}{{$urlGetParam}}">
                         <i class="icofont-read-book"></i> Read
                     </a> <br>
 
-                    <a class="btn btn-primary text-light noradius w-100 mb-1" href="{{ route('reader_text_stats', $text->id) }}">
+                    <a class="btn btn-primary text-light noradius w-100 mb-1" href="{{ route('rt_text_stats', $text->id) }}">
                         <i class="icofont-info-square"></i> Full Info
                     </a> <br>
 

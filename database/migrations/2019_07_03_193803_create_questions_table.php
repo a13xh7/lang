@@ -17,7 +17,7 @@ class CreateQuestionsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('text_id')->nullable()->default(0);
-            $table->integer('page_id')->nullable()->default(0);
+            $table->integer('page')->nullable()->default(0);
             $table->integer('lang_id');
             $table->integer('about_lang_id');
             $table->string('title');

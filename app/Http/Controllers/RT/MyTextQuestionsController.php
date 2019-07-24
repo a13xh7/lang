@@ -15,7 +15,7 @@ class MyTextQuestionsController extends Controller
         $perPage = 10;
         $user = User::where('id', auth()->user()->id)->first();
 
-        $questions = $questions = Question::where('text_id', '!=', 0)->orderBy('id', 'DESC')->paginate($perPage);
+        $questions = $user->questions()->where('text_id', '!=', 0)->orderBy('id', 'DESC')->paginate($perPage);
 
 
         return view('rt.rt_my_questions')->with('questions', $questions);

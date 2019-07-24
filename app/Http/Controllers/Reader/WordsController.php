@@ -27,8 +27,8 @@ class WordsController extends Controller
     public function showPage(Request $request)
     {
         $perPage = 100;
-        $wordsLangId = $request->cookie('w_lang');
-        $wordsTranslationLangId = $request->cookie('wt_lang');
+        $wordsLangId = $request->cookie('w_lang') ? $request->cookie('wt_lang') : 1;
+        $wordsTranslationLangId = $request->cookie('wt_lang') ? $request->cookie('wt_lang') : 1 ;
 
         $user = User::where('id', auth()->user()->id)->first();
 
@@ -173,6 +173,8 @@ class WordsController extends Controller
             // Перевести слово и сохранить перевод
 
             $google = new GoogleTranslateForFree();
+
+//            return $wordTranslateToLangId;
 
             $translation = new GoogleTranslation();
             $translation->word_id = $word->id;

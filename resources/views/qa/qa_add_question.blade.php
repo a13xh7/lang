@@ -9,7 +9,7 @@
 
         <h1>Ask question</h1>
 
-        <form action="{{route('qa_add_question')}}" method="POST">
+        <form action="{{route('qa_add_question', ['text='. app('request')->get('text'), 'page='. app('request')->get('page')])}}" method="POST">
             @csrf
 
             <input type="hidden" name="text_id" value="0">
