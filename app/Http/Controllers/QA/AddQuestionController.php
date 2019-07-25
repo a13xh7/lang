@@ -11,7 +11,15 @@ class AddQuestionController extends Controller
 {
     public function showPage(Request $request)
     {
-        return view('qa.qa_add_question');
+        $user = \App\Models\Main\User::find(\auth()->user()->id);
+
+        $questionsLanguage = $request->cookie('q_lang_id') != null ? $request->cookie('q_lang_id') : $user->getFirstKnownLanguage();
+        $questionsAboutLanguage = $request->cookie('q_about_lang_id') != null ? $request->cookie('q_about_lang_id') : $user->getFirstStudiedLanguage();
+
+
+        return view('qa.qa_add_question')
+            ->with('questionsLanguage',$questionsLanguage)
+            ->with('questionsAboutLanguage',$questionsAboutLanguage);;
     }
 
     public function addQuestion(Request $request)

@@ -48,7 +48,7 @@
                                             data-subtext="{{$lang['eng_title']}}"
                                             data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
 
-                                            @if(in_array($lang['id'], auth()->user()->getKnownLanguages()))
+                                            @if(in_array($lang['id'], $user->getKnownLanguages()))
                                             selected
                                             @endif
 
@@ -74,7 +74,7 @@
                                             data-subtext="{{$lang['eng_title']}}"
                                             data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
 
-                                            @if(in_array($lang['id'], auth()->user()->getStudiedLanguages()))
+                                            @if(in_array($lang['id'], $user->getStudiedLanguages()))
                                             selected
                                             @endif
                                     >

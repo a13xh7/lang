@@ -29,8 +29,8 @@ class WordsController extends Controller
         $user = User::find(auth()->user()->id);
 
         $perPage = 100;
-        $wordsLangId = $request->cookie('w_lang') ? $request->cookie('w_lang') : $user->getFirstStudiedLanguage();
-        $wordsTranslationLangId = $request->cookie('wt_lang') ? $request->cookie('wt_lang') : $user->getFirstKnownLanguage();
+        $wordsLangId = $request->cookie('w_lang') != null ? $request->cookie('w_lang') : $user->getFirstStudiedLanguage();
+        $wordsTranslationLangId = $request->cookie('wt_lang') != null ? $request->cookie('wt_lang') : $user->getFirstKnownLanguage();
 
         // Достать слова из базы с учетом фильтров по языкам
 

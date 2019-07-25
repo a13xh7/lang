@@ -35,7 +35,10 @@ class QuestionsController extends Controller
             ->where('about_lang_id', $questionsAboutLanguage)
             ->orderBy('id', 'DESC')->paginate($perPage);
 
-        return view('qa.qa_index')->with('questions', $questions);
+        return view('qa.qa_index')
+            ->with('questions', $questions)
+            ->with('questionsLanguage',$questionsLanguage)
+            ->with('questionsAboutLanguage',$questionsAboutLanguage);
     }
 
     public function showMyQuestions()

@@ -14,13 +14,14 @@ class PublicTextsController extends Controller
         $perPage = 10;
         $user = User::find(auth()->user()->id);
 
-        $textsLangId = $request->cookie('pt_lang_id') == null ? $request->cookie('pt_lang') : $user->getFirstStudiedLanguage();
-        $textsTranslateToLangId = $request->cookie('pt_to_lang_id') == null ? $request->cookie('pt_to_lang') : $user->getFirstKnownLanguage();
+        $textsLangId = $request->cookie('pt_lang_id') != null ? $request->cookie('pt_lang') : $user->getFirstStudiedLanguage();
+        $textsTranslateToLangId = $request->cookie('pt_to_lang_id') != null ? $request->cookie('pt_to_lang') : $user->getFirstKnownLanguage();
 
         $texts = Text::where('public', true)
             ->where('lang_id', $textsLangId)
             ->where('translate_to_lang_id', $textsTranslateToLangId)
             ->orderBy('id', 'DESC')->paginate($perPage);
+
 
         return view('rt.rt_public_texts')
             ->with('texts', $texts)

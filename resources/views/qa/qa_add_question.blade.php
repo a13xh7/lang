@@ -24,7 +24,14 @@
                         <option
                                 value="{{$lang['id']}}"
                                 data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
+                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
+
+                                @if($questionsLanguage == $lang['id'])
+
+                                selected
+
+                                @endif
+                        >
                         </option>
 
                     @endforeach
@@ -43,7 +50,14 @@
                         <option
                                 value="{{$lang['id']}}"
                                 data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
+                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
+
+                                @if($questionsAboutLanguage == $lang['id'])
+
+                                selected
+
+                                @endif
+                        >
                         </option>
 
                     @endforeach
