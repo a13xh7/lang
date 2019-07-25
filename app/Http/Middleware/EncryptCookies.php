@@ -14,6 +14,10 @@ class EncryptCookies extends Middleware
     protected $except = [
         'show_words',
         'w_lang',
-        'wt_lang'
+        'wt_lang',
+        'q_lang_id',
+        'q_about_lang_id',
+        'pt_lang_id',
+        'pt_to_lang_id'
     ];
 }

@@ -5,6 +5,54 @@
 
     <h1>Public texts</h1>
 
+        <div class="q_lang_filter">
+
+            <label for="lang_from">I know</label>
+            <select class="selectpicker" name="lang_from" id="lang_from" data-live-search="true" data-width="100%">
+
+                @foreach(\App\Config\Lang::all() as $lang)
+
+                    <option
+                            value="{{$lang['id']}}"
+                            data-subtext="{{$lang['eng_title']}}"
+                            data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
+
+                            @if($textsTranslateToLangId == $lang['id'])
+                            selected
+                            @endif
+                    >
+                    </option>
+
+                @endforeach
+
+            </select>
+
+            <br><br>
+            <label for="lang_to">I want to learn</label>
+
+                <select class="selectpicker" name="lang_to" id="lang_to" data-live-search="true" data-width="100%">
+
+                    @foreach(\App\Config\Lang::all() as $lang)
+
+                        <option
+                                value="{{$lang['id']}}"
+                                data-subtext="{{$lang['eng_title']}}"
+                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
+
+                                @if($textsLangId == $lang['id'])
+                                selected
+                                @endif
+                        >
+                        </option>
+
+                    @endforeach
+
+                </select>
+
+            <button type="submit" class="btn w-100 btn-primary noradius" style="margin: 15px 0;" id="pt_filter"><b>FILTER</b></button>
+
+        </div>
+
     @foreach($texts as $text)
 
 

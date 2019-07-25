@@ -39,14 +39,6 @@
 
         <input type="hidden" id="text_pubic" name="text_pubic" value="@if(app('request')->get('public') == 1) 1 @else 0 @endif">
 
-        {{--<div class="form-group row">--}}
-            {{--<label for="exampleFormControlTextarea1" class="col-sm-2 col-form-label">Short about</label>--}}
-            {{--<div class="col-sm-10">--}}
-                {{--<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>--}}
-            {{--</div>--}}
-        {{--</div>--}}
-
-
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="lang_from">Translate from</label>
             <div class="col-sm-10">
@@ -57,7 +49,12 @@
                         <option
                                 value="{{$lang['id']}}"
                                 data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
+                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
+
+                                @if(auth()->user()->getFirstStudiedLanguage() == $lang['id'])
+                                    selected
+                                @endif
+                        >
                         </option>
 
                     @endforeach
@@ -77,7 +74,12 @@
                         <option
                                 value="{{$lang['id']}}"
                                 data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
+                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
+
+                                @if(auth()->user()->getFirstKnownLanguage() == $lang['id'])
+                                selected
+                                @endif
+                        >
                         </option>
 
                     @endforeach
@@ -126,7 +128,12 @@
                         <option
                                 value="{{$lang['id']}}"
                                 data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
+                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
+
+                                @if(auth()->user()->getFirstStudiedLanguage() == $lang['id'])
+                                selected
+                                @endif
+                        >
                         </option>
 
                     @endforeach
@@ -146,7 +153,12 @@
                         <option
                                 value="{{$lang['id']}}"
                                 data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
+                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
+
+                                @if(auth()->user()->getFirstKnownLanguage() == $lang['id'])
+                                selected
+                                @endif
+                        >
                         </option>
 
                     @endforeach

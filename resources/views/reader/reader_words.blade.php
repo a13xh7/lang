@@ -23,7 +23,7 @@
                             data-subtext="{{$lang['eng_title']}}"
                             data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
 
-                            @if(\Illuminate\Support\Facades\Cookie::get('w_lang') == $lang['id'])
+                            @if($wordsLangId == $lang['id'])
 
                                 selected
 
@@ -51,7 +51,7 @@
                             data-subtext="{{$lang['eng_title']}}"
                             data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
 
-                            @if(\Illuminate\Support\Facades\Cookie::get('wt_lang') == $lang['id'])
+                            @if($wordsTranslationLangId == $lang['id'])
 
                             selected
 

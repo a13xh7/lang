@@ -15,18 +15,25 @@ class QuestionsController extends Controller
         $perPage = 10;
 
 
-
         if(!Auth::guest()) {
-            // get language from user model
+
+            $user = \App\Models\Main\User::find(\auth()->user()->id);
+
+            $questionsLanguage = $request->cookie('q_lang_id') == null ? $request->cookie('q_lang_id') : $user->getFirstKnownLanguage();
+            $questionsAboutLanguage = $request->cookie('q_about_lang_id') == null ? $request->cookie('q_about_lang_id') : $user->getFirstStudiedLanguage();
+
         } else {
-            // get language from browser
+
+            $questionsLanguage = $request->cookie('q_lang_id') == null ? $request->cookie('q_lang_id') : 1;
+            $questionsAboutLanguage = $request->cookie('q_about_lang_id') == null ? $request->cookie('q_about_lang_id') : 1;
         }
 
-        $questionsLanguage = $request->cookie('q_lang_id') == null ? 1 : 1;
-        $questionsAboutLanguage = $request->cookie('q_about_lang_id');
 
 
-        $questions = Question::where('text_id', 0)->orderBy('id', 'DESC')->paginate($perPage);
+        $questions = Question::where('text_id', 0)
+            ->where('lang_id', $questionsLanguage)
+            ->where('about_lang_id', $questionsAboutLanguage)
+            ->orderBy('id', 'DESC')->paginate($perPage);
 
         return view('qa.qa_index')->with('questions', $questions);
     }

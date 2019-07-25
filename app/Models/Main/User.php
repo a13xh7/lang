@@ -19,7 +19,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'known_languages', 'studied_languages', 'password'
     ];
 
     /**
@@ -40,6 +40,25 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function getFirstKnownLanguage()
+    {
+        return unserialize($this->known_languages)[0];
+    }
+
+    public function getFirstStudiedLanguage()
+    {
+        return unserialize($this->studied_languages)[0];
+    }
+
+    public function getKnownLanguages()
+    {
+        return unserialize($this->known_languages);
+    }
+
+    public function getStudiedLanguages()
+    {
+        return unserialize($this->studied_languages);
+    }
 
     public function texts()
     {
@@ -55,4 +74,5 @@ class User extends Authenticatable
     {
         return $this->hasMany(Question::class, 'user_id', 'id');
     }
+
 }

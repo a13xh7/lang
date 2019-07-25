@@ -53,7 +53,7 @@
 <script src="{{asset('js/reader.js')}}"></script>
 <script src="{{asset('js/reader_text_page.js')}}"></script>
 <script src="{{asset('js/js.cookie.js')}}"></script>
-
+<script src="{{asset('js/qa.js')}}"></script>
 
 </body>
 </html>

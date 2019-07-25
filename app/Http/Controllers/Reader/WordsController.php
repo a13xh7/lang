@@ -26,16 +26,15 @@ class WordsController extends Controller
 
     public function showPage(Request $request)
     {
-        $perPage = 100;
-        $wordsLangId = $request->cookie('w_lang') ? $request->cookie('wt_lang') : 1;
-        $wordsTranslationLangId = $request->cookie('wt_lang') ? $request->cookie('wt_lang') : 1 ;
+        $user = User::find(auth()->user()->id);
 
-        $user = User::where('id', auth()->user()->id)->first();
+        $perPage = 100;
+        $wordsLangId = $request->cookie('w_lang') ? $request->cookie('w_lang') : $user->getFirstStudiedLanguage();
+        $wordsTranslationLangId = $request->cookie('wt_lang') ? $request->cookie('wt_lang') : $user->getFirstKnownLanguage();
 
         // Достать слова из базы с учетом фильтров по языкам
 
-        if($request->cookie('show_words') == WordConfig::TO_STUDY)
-        {
+        if($request->cookie('show_words') == WordConfig::TO_STUDY) {
             $words = $user->words()
                 ->where('state', WordConfig::TO_STUDY)
                 ->where('lang_id', $wordsLangId)
@@ -43,8 +42,7 @@ class WordsController extends Controller
                 $query->where('lang_id', '=', $wordsTranslationLangId);
             })->paginate($perPage);
 
-        } elseif ($request->cookie('show_words') == WordConfig::KNOWN)
-        {
+        } elseif ($request->cookie('show_words') == WordConfig::KNOWN) {
             $words = $user->words()
                 ->where('state', WordConfig::KNOWN)
                 ->where('lang_id', $wordsLangId)
@@ -52,14 +50,16 @@ class WordsController extends Controller
                     $query->where('lang_id', '=', $wordsTranslationLangId);
                 })->paginate($perPage);
 
-        } else
-            {
+        } else {
             $words = $user->words()
                 ->where('lang_id', $wordsLangId)
                 ->whereHas('googleTranslation', function (Builder $query) use ($wordsTranslationLangId) {
                     $query->where('lang_id', '=', $wordsTranslationLangId);
             })->paginate($perPage);
+
         }
+
+
 
         // Посчитать количество слов с учетом фильтра по языкам
 
@@ -88,7 +88,9 @@ class WordsController extends Controller
             ->with('words', $words)
             ->with('totalWords', $totalWords)
             ->with('totalKnownWords', $totalKnownWords)
-            ->with('totalNewWords', $totalNewWords);
+            ->with('totalNewWords', $totalNewWords)
+            ->with('wordsLangId', $wordsLangId)
+            ->with('wordsTranslationLangId', $wordsTranslationLangId);
 
     }
 

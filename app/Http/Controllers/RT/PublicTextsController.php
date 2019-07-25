@@ -9,13 +9,23 @@ use Illuminate\Http\Request;
 
 class PublicTextsController extends Controller
 {
-    public function showPage()
+    public function showPage(Request $request)
     {
         $perPage = 10;
+        $user = User::find(auth()->user()->id);
 
-        $texts = Text::where('public', true)->orderBy('id', 'DESC')->paginate($perPage);
+        $textsLangId = $request->cookie('pt_lang_id') == null ? $request->cookie('pt_lang') : $user->getFirstStudiedLanguage();
+        $textsTranslateToLangId = $request->cookie('pt_to_lang_id') == null ? $request->cookie('pt_to_lang') : $user->getFirstKnownLanguage();
 
-        return view('rt.rt_public_texts')->with('texts', $texts);
+        $texts = Text::where('public', true)
+            ->where('lang_id', $textsLangId)
+            ->where('translate_to_lang_id', $textsTranslateToLangId)
+            ->orderBy('id', 'DESC')->paginate($perPage);
+
+        return view('rt.rt_public_texts')
+            ->with('texts', $texts)
+            ->with('textsLangId', $textsLangId)
+            ->with('textsTranslateToLangId', $textsTranslateToLangId);
     }
 
     public function getPublicText($textId)

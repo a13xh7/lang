@@ -7,6 +7,7 @@ var mainHeight = window.innerHeight - ( 65+80 );
 
 $('main').css("min-height", mainHeight);
 $('.sidebar').css("min-height", mainHeight);
+$('.qa_sidebar').css("min-height", mainHeight);
 
 $( document ).ready(function() {
 
@@ -68,7 +69,7 @@ $('a[data-target="#text_edit_modal"]').on('click',function(){
 // word language filter
 $('#w_lang').on('change', function(){
 
-    document.cookie = "w_lang=" + $(this).val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC"
+    document.cookie = "w_lang=" + $(this).val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
 
     url = window.location.href.split('?')[0];
     location.href = url;
@@ -77,7 +78,7 @@ $('#w_lang').on('change', function(){
 // word translation language filter
 $('#wt_lang').on('change', function(){
 
-    document.cookie = "wt_lang=" + $(this).val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC"
+    document.cookie = "wt_lang=" + $(this).val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
 
     url = window.location.href.split('?')[0];
     location.href = url;
@@ -185,7 +186,20 @@ $('#show_known_words').on('click',function(){
     location.href = url;
 });
 
+// Фильтр  публичных тектсов по языкам
 
+$('#pt_filter').on('click',function() {
+
+
+    document.cookie = "pt_lang_id=" + $('#lang_from').val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
+
+    document.cookie = "pt_to_lang_id=" + $('#lang_to').val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
+
+    url = window.location.href.split('?')[0];
+    location.href = url;
+
+
+});
 
 
 }); // document ready end

@@ -11,50 +11,6 @@
     <hr>
 
 
-    <div class="q_lang_filter">
-
-        <label for="lang_from">Question language</label>
-        <select class="selectpicker" name="lang_from" id="lang_from" data-live-search="true" data-width="100%">
-
-            @foreach(\App\Config\Lang::all() as $lang)
-
-                <option
-                        value="{{$lang['id']}}"
-                        data-subtext="{{$lang['eng_title']}}"
-                        data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
-                </option>
-
-            @endforeach
-
-        </select>
-
-
-        <label for="lang_to">Question about language</label>
-
-            <select class="selectpicker" name="lang_to" id="lang_to" data-live-search="true" data-width="100%">
-
-                @foreach(\App\Config\Lang::all() as $lang)
-
-                    <option
-                            value="{{$lang['id']}}"
-                            data-subtext="{{$lang['eng_title']}}"
-                            data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
-                    </option>
-
-                @endforeach
-
-            </select>
-
-        <button type="submit" class="btn w-100 btn-primary noradius" style="margin: 15px 0;"><b>FILTER</b></button>
-
-        <p><b>How to use filter:</b> </p>
-        <p>Например - вы знаете русский и вы изучаете английский язык.</p>
-        <p>Вы можете задать вопрос русскоязычным пользоавателям установив язык вопроса - русский</p>
-
-    </div>
-
-
-
     @foreach($questions as $question)
 
         <div class="row question_wrapper">

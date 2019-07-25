@@ -110,6 +110,10 @@ h1 {
     padding-right: 0;
 }
 
+.sidebar li {
+    border-bottom: 1px solid dimgray;
+}
+
 .reader_sidebar_block_name {
     text-transform: uppercase;
     color: #606060;
@@ -117,6 +121,11 @@ h1 {
 }
 
 .sidebar a {
+    font-size: large;
+    text-transform: uppercase;
+}
+
+.sidebar_menu_link {
     font-size: large;
     text-transform: uppercase;
 }
@@ -163,13 +172,10 @@ h1 {
     margin-top: 10px;
 }
 
-.sidebar li {
-    border-bottom: 1px solid dimgray;
-}
 
 /* фикс для цвета селектора языков. это просто пиздец. ебанный фронтенд*/
 
-button[data-id="lang_to"], button[data-id="lang_from"] {
+button[data-id="lang_to"], button[data-id="lang_from"], button[data-id="lang_known"], button[data-id="lang_learn"] {
     background-color: white;
     border: 1px solid #ced4da;
 }
