@@ -4,11 +4,11 @@
 
     <main class="row qa_content">
 
-        <div class="container" > {{--style="max-width: 1440px !important;"--}}
+        <div class="container" >
 
             <div class="row">
 
-                @include('layouts.qa.qa_left_sidebar')
+                @include('layouts.reader.reader_left_sidebar')
 
                 <div class="col-9">
                     <h1>User settings</h1>
@@ -27,7 +27,7 @@
                         @csrf
 
                         <div class="form-group">
-                            <label for="name">Nickname</label>
+                            <label for="name">Name</label>
                             <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{$user->name}}" required>
                         </div>
 

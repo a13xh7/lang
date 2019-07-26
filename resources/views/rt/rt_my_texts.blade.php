@@ -82,7 +82,7 @@
                         <i class="icofont-read-book"></i> Read
                     </a> <br>
 
-                    <a class="btn btn-primary text-light noradius w-100 mb-1" href="{{ route('rt_text_stats', $text->id) }}">
+                    <a class="btn btn-primary text-light noradius w-100 mb-1" href="{{ route('reader_text_stats', $text->id) }}?public=1">
                         <i class="icofont-info-square"></i> Full Info
                     </a> <br>
 

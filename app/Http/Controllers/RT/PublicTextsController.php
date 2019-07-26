@@ -14,8 +14,10 @@ class PublicTextsController extends Controller
         $perPage = 10;
         $user = User::find(auth()->user()->id);
 
-        $textsLangId = $request->cookie('pt_lang_id') != null ? $request->cookie('pt_lang') : $user->getFirstStudiedLanguage();
-        $textsTranslateToLangId = $request->cookie('pt_to_lang_id') != null ? $request->cookie('pt_to_lang') : $user->getFirstKnownLanguage();
+        $textsLangId = $request->cookie('pt_lang_id') != null ? $request->cookie('pt_lang_id') : $user->getFirstStudiedLanguage();
+        $textsTranslateToLangId = $request->cookie('pt_to_lang_id') != null ? $request->cookie('pt_to_lang_id') : $user->getFirstKnownLanguage();
+
+//     dd();
 
         $texts = Text::where('public', true)
             ->where('lang_id', $textsLangId)

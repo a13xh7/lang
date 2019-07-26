@@ -190,10 +190,13 @@ $('#show_known_words').on('click',function(){
 
 $('#pt_filter').on('click',function() {
 
+    // I know lang selector
+    document.cookie = "pt_to_lang_id=" + $('#lang_from').val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
 
-    document.cookie = "pt_lang_id=" + $('#lang_from').val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
+    // i want to learn selector
+    document.cookie = "pt_lang_id=" + $('#lang_to').val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
 
-    document.cookie = "pt_to_lang_id=" + $('#lang_to').val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
+
 
     url = window.location.href.split('?')[0];
     location.href = url;

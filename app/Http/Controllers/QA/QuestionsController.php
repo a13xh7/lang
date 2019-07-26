@@ -15,17 +15,17 @@ class QuestionsController extends Controller
         $perPage = 10;
 
 
-        if(!Auth::guest()) {
+        if(Auth::guest() == false) {
 
             $user = \App\Models\Main\User::find(\auth()->user()->id);
 
-            $questionsLanguage = $request->cookie('q_lang_id') == null ? $request->cookie('q_lang_id') : $user->getFirstKnownLanguage();
-            $questionsAboutLanguage = $request->cookie('q_about_lang_id') == null ? $request->cookie('q_about_lang_id') : $user->getFirstStudiedLanguage();
+            $questionsLanguage = $request->cookie('q_lang_id') != null ? $request->cookie('q_lang_id') : $user->getFirstKnownLanguage();
+            $questionsAboutLanguage = $request->cookie('q_about_lang_id') != null ? $request->cookie('q_about_lang_id') : $user->getFirstStudiedLanguage();
 
         } else {
 
-            $questionsLanguage = $request->cookie('q_lang_id') == null ? $request->cookie('q_lang_id') : 1;
-            $questionsAboutLanguage = $request->cookie('q_about_lang_id') == null ? $request->cookie('q_about_lang_id') : 1;
+            $questionsLanguage = $request->cookie('q_lang_id') != null ? $request->cookie('q_lang_id') : 1;
+            $questionsAboutLanguage = $request->cookie('q_about_lang_id') != null ? $request->cookie('q_about_lang_id') : 1;
         }
 
 

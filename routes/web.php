@@ -8,7 +8,8 @@ Route::get('/', 'PublicController@showIndexLanding')->name('index_landing');
 
 Route::get('/reader', 'PublicController@showReaderLanding')->name('reader_landing');
 
-Route::get('/read-together', 'PublicController@showReaderLanding')->name('rt_landing');
+// SET LOCALE
+Route::get('/set/{locale}', 'LocalizationController@set')->name('set_locale');
 
 
 
@@ -72,9 +73,6 @@ Route::get('/read-together', 'PublicController@showReadTogetherLanding')->name('
 Route::middleware(['auth'])->group(function ()
 {
 
-    // ADD TEXT PAGE
-    Route::get('/rt/add/text', 'RT\AddTextController@showPage')->name('rt_add_text_page');
-    Route::post('/rt/add/text', 'Reader\AddTextController@addText')->name('rt_add_text');
 
     // Public texts
     Route::get('/rt/public-texts', 'RT\PublicTextsController@showPage')->name('rt_public_texts');
@@ -88,11 +86,6 @@ Route::middleware(['auth'])->group(function ()
 
     Route::get('/rt/my-questions', 'RT\MyTextQuestionsController@showPage')->name('rt_my_questions');
 
-    //words
-    Route::get('/rt/words', 'RT\RTWordsController@showPage')->name('rt_words');
-
-    // TEXT STATS PAGE
-    Route::get('/rt/text/stats/{textId}', 'RT\RTTextStatsController@showTextStats')->name('rt_text_stats');
 
 });
 

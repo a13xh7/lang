@@ -2,7 +2,12 @@
 
 @section('reader_sidebar')
 
-    @include('layouts.reader.reader_left_sidebar')
+    @if(app('request')->get('public') == 1)
+        @include('layouts.rt.rt_left_sidebar')
+    @else
+        @include('layouts.reader.reader_left_sidebar')
+    @endif
+
 
 @endsection
 

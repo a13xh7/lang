@@ -72,7 +72,7 @@ class LetterAvatar
 
     /**
      * color in RGB format (example: #FFFFFF)
-     * 
+     *
      * @param $backgroundColor
      * @param $foregroundColor
      */
@@ -82,7 +82,7 @@ class LetterAvatar
         $this->foregroundColor = $foregroundColor;
         return $this;
     }
-    
+
     /**
      * @param string $name
      */
@@ -163,7 +163,9 @@ class LetterAvatar
 
         $secondLetter = isset($nameParts[1]) ? $this->getFirstLetter($nameParts[1]) : '';
 
-        return strtoupper($name[0]. $name[1]);
+        $firstLetter = $name[0];
+        $secondLetter = isset($name[1]) ? $name[1] : 'E';
+        return strtoupper($firstLetter. $secondLetter);
 
     }
 

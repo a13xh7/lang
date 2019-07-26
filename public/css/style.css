@@ -53,6 +53,14 @@ h1 {
     padding-left: 10px;
 }
 
+.user_name {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 200px;
+    vertical-align: middle;
+}
+
 
 /************************** HEADER*************************/
 
@@ -73,7 +81,7 @@ h1 {
     text-transform: uppercase;
     font-weight: bold;
     color: white;
-    font-size: x-large;
+    font-size: large;
     white-space: nowrap
 }
 

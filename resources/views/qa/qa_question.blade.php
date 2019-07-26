@@ -10,7 +10,7 @@
 
         <div class="col">
             <img src="{{ (new \App\Services\Avatar\LetterAvatar($question->user->name, 'circle', 35)) }}" alt="">
-            <b>{{$question->user->name}}</b><span class="text-muted small">, {{$question->created_at->diffForHumans()}},</span>
+            <b> <span class="user_name">{{$question->user->name}}</span></b><span class="text-muted small">, {{$question->created_at->diffForHumans()}},</span>
             <span class="text-muted small">{{$question->views}} views</span>
         </div>
 
@@ -67,7 +67,7 @@
                     <img src="{{ (new \App\Services\Avatar\LetterAvatar($answer->user->name, 'circle', 35)) }}" alt="">
 
 
-                    <b>{{$answer->user->name}}</b><span class="text-muted small">, {{$question->created_at->diffForHumans()}}</span>
+                    <b><span class="user_name">{{$answer->user->name}}</span></b><span class="text-muted small">, {{$question->created_at->diffForHumans()}}</span>
                 </div>
 
                 <div class="answer_content">{!! $answer->content !!} </div>
