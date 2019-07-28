@@ -2,7 +2,7 @@
 
 @section('rt_content')
 
-    <h1 class="uc">My Questions</h1>
+    <h1 class="uc">{{__('My questions')}}</h1>
 
 
     @foreach($questions as $question)

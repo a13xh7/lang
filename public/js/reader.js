@@ -3,7 +3,7 @@
 
 //$('header').height() + $('footer').height()
 
-var mainHeight = window.innerHeight - ( 65+80 );
+var mainHeight = window.innerHeight - ( 65+120 );
 
 $('main').css("min-height", mainHeight);
 $('.sidebar').css("min-height", mainHeight);

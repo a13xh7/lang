@@ -13,11 +13,11 @@
 
 @section('reader_content')
 
-    <h1>MY WORDS</h1>
+    <h1 class="uc">{{__('My words')}}</h1>
 
 
     <div class="form-group row">
-        <label class="col-md-auto col-form-label" for="w_lang"><b>Words language</b></label>
+        <label class="col-md-auto col-form-label" for="w_lang"><b>{{__('Words language')}}</b></label>
         <div class="col">
             <select class="selectpicker" name="w_lang" id="w_lang" data-live-search="true" data-width="100%">
 
@@ -45,7 +45,7 @@
 
 
     <div class="form-group row">
-        <label class="col-md-auto col-form-label" for="wt_lang"><b>Translation language</b></label>
+        <label class="col-md-auto col-form-label" for="wt_lang"><b>{{__('Translation language')}}</b></label>
         <div class="col">
             <select class="selectpicker" name="wt_lang" id="wt_lang" data-live-search="true" data-width="100%">
 
@@ -77,19 +77,19 @@
 
         <li class="nav-item" style="margin-right: 50px;">
             <button type="button" class="btn btn-primary noradius active" id="show_all_words">
-                <span class="h2">ALL: <span class="badge badge-light">{{ $totalWords }}</span> </span>
+                <span class="h2">{{__('ALL')}}: <span class="badge badge-light">{{ $totalWords }}</span> </span>
             </button>
         </li>
 
         <li class="nav-item" style="margin-right: 50px;">
             <button type="button" class="btn btn-primary noradius" id="show_unknown_words">
-                <span class="h2">TO STUDY: <span class="badge badge-warning">{{ $totalNewWords }} </span> </span>
+                <span class="h2">{{__('TO STUDY')}}: <span class="badge badge-warning">{{ $totalNewWords }} </span> </span>
             </button>
         </li>
 
         <li class="nav-item">
             <button type="button" class="btn btn-primary noradius" id="show_known_words">
-                <span class="h2">KNOWN: <span class="badge badge-success">{{ $totalKnownWords }}</span> </span>
+                <span class="h2">{{__('KNOWN')}}: <span class="badge badge-success">{{ $totalKnownWords }}</span> </span>
             </button>
         </li>
 
@@ -100,9 +100,9 @@
     <table class="table" id="all_text_words">
         <thead class="thead-light">
         <tr>
-            <th>State</th>
-            <th scope="col">Word</th>
-            <th scope="col">Translation</th>
+            <th>{{__('State')}}</th>
+            <th scope="col">{{__('Word')}}</th>
+            <th scope="col">{{__('Translation')}}</th>
         </tr>
         </thead>
         <tbody>

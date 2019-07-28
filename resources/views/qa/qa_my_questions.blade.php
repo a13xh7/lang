@@ -2,7 +2,7 @@
 
 @section('qa_content')
 
-    <h1 class="uc">My Questions</h1>
+    <h1 class="uc">{{__('My questions')}}</h1>
 
 
     @foreach($questions as $question)
@@ -11,7 +11,7 @@
 
             <div class="question_content col-10">
                 <div class="question_title"><a href="{{route('qa_question', $question->id)}}" class="h3">{{$question->title}}</a></div>
-                <div><span class="text-muted small">{{$question->created_at->diffForHumans()}}</span>  <span class="text-muted small">-  {{$question->views}} views</span></div>
+                <div><span class="text-muted small">{{$question->created_at->diffForHumans()}}</span>  <span class="text-muted small">-  {{$question->views}} {{__('views')}}</span></div>
                 <div>
 
 
@@ -37,7 +37,7 @@
 
             <div class="question_answers_count col">
                 <span class="h1 text-muted">{{$question->answers()->count()}}</span> <br>
-                <span class="text-muted small">answers</span>
+                <span class="text-muted small">{{__('answers')}}</span>
             </div>
         </div>
         <hr>

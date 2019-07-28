@@ -7,7 +7,7 @@
 
         <div class="q_lang_filter">
 
-            <label for="lang_from">I know</label>
+            <label for="lang_from">{{__('I know')}}</label>
             <select class="selectpicker" name="lang_from" id="lang_from" data-live-search="true" data-width="100%">
 
                 @foreach(\App\Config\Lang::all() as $lang)
@@ -29,7 +29,7 @@
             </select>
 
             <br><br>
-            <label for="lang_to">I want to learn</label>
+            <label for="lang_to">{{__('I want to learn')}}</label>
 
             <select class="selectpicker" name="lang_to" id="lang_to" data-live-search="true" data-width="100%">
 
@@ -51,15 +51,15 @@
 
             </select>
 
-            <button type="submit" class="btn w-100 btn-primary noradius" style="margin: 15px 0;" id="q_filter_btn"><b>FILTER</b></button>
+            <button type="submit" class="btn w-100 btn-primary noradius" style="margin: 15px 0;" id="q_filter_btn"><b>{{__('FILTER')}}</b></button>
 
         </div>
 
     @auth()
         <div class="list-group list-group-flush">
-            <a href="{{route('qa_add_question_page')}}" class="list-group-item list-group-item-action bg-light sidebar_menu_link"><i class="icofont-question-square"></i> Ask Question</a>
-            <a href="{{route('qa_index')}}" class="list-group-item list-group-item-action bg-light sidebar_menu_link"><i class="icofont-world"></i> All questions</a>
-            <a href="{{route('qa_my_questions')}}" class="list-group-item list-group-item-action bg-light sidebar_menu_link"><i class="icofont-search-user"></i> My questions</a>
+            <a href="{{route('qa_add_question_page')}}" class="list-group-item list-group-item-action bg-light sidebar_menu_link"><i class="icofont-question-square"></i> {{__('Ask question')}}</a>
+            <a href="{{route('qa_index')}}" class="list-group-item list-group-item-action bg-light sidebar_menu_link"><i class="icofont-world"></i> {{__('All questions')}}</a>
+            <a href="{{route('qa_my_questions')}}" class="list-group-item list-group-item-action bg-light sidebar_menu_link"><i class="icofont-search-user"></i> {{__('My questions')}}</a>
         </div>
 
     @endauth

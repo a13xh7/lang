@@ -11,7 +11,7 @@
         <div class="col">
             <img src="{{ (new \App\Services\Avatar\LetterAvatar($question->user->name, 'circle', 35)) }}" alt="">
             <b> <span class="user_name">{{$question->user->name}}</span></b><span class="text-muted small">, {{$question->created_at->diffForHumans()}},</span>
-            <span class="text-muted small">{{$question->views}} views</span>
+            <span class="text-muted small">{{$question->views}} {{__('views')}}</span>
         </div>
 
         <div class="col col-auto">
@@ -43,7 +43,7 @@
             @auth()
 
                 @if($question->user_id == auth()->user()->id)
-                    <a class="btn btn-primary noradius pl-5 pr-5 mt-3" href="{{route('qa_edit_question_page', $question->id)}}"><b>EDIT</b></a>
+                    <a class="btn btn-primary noradius pl-5 pr-5 mt-3" href="{{route('qa_edit_question_page', $question->id)}}"><b>{{__('Edit')}}</b></a>
                 @endif
 
             @endauth
@@ -55,7 +55,7 @@
 
     <div class="question_answers">
 
-      <div class="h3 answers_title">{{$question->answers()->count()}} answers</div>
+      <div class="h3 answers_title">{{$question->answers()->count()}} {{__('answers')}}</div>
 
 
         @foreach($answers as $answer)
@@ -83,7 +83,7 @@
     @if($showAnswerForm)
 
         <div class="answer_form">
-            <p class="h4">Your Answer</p>
+            <p class="h4">{{__('Your answer')}}</p>
             <form action="{{route('qa_add_answer')}}" method="post">
                 @csrf
 
@@ -93,7 +93,7 @@
                 <input id="x" type="hidden" name="content">
                 <trix-editor input="x" class="trix"></trix-editor>
 
-                <button type="submit" class="btn w-100 btn-primary noradius" style="margin-bottom: 30px; margin-top: 10px"><b>ADD</b></button>
+                <button type="submit" class="btn w-100 btn-primary noradius" style="margin-bottom: 30px; margin-top: 10px"><b class="uc">{{__('Add')}}</b></button>
             </form>
 
         </div>
@@ -102,7 +102,7 @@
 
         @guest()
         <div class="answer_form">
-            <p><b>Login to add answer</b></p>
+            <p><b>{{__('Login to add answer')}}</b></p>
         </div>
         @endguest
     @endif

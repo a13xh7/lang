@@ -1,5 +1,12 @@
 @extends('layouts.main.main_layout')
 
+@section('seo')
+
+    <title>{{__('Read Together')}}</title>
+
+@endsection
+
+
 @section('main_content')
 
     <main class="row">

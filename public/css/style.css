@@ -76,6 +76,13 @@ h1 {
     font-weight: bold;
 }
 
+.logo:hover {
+    color: white;
+    font-size: xx-large;
+    text-decoration: none;
+    font-weight: bold;
+}
+
 .header-menu > a{
     padding-right: 5%;
     text-transform: uppercase;

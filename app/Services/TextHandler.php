@@ -52,7 +52,7 @@ class TextHandler
 
         foreach ($words as $word => $usage_frequency) {
 
-            $percent = round (($usage_frequency / $this->totalWords) * 100, 2);
+            $percent = round (($usage_frequency / $this->totalWords) * 100, 4);
 
             $wordsFinal[] = [$word, $usage_frequency, $percent];
         }

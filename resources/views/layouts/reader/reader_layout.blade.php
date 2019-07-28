@@ -2,7 +2,7 @@
 
 @section('seo')
 
-    <title>Reader</title>
+    <title>{{__('Reader')}}</title>
 
 @endsection
 

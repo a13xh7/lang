@@ -5,8 +5,8 @@
 
 
     <div class="row mt-3 mb-1">
-        <div class="col"><span class="h1" style="color: #606060">All Questions</span></div>
-        <div class="col col-auto"> <a class="btn btn-primary noradius" href="{{route('qa_add_question_page')}}">ASK QUESTION</a></div>
+        <div class="col"><span class="h1 uc" style="color: #606060">{{__('All questions')}}</span></div>
+        <div class="col col-auto"> <a class="btn btn-primary noradius uc" href="{{route('qa_add_question_page')}}">{{__('Ask question')}}</a></div>
     </div>
     <hr>
 
@@ -17,7 +17,7 @@
 
             <div class="question_content col-10">
                 <div class="question_title"><a href="{{route('qa_question', $question->id)}}" class="h3">{{$question->title}}</a></div>
-                <div><span class="text-muted small user_name">{{$question->user->name}}, {{$question->created_at->diffForHumans()}}</span>  <span class="text-muted small">-  {{$question->views}} views</span></div>
+                <div><span class="text-muted small user_name">{{$question->user->name}}, {{$question->created_at->diffForHumans()}}</span>  <span class="text-muted small">-  {{$question->views}} {{__('views')}}</span></div>
                 <div>
 
 
@@ -43,7 +43,7 @@
 
             <div class="question_answers_count col">
                 <span class="h1 text-muted">{{$question->answers()->count()}}</span> <br>
-                <span class="text-muted small">answers</span>
+                <span class="text-muted small">{{__('answers')}}</span>
             </div>
         </div>
         <hr>

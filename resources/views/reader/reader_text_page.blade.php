@@ -1,5 +1,12 @@
 @extends('layouts.main.main_layout')
 
+@section('seo')
+
+    <title>{{__('Reader')}} - {{$page->text->title}}</title>
+
+@endsection
+
+
 @section('main_content')
 
     <main class="row">
@@ -9,18 +16,18 @@
             <div class="position-fixed">
 
                 <h4 class="sidebar-heading mt-4 mb-1 text-muted">
-                    <span>Text</span>
+                    <span>{{__('Text')}}</span>
                 </h4>
                 <hr>
 
                 <div>
                     <p>
-                        Text language:
+                        {{__('Text language')}}:
                         <img src="{{asset('img/flags/'. \App\Config\Lang::get($text_lang_id)['code'] .'.svg')}}" class="text_flag" alt="">
                         <i class="text-muted">({{\App\Config\Lang::get($text_lang_id)['title']}})</i>
                     </p>
                     <p>
-                      Translate to:
+                        {{__('Translate to')}}:
                       <img src="{{asset('img/flags/'. \App\Config\Lang::get($translate_to_lang_id)['code']  .'.svg')}}" class="text_flag" alt="">
                       <i class="text-muted">({{\App\Config\Lang::get($translate_to_lang_id)['title']}})</i>
                     </p>
@@ -29,38 +36,38 @@
 
 
                 <h4 class="sidebar-heading mt-4 mb-1 text-muted">
-                    <span>Words</span> <span style="font-size: 16px">(Click to translate)</span>
+                    <span>{{__('Words')}}</span> <br>
+                    <span style="font-size: 16px">({{__('Click to translate')}})</span>
                 </h4>
                 <hr>
 
-                <p><mark class="study">word</mark> - to study words</p>
-                <p><mark class="unknown">word</mark> - unknown words</p>
-                <p><mark>word</mark> - known words</p>
+                <p><mark class="study">word</mark> - {{__('to study words')}}</p>
+                <p><mark class="unknown">word</mark> - {{__('unknown words')}}</p>
+                <p><mark>word</mark> - {{__('known words')}}</p>
 
                 <h4 class="sidebar-heading mt-4 mb-1 text-muted">
-                    <span>Options</span>
+                    <span>{{__('Options')}}</span>
                 </h4>
                 <hr>
 
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="h_known" checked>
-                    <label class="custom-control-label" for="h_known">Highlight to study words</label>
+                    <label class="custom-control-label" for="h_known">{{__('Highlight to study words')}}</label>
                 </div>
 
                 <div class="custom-control custom-checkbox">
                     <input type="checkbox" class="custom-control-input" id="h_unknown" checked>
-                    <label class="custom-control-label" for="h_unknown">Highlight unknown words</label>
+                    <label class="custom-control-label" for="h_unknown">{{__('Highlight unknown words')}}</label>
                 </div>
 
                 <h4 class="sidebar-heading mt-4 mb-1 text-muted">
-                    <span>Other</span>
+                    <span>{{__('Other')}}</span>
                 </h4>
                 <hr>
 
                 <div style="Word-Wrap: break-word; max-width: 300px;">
-                    Select text and press
-                    <span style="font-size: 20px; border: 1px solid gray; width: 30px; display: inline-block; text-align: center; border-radius: 20%;"><b>T</b></span> to
-                    translate selected text in google translate
+                    {{__('Select text and press')}}
+                    <span style="font-size: 20px; border: 1px solid gray; width: 30px; display: inline-block; text-align: center; border-radius: 20%;"><b>T</b></span> {{__('to translate selected text in Google Translate')}}
                 </div>
                 <hr>
                 <div>
@@ -78,7 +85,7 @@
 
 
                     @if(app('request')->get('public') == 1)
-                    <a class="btn btn-primary noradius w-100 mr-5 mt-3" href="{{route('qa_add_question')}}{{$urlGetParam}}" target="_blank"><b>ASK QUESTION</b></a>
+                    <a class="btn btn-primary noradius w-100 mr-5 mt-3" href="{{route('qa_add_question')}}{{$urlGetParam}}" target="_blank"><b class="uc">{{__('Ask question')}}</b></a>
                     @endif
 
                 </div>
@@ -99,17 +106,17 @@
 
                     <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><b>TEXT</b></a>
+                            <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><b class="uc">{{__('Text')}}</b></a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false"><b>WORDS</b></a>
+                            <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false"><b class="uc">{{__('Words')}}</b></a>
                         </li>
 
 
                         @if(app('request')->get('public') == 1)
 
                             <li class="nav-item">
-                            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><b>QUESTIONS ({{$questions->count()}})</b></a>
+                            <a class="nav-link" id="pills-contact-tab" data-toggle="pill" href="#pills-contact" role="tab" aria-controls="pills-contact" aria-selected="false"><b class="uc">{{__('Questions')}} ({{$questions->count()}})</b></a>
                             </li>
 
                         @endif
@@ -140,7 +147,7 @@
                 <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
 
 
-                    <h1>Unique words on this page ({{count($words)}})</h1>
+                    <h1>{{__('Unique words on this page')}} ({{count($words)}})</h1>
 
                     <table class="table">
                         <thead class="thead-light">
@@ -256,29 +263,29 @@
             <div class="position-fixed">
 
                 <div>
-                    <span style="font-size:30px" id="rs_word">Word</span>
-                    <span class="badge badge-warning h4" id="rs_word_state" style="vertical-align: middle">To study</span>
+                    <span style="font-size:30px" id="rs_word">{{__('Word')}}</span>
+                    <span class="badge badge-warning h4" id="rs_word_state" style="vertical-align: middle">{{__('To study')}}</span>
                 </div>
 
 
                 <hr>
 
                 <div>
-                    <b>Translation:</b>
+                    <b>{{__('Translation')}}:</b>
                 </div>
 
-                <textarea id="rs_word_translation" cols="30" rows="3">word translation</textarea>
+                <textarea id="rs_word_translation" cols="30" rows="3">{{__('word translation')}}</textarea>
 
 
 
                 <div id="rs_mark_known_wrapper">
                     <hr>
-                    <b>Mark this word as known:</b> <br>
+                    <b>{{__('Mark this word as known')}}:</b> <br>
                     <button type="button" id="rs_mark_as_known_btn" class="btn btn-success btn-sm"
                             data-lang_id="{{$text_lang_id}}"
                             data-translate_to_lang_id = "{{$translate_to_lang_id}}"
                             data-word=""
-                            data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                            data-state="{{\App\Config\WordConfig::KNOWN}}">{{__('Known')}}</button>
                 </div>
 
 
@@ -286,9 +293,9 @@
 
                 <div class="pr-3 pt-3">
 
-                    <a href="#" class="btn btn-primary w-100 mb-2" id="gt_btn">Translate in Google</a>
+                    <a href="#" class="btn btn-primary w-100 mb-2" id="gt_btn">{{__('Translate in Google')}}</a>
 
-                    <a href="#" class="btn btn-primary w-100 mb-2" id="yt_btn">Translate in Yandex</a>
+                    <a href="#" class="btn btn-primary w-100 mb-2" id="yt_btn">{{__('Translate in Yandex')}}</a>
                 </div>
 
 
