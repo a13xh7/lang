@@ -1,5 +1,11 @@
 @extends('layouts.main.main_layout')
 
+@section('seo')
+
+    <title>Reader</title>
+
+@endsection
+
 @section('main_content')
 
     <main class="row">

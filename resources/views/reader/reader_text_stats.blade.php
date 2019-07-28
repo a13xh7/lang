@@ -18,8 +18,12 @@
         <ul>
 
             <li>
-                Text language: <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->lang_id)['code'] .'.svg')}}" class="text_flag" alt="">{{\App\Config\Lang::get($text->lang_id)['title']}}
+                Text language:  <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->lang_id)['code'] .'.svg')}}" class="text_flag" alt="">{{\App\Config\Lang::get($text->lang_id)['title']}}
                 <i class="text-muted">({{\App\Config\Lang::get($text->lang_id)['eng_title']}})</i>
+            </li>
+            <li>
+                Tranlsate text to:  <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->translate_to_lang_id)['code'] .'.svg')}}" class="text_flag" alt="">{{\App\Config\Lang::get($text->translate_to_lang_id)['title']}}
+                <i class="text-muted">({{\App\Config\Lang::get($text->translate_to_lang_id)['eng_title']}})</i>
             </li>
             <li>Pages: <b>{{$text->total_pages}}</b></li>
             <li>Symbols: <b>{{ $text->total_symbols}}</b></li>

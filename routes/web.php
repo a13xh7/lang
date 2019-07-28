@@ -4,9 +4,13 @@
  * ACCESSIBLE FOR EVERYONE PAGES
  ****************************************************************/
 
+// Landings
+
 Route::get('/', 'PublicController@showIndexLanding')->name('index_landing');
 
 Route::get('/reader', 'PublicController@showReaderLanding')->name('reader_landing');
+
+Route::get('/read-together', 'PublicController@showReadTogetherLanding')->name('rt_landing');
 
 // SET LOCALE
 Route::get('/set/{locale}', 'LocalizationController@set')->name('set_locale');
@@ -68,7 +72,6 @@ Route::middleware(['auth'])->group(function ()
  * READ TOGETHER
  ****************************************************************/
 
-Route::get('/read-together', 'PublicController@showReadTogetherLanding')->name('rt_landing');
 
 Route::middleware(['auth'])->group(function ()
 {

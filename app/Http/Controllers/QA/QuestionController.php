@@ -33,6 +33,7 @@ class QuestionController extends Controller
             ->with('showAnswerForm', $showAnswerForm);
     }
 
+
     public function addAnswer(Request $request)
     {
         $answer = new Answer();

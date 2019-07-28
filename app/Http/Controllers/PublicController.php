@@ -19,6 +19,6 @@ class PublicController extends Controller
 
     public function showReadTogetherLanding()
     {
-        return view('reader.reader_landing');
+        return view('rt.rt_landing');
     }
 }

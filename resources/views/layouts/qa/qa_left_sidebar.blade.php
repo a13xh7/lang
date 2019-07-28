@@ -17,20 +17,10 @@
                             data-subtext="{{$lang['eng_title']}}"
                             data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
 
+                          @if(isset($questionsLanguage) && $questionsLanguage == $lang['id'])
+                              selected
+                          @endif
 
-                            @auth
-
-                                <?php
-
-                                    if(\Illuminate\Support\Facades\Cookie::get('q_lang_id') != null && \Illuminate\Support\Facades\Cookie::get('q_lang_id') == $lang['id'] ) {
-                                        echo 'selected';
-                                    } else if(auth()->user()->getFirstKnownLanguage() == $lang['id']) {
-                                        echo 'selected';
-                                    }
-
-                                    ?>
-
-                             @endauth
                     >
                     </option>
 
@@ -50,19 +40,9 @@
                             data-subtext="{{$lang['eng_title']}}"
                             data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
 
-                    @auth
-
-                        <?php
-
-                            if(\Illuminate\Support\Facades\Cookie::get('q_about_lang_id') != null && \Illuminate\Support\Facades\Cookie::get('q_about_lang_id') == $lang['id'] ) {
-                                echo 'selected';
-                            } else if(auth()->user()->getFirstStudiedLanguage() == $lang['id']) {
-                                echo 'selected';
-                            }
-
-                            ?>
-
-                    @endauth
+                            @if( isset($questionsAboutLanguage) && $questionsAboutLanguage == $lang['id']  )
+                            selected
+                            @endif
 
                     >
                     </option>

@@ -60,7 +60,7 @@
 
             <div class="col">
                 <span class="text_title">
-               <a class="h4" href="">{{$text->title}}</a> <i class="text-muted">({{$text->created_at->format('d-m-Y')}})</i>
+               <span class="h4" href="">{{$text->title}}</span> <i class="text-muted">({{$text->created_at->format('d-m-Y')}})</i>
             </span>
 
                 <div>
