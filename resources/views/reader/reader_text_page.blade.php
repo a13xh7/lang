@@ -325,3 +325,7 @@
 
 
     @endsection
+
+@section('js')
+    <script src="{{asset('js/reader_text_page.js')}}"></script>
+@endsection

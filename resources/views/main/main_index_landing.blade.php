@@ -1,8 +1,13 @@
 @extends('layouts.main.main_layout')
 
+@section('seo')
+
+    <title>WexLang</title>
+
+@endsection
+
+
 @section('main_content')
-
-
 
     <div class="container-fluid">
 

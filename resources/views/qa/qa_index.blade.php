@@ -1,8 +1,14 @@
 @extends('layouts.qa.qa_layout')
 
+@section('seo')
+
+    <title>{{__('All questions')}} - WexLang</title>
+    <meta name="description" content="{{__('Interesting questions about learning foreign languages on WexLang.com')}}">
+    <meta name="keywords" content="{{__('WexLang, wexlang, language learning, q and a, foreign language, foreign')}}">
+
+@endsection
+
 @section('qa_content')
-
-
 
     <div class="row mt-3 mb-1">
         <div class="col"><span class="h1 uc" style="color: #606060">{{__('All questions')}}</span></div>

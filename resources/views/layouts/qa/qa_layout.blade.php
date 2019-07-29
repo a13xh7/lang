@@ -24,3 +24,7 @@
     </main>
 
 @endsection
+
+@section('js')
+    <script src="{{asset('js/qa.js')}}"></script>
+@endsection

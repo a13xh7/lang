@@ -1,5 +1,12 @@
 @extends('layouts.main.main_layout')
 
+@section('seo')
+
+    <title>WexLang - Reader</title>
+
+@endsection
+
+
 @section('main_content')
 
 

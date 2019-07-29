@@ -1,11 +1,12 @@
 @extends('layouts.qa.qa_layout')
 
+@section('seo')
+
+    <title>{{__('Ask question')}}</title>
+
+@endsection
+
 @section('qa_content')
-
-
-
-
-
 
         <h1 class="uc">{{__('Ask question')}}</h1>
 

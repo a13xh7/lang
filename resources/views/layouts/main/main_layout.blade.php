@@ -46,15 +46,15 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/js/bootstrap-select.min.js"></script>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/trix/1.1.1/trix.js"></script>
 
 
 <!-- App JavaScript -->
 <script src="{{asset('js/reader.js')}}"></script>
-<script src="{{asset('js/reader_text_page.js')}}"></script>
 <script src="{{asset('js/js.cookie.js')}}"></script>
-<script src="{{asset('js/qa.js')}}"></script>
+
+
+@yield('js')
 
 </body>
 </html>

@@ -1,8 +1,15 @@
 @extends('layouts.qa.qa_layout')
 
+@section('seo')
+
+    <title>{{$question->title}} - WexLang</title>
+    <meta name="description" content="{{ substr(strip_tags($question->content), 0, 150) }}">
+    <meta name="keywords" content="{{__('WexLang, wexlang, language learning, q and a, foreign language, foreign')}}">
+
+@endsection
+
+
 @section('qa_content')
-
-
 
     <h1><b>{{$question->title}}</b></h1>
 
