@@ -42,7 +42,7 @@
 
                     {{-- Known languages selector --}}
                     <div class="form-group row">
-                        <label for="lang_known" class="col-md-4 col-form-label text-md-right"><b>I know</b></label>
+                        <label for="lang_known" class="col-md-4 col-form-label text-md-right"><b>{{__('I know')}}</b></label>
 
                         <div class="col-md-6">
 
@@ -67,7 +67,7 @@
 
                     {{-- Studied languages selector --}}
                     <div class="form-group row">
-                        <label for="lang_learn" class="col-md-4 col-form-label text-md-right"><b>I want to learn</b></label>
+                        <label for="lang_learn" class="col-md-4 col-form-label text-md-right"><b>{{__('I want to learn')}}</b></label>
 
                         <div class="col-md-6">
 

@@ -92,7 +92,7 @@
                     </li>
                 </ul>
                 <div class="text-center">
-                    <img src="{{asset('img/rl/text_stats.jpg')}}" alt="" width="100%"  class="mx-auto">
+                    <img src="{{asset('img/rl/text_stats.jpg')}}" alt="" width="70%"  class="mx-auto">
                 </div>
 
             </div>
@@ -134,7 +134,7 @@
                 </ul>
 
                 <div class="text-center">
-                    <img src="{{asset('img/rl/reader.png')}}" alt="" width="100%" class="mx-auto">
+                    <img src="{{asset('img/rl/reader.png')}}" alt="" width="70%" class="mx-auto">
                 </div>
 
                 <p class="h3 text-center mt-3">

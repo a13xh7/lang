@@ -5,27 +5,29 @@
         <div class="container">
             <div class="row text-white">
 
-                <div class="col-auto">
-                    <p>© 2019 WexLang. All Rights Reserved</p>
+                <div class="col">
+                    <p>© 2019 WexLang <br> All Rights Reserved</p>
                 </div>
 
                 <div class="col ">
-                    Contacts: wexlang@gmail.com
+                    <b>Contacts</b><br>
+                    <a href="mailto:predewill@gmail.com" class="text-white">predewill@gmail.com</a>
+
                 </div>
 
                 <div class="col">
                     <ul>
-                        <li>Facebook</li>
-                        <li>VK</li>
-                        <li>Twitter</li>
+                        <li><a href="#" class="text-white">Facebook</a></li>
+                        <li><a href="https://vk.com/wexlang" class="text-white">VK</a></li>
+                        <li><a href="https://twitter.com/predewill" class="text-white">Twitter</a></li>
                     </ul>
                 </div>
 
                 <div class="col">
                     <ul>
-                        <li>Reader</li>
-                        <li>Read Together</li>
-                        <li>Q & A</li>
+                        <li><a href="{{route('reader_landing')}}" class="text-white">Reader</a></li>
+                        <li><a href="{{route('rt_landing')}}" class="text-white">Read Together</a></li>
+                        <li><a href="{{route('qa_index')}}" class="text-white">Q & A</a></li>
                     </ul>
                 </div>
 

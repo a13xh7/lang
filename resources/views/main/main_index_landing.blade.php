@@ -26,7 +26,7 @@
                 <div class="w-100"></div>
 
                 <div class="col mt-3 mb-3">
-                    <a href="{{ route('register') }}" class="btn btn-primary noradius w-100 p-2"><i class="icofont-user-alt-3"></i> <b class="uc">{{__('Register')}}</b> </a>
+                    <a href="{{ route('reader_landing') }}" class="btn btn-primary noradius w-100 p-2"><i class="icofont-user-alt-3"></i> <b class="uc">{{__('Read more')}}...</b> </a>
                 </div>
 
                 <div class="w-100"></div>
@@ -85,7 +85,7 @@
                 <div class="w-100"></div>
 
                 <div class="col mt-3 mb-3">
-                    <a href="{{ route('register') }}" class="btn btn-primary noradius w-100 p-2"><i class="icofont-user-alt-3"></i> <b class="uc"> {{__('Register')}}</b> </a>
+                    <a href="{{ route('rt_landing') }}" class="btn btn-primary noradius w-100 p-2"><i class="icofont-user-alt-3"></i> <b class="uc"> {{__('Read more')}}...</b> </a>
                 </div>
 
                 <div class="w-100"></div>
