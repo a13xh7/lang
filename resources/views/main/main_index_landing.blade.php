@@ -3,6 +3,7 @@
 @section('main_content')
 
 
+
     <div class="container-fluid">
 
         <div class="container">
@@ -10,9 +11,9 @@
             <div class="row" style="min-height: 300px">
                 <div class="col">
                     <p class="h1 mt-5" style="text-align: center">
-                        Изучайте иностранные языки, читая то, что вам нравится. <br>
-                        В оригинале. <br>
-                        Не отвлекаясь на словарь.
+                        {{__('Learn a language by reading whatever you like')}}. <br>
+                        {{__('Read books in original language')}}. <br>
+                        {{__('Without being distracted by a dictionary')}}.
                     </p>
 
                 </div>
@@ -20,13 +21,13 @@
                 <div class="w-100"></div>
 
                 <div class="col mt-3 mb-3">
-                    <a href="{{ route('reader_landing') }}" class="btn btn-primary noradius w-100 p-2"><i class="icofont-user-alt-3"></i> <b>УЗНАТЬ БОЛЬШЕ...</b> </a>
+                    <a href="{{ route('register') }}" class="btn btn-primary noradius w-100 p-2"><i class="icofont-user-alt-3"></i> <b class="uc">{{__('Register')}}</b> </a>
                 </div>
 
                 <div class="w-100"></div>
 
                 <div class="col" style="text-align: center">
-                    <p class="h2"><b>17 языков </b> и любые направления перевода в beta версии.</p>
+                    <p class="h2"><b>{{__('17 languages')}}</b> {{__('and any translation directions are available in the beta version')}}.</p>
 
                     <div class="langs" >
                         <img src="img/flags/{{ \App\Config\Lang::get(1)['code'] }}.svg" width="80px" height="40px" alt="">
@@ -52,7 +53,7 @@
                     </div>
 
                     <br>
-                    <p class="h2">Более <b>100 языков</b>  будет доступно после бета-тестирования!</p>
+                    <p class="h2">{{__('More than')}} <b>{{__('100 languages')}}</b>  {{__('will be available after beta-testing')}}!</p>
                 </div>
 
             </div>
@@ -69,19 +70,20 @@
             <div class="row" style="min-height: 300px">
                 <div class="col">
                     <p class="h1 mt-5" style="text-align: center">
-                        Читайте книги на иностранном языке вместе.
+                        {{__('Read foreign language books together')}}.
                         <br><br>
-                        Помогайте друг другу с пониманием и изучением иностранного языка.
+                        {{__('Help each other with understanding and learning a foreign language')}}.
                     </p>
 
                 </div>
 
                 <div class="w-100"></div>
 
-
                 <div class="col mt-3 mb-3">
-                    <a href="{{ route('rt_landing') }}" class="btn btn-primary noradius w-100 p-2"><i class="icofont-user-alt-3"></i> <b>УЗНАТЬ БОЛЬШЕ...</b> </a>
+                    <a href="{{ route('register') }}" class="btn btn-primary noradius w-100 p-2"><i class="icofont-user-alt-3"></i> <b class="uc"> {{__('Register')}}</b> </a>
                 </div>
+
+                <div class="w-100"></div>
 
             </div>
 
@@ -98,14 +100,14 @@
 
                 <div class="col">
 
-                    <p class="h1 text-center mt-3"><b>СООБЩЕСТВО</b></p>
+                    <p class="h1 text-center mt-3"><b class="uc">{{__('Community')}}</b></p>
 
                     <p style="font-size: 18px" class="text-center">
-                        Не можете понять смысл предложения, несмотря на то что знаете или перевели все слова?
+                        {{__('Сan not understand the meaning of the sentence, despite the fact that you know or translated all the words')}}?
                         <br>
-                        Тогда добро пожаловать в <a href="{{route('qa_index')}}"><b>Вопросы и Ответы</b></a>
+                        {{__('Then welcome to')}} <a href="{{route('qa_index')}}"><b> {{__('Questions & Answers')}}</b></a>
                         <br>
-                        Задавайте вопросы и помогайте другим пользователям в изучении иностранных языков.
+                        {{__('Ask questions and help other users to learn foreign languages')}}.
                     </p>
 
                     <div class="text-center">
