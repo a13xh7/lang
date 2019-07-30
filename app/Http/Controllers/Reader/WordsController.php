@@ -18,8 +18,8 @@ use App\Models\Reader\Word;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Dejurin\GoogleTranslateForFree;
-use function MongoDB\BSON\toJSON;
-use Stichoza\GoogleTranslate\GoogleTranslate;
+
+use Google\Cloud\Translate\TranslateClient;
 
 class WordsController extends Controller
 {
@@ -145,17 +145,32 @@ class WordsController extends Controller
             } else {
 
                 // Иначе - достать перевод из гугла и сохранить его в базу
-                $google = new GoogleTranslateForFree();
 
-                $translation = new GoogleTranslation();
-                $translation->word_id = $word->id;
-                $translation->lang_id = $wordTranslateToLangId;
-                $translation->translation = $google->translate(Lang::get($word->lang_id)['code'], Lang::get($wordTranslateToLangId)['code'], $wordFromRequest, 5);
-                $translation->save();
+                $translate = new TranslateClient([
+                    'keyFilePath' => base_path('WexLang-a2e92e316f89.json')
+                ]);
+
+                $result = $translate->translate('Русский', [
+                    'source' => Lang::get($word->lang_id)['code'],
+                    'target' => Lang::get($wordTranslateToLangId)['code']
+                ]);
 
                 // затем вернуть перевод
 
-                return $translation->translation;
+                return $result['text'];
+
+
+//                $google = new GoogleTranslateForFree();
+//
+//                $translation = new GoogleTranslation();
+//                $translation->word_id = $word->id;
+//                $translation->lang_id = $wordTranslateToLangId;
+//                $translation->translation = $google->translate(Lang::get($word->lang_id)['code'], Lang::get($wordTranslateToLangId)['code'], $wordFromRequest, 5);
+//                $translation->save();
+//
+//                // затем вернуть перевод
+//
+//                return $translation->translation;
 
             }
 
