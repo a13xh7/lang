@@ -9,6 +9,7 @@ use App\Models\Reader\TextPage;
 use App\Services\TextHandler;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
 class TextPageController extends Controller

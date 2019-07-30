@@ -51,12 +51,22 @@
                 <hr>
 
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="h_known" checked>
+                    <input type="checkbox" class="custom-control-input" id="h_known"
+
+                           @if(\Illuminate\Support\Facades\Cookie::get('h_known') == 1 || \Illuminate\Support\Facades\Cookie::get('h_known') == null)
+                           checked
+                           @endif
+                    >
                     <label class="custom-control-label" for="h_known">{{__('Highlight to study words')}}</label>
                 </div>
 
                 <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="h_unknown" checked>
+                    <input type="checkbox" class="custom-control-input" id="h_unknown"
+
+                        @if(\Illuminate\Support\Facades\Cookie::get('h_unknown') == 1 || \Illuminate\Support\Facades\Cookie::get('h_unknown') == null)
+                        checked
+                        @endif
+                    >
                     <label class="custom-control-label" for="h_unknown">{{__('Highlight unknown words')}}</label>
                 </div>
 
@@ -297,9 +307,6 @@
 
                     <a href="#" class="btn btn-primary w-100 mb-2" id="yt_btn">{{__('Translate in Yandex')}}</a>
                 </div>
-
-
-
 
 
             </div>

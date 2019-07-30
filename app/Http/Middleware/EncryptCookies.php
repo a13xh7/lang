@@ -18,6 +18,8 @@ class EncryptCookies extends Middleware
         'q_lang_id',
         'q_about_lang_id',
         'pt_lang_id',
-        'pt_to_lang_id'
+        'pt_to_lang_id',
+        'h_unknown',
+        'h_known'
     ];
 }

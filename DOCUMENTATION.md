@@ -27,6 +27,9 @@
 - wt_lang - язык перевода слов на странице Мои слова
 
 
+- h_known - выделять изучаемые слова
+
+
 ## Страница words
 
 - Reader\WordsController@showPage

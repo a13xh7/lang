@@ -9,6 +9,20 @@ $( document ).ready(function() {
     const word_known = 2;
 
 
+// При загрузке страницы проверить какие слова нужно выделаить и выделить эти слова
+
+    if(Cookies.get('h_known') == 0) {
+        $("mark[data-state='" + word_to_study + "']").each(function(index,element) {
+            $(element).removeClass('study');
+        });
+
+    }
+
+    if(Cookies.get('h_unknown') == 0) {
+        $("mark[data-state='" + word_new + "']").each(function(index,element) {
+            $(element).removeClass('unknown');
+        });
+    }
 
 // TEXT PAGE / READER PAGE-----------------------------------------------------------------------------------------
 
@@ -175,11 +189,17 @@ $( document ).ready(function() {
                 $(element).removeClass('study');
             });
 
+            Cookies.set('h_known', 0);
+
+
         } else {
 
             $(selector).each(function(index,element) {
                 $(element).addClass('study');
             });
+
+            Cookies.set('h_known', 1);
+            //document.cookie = "h_known=" + 1 + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
         }
     });
 
@@ -195,11 +215,16 @@ $( document ).ready(function() {
                 $(element).removeClass('unknown');
             });
 
+            Cookies.set('h_unknown', 0);
+
         } else {
 
             $(selector).each(function(index,element) {
                 $(element).addClass('unknown');
             });
+
+            Cookies.set('h_unknown', 1);
+            //document.cookie = "h_unknown=" + 1 + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
         }
     });
 
@@ -218,7 +243,6 @@ $( document ).ready(function() {
 
         }
     });
-
 
 
 
