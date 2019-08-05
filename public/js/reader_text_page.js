@@ -38,7 +38,7 @@ $( document ).ready(function() {
     *    найти повторения этого слова в тексте и добавить им перевод и убрать выделение цветом
     *    заполнить значения в правом сайдбаре
     */
-    $('div.page_text_wrapper').on('click', 'mark.unknown', function() {
+    $('div.page_text_wrapper').on('click', 'mark.unknown, mark', function() {
 
         word = $(this);
 
@@ -68,10 +68,42 @@ $( document ).ready(function() {
 
                 }
             });
-
         }
+    });
+
+// фикс бага - не работал перевод для незнакомых слов если отключить подстветку слов
+
+    $('div.page_text_wrapper').on('click', 'mark[data-state="0"]', function() {
+
+        word = $(this);
+
+
+        $.ajax({
+            url: "/reader/words/add",
+            method: "POST",
+            data: {"word": $(this).data('word'),
+                "lang_id": $(this).data('lang_id'),
+                "translate_to_lang_id": $(this).data('translate_to_lang_id'),
+                "state": $(this).data('state')
+            },
+
+            success: function (data) {
+
+                translation = '<span class="translation">('+ data +')</span>';
+
+                $('mark[data-word="'+ word.data('word') +'"]').each(function(index,element) {
+                    $(element).removeClass();
+                    $(element).html( translation + ' ' + word.data('word'));
+                });
+
+                // добавить перевод слова в правом сайдбаре
+                $('#rs_word_translation').html(data);
+
+            }
+        });
 
     });
+
 
     // Right sidebar - open window on translate buttons click
 
