@@ -70,7 +70,7 @@ $( document ).ready(function() {
             });
         }
     });
-    
+
 
     // Right sidebar - open window on translate buttons click
 

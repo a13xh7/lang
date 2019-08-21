@@ -134,4 +134,8 @@
 
     </div>
 
+    <div class="container nopadding text-white" >
+        <p>This site is for sale(<b>350$</b>) - <a href="mailto:predewill@gmail.com">predewill@gmail.com</a></p>
+    </div>
+
 </header>
