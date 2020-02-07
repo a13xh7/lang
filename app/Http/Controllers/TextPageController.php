@@ -1,25 +1,21 @@
 <?php
 
-namespace App\Http\Controllers\Reader;
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Main\User;
-use App\Models\QA\Question;
-use App\Models\Reader\TextPage;
+
+
+use App\Models\TextPage;
+use App\Models\Word;
 use App\Services\TextHandler;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
 class TextPageController extends Controller
 {
-
     public function showPage(int $textId, Request $request)
     {
-        $isPublic = (bool)$request->get('public');
-
-        $user = User::where('id', auth()->user()->id)->first();
         $pageNumber = $request->get('page') ? $request->get('page') : 1;
 
         // Get pages and current page
@@ -38,7 +34,7 @@ class TextPageController extends Controller
         // Выбирать только слова язык которых совпадает я языком текста
         // и перевод которых совпадает с языком на который переводится текст
 
-        $myWords = $user->words()->with('googleTranslation')->where('lang_id', $text_lang_id)->whereHas('googleTranslation', function (Builder $query) use ($translate_to_lang_id) {
+        $myWords = Word::with('translations')->where('lang_id', $text_lang_id)->whereHas('translation', function (Builder $query) use ($translate_to_lang_id) {
             $query->where('lang_id', '=', $translate_to_lang_id);
         })->get();
 
@@ -65,33 +61,9 @@ class TextPageController extends Controller
 
         // Update current text page
 
-        DB::table('user_text')
-            ->where('user_id', auth()->user()->id)
+        DB::table('text')
             ->where('text_id', $page->text->id)
             ->update(['current_page' => $pageNumber]);
-
-        // Достать вопросы относящиеся к этой странице если это публичный текст
-
-        if($isPublic) {
-
-//            $questions = Question::where('text_id', $page->text->id)->where('page', $page->page_number)->paginate(1)->appends(request()->except('wtf'));
-//            $questions->setPageName('q_page');
-//            $questions->setPath('?page='.$page->page_number);
-
-            $questions = Question::where('text_id', $page->text->id)->where('page', $page->page_number)->get();
-
-            return view('reader.reader_text_page')
-                ->with('page', $page)
-                ->with('pages', $pages)
-                ->with('pageContent', $pageContent)
-                ->with('text_lang_id', $text_lang_id)
-                ->with('translate_to_lang_id', $translate_to_lang_id)
-                ->with('words', $textHandler->uniqueWords)
-                ->with('knownWords', $knownWords)
-                ->with('myWords', $myWords)
-                ->with('questions', $questions);
-
-        }
 
 
         return view('reader.reader_text_page')

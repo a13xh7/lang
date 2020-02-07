@@ -1,16 +1,13 @@
 <?php
 
-namespace App\Models\Reader;
+namespace App\Models;
 
-use App\Models\Main\Language;
-use App\Models\Main\User;
-use App\Models\Reader\TextSettings;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Text extends Model
 {
-    protected $table = 'texts';
+    protected $table = 'text';
 
     protected $settings = null;
 
@@ -32,9 +29,8 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $user = User::where('id', auth()->user()->id)->first();
 
-        $allMyWords = $user->words()->where('lang_id', $this->lang_id)->whereHas('googleTranslation', function (Builder $query) {
+        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translation', function (Builder $query) {
             $query->where('lang_id', '=', $this->translate_to_lang_id);
         })->get();
 
@@ -62,9 +58,8 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $user = User::where('id', auth()->user()->id)->first();
 
-        $allMyWords = $user->words()->where('lang_id', $this->lang_id)->whereHas('googleTranslation', function (Builder $query) {
+        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translation', function (Builder $query) {
             $query->where('lang_id', '=', $this->translate_to_lang_id);
         })->get();
 
@@ -82,11 +77,6 @@ class Text extends Model
         }
 
         return $myUnknownWordsInThisText;
-    }
-
-    public function users()
-    {
-        return $this->belongsToMany(User::class, 'user_text',  'text_id', 'user_id')->withPivot( 'current_page');;
     }
 
     public function pages()

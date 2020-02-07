@@ -222,44 +222,6 @@
                 {{-- PAGE WORDS END--}}
 
 
-                {{--QUESTION ON THIS PAGE START--}}
-
-                @if(app('request')->get('public') == 1)
-
-                    <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
-
-                        @foreach($questions as $question)
-
-
-                            <div class="row question_wrapper">
-
-                                <div class="question_content col-10">
-                                    <div class="question_title"><a href="{{route('qa_question', $question->id)}}" class="h3" target="_blank">{{$question->title}}</a></div>
-                                    <div><span class="text-muted small user_name">{{$question->user->name}}, {{$question->created_at->diffForHumans()}}</span>  <span class="text-muted small">-  {{$question->views}} views</span></div>
-                                </div>
-
-                                <div class="question_answers_count col">
-                                    <span class="h1 text-muted">{{$question->answers()->count()}}</span> <br>
-                                    <span class="text-muted small">answers</span>
-                                </div>
-                            </div>
-                            <hr>
-
-
-
-                        @endforeach
-
-                            {{--<div class="mt-3">--}}
-                            {{--{{$questions->links()}}--}}
-                            {{--</div>--}}
-
-                    </div>
-
-
-
-                @endif
-                {{--QUESTION ON THIS PAGE END--}}
-
 
             </div>
 

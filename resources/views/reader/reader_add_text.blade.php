@@ -56,9 +56,6 @@
                                 data-subtext="{{$lang['eng_title']}}"
                                 data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
 
-                                @if(auth()->user()->getFirstStudiedLanguage() == $lang['id'])
-                                    selected
-                                @endif
                         >
                         </option>
 
@@ -81,9 +78,6 @@
                                 data-subtext="{{$lang['eng_title']}}"
                                 data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
 
-                                @if(auth()->user()->getFirstKnownLanguage() == $lang['id'])
-                                selected
-                                @endif
                         >
                         </option>
 
@@ -134,10 +128,6 @@
                                 value="{{$lang['id']}}"
                                 data-subtext="{{$lang['eng_title']}}"
                                 data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
-
-                                @if(auth()->user()->getFirstStudiedLanguage() == $lang['id'])
-                                selected
-                                @endif
                         >
                         </option>
 
@@ -159,10 +149,6 @@
                                 value="{{$lang['id']}}"
                                 data-subtext="{{$lang['eng_title']}}"
                                 data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
-
-                                @if(auth()->user()->getFirstKnownLanguage() == $lang['id'])
-                                selected
-                                @endif
                         >
                         </option>
 

@@ -12,13 +12,4 @@ class PublicController extends Controller
         return view('main.main_index_landing');
     }
 
-    public function showReaderLanding()
-    {
-        return view('reader.reader_landing');
-    }
-
-    public function showReadTogetherLanding()
-    {
-        return view('rt.rt_landing');
-    }
 }

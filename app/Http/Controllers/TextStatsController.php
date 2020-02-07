@@ -6,13 +6,11 @@
  * Time: 7:10 PM
  */
 
-namespace App\Http\Controllers\Reader;
+namespace App\Http\Controllers;
 
 use App\Config\WordConfig;
-use App\Http\Controllers\Controller;
-use App\Models\Main\User;
-use App\Models\Reader\Text;
-use App\Models\Reader\Word;
+use App\Models\Text;
+use App\Models\Word;
 use App\Services\TextHandler;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -24,12 +22,12 @@ class TextStatsController extends Controller
 
     public function showTextStats(int $textId, Request $request)
     {
-        $user = User::where('id', auth()->user()->id)->first();
-        $text = $user->texts()->find($textId);
+        $text = Text::findOrFail($textId);
 
         $words = $text->getWords();
         $knownWords = $text->getKnownWords();
-        $myWords = $user->words()->where('user_id', auth()->user()->id)->get();
+
+        $myWords = Word::where('lang_id', $text->lang_id);
 
         /* SHOW words
         0 - all

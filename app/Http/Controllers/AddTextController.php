@@ -1,18 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Reader;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Reader\Text;
-use App\Models\Reader\TextPage;
+use App\Models\Text;
+use App\Models\TextPage;
 use App\Services\FB2Parser;
 use App\Services\TextHandler;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
-use Mockery\Exception;
 use Spatie\PdfToText\Pdf;
 
 class AddTextController extends Controller
@@ -26,8 +22,6 @@ class AddTextController extends Controller
     public function addText(Request $request)
     {
         $pageLength = 2000;
-
-        $isPublicText = (bool)$request->get('text_pubic');
 
         // 1 - Validate form
 
@@ -96,7 +90,6 @@ class AddTextController extends Controller
         $text = new Text();
         $text->lang_id = $request->get('lang_from');
         $text->translate_to_lang_id = $request->get('lang_to');
-        $text->public = $isPublicText;
         $text->title = $request->get('text_title');
         $text->total_pages = count($pages);
         $text->total_symbols = $textHandler->totalSymbols;
@@ -107,25 +100,10 @@ class AddTextController extends Controller
         $text->save();
 
 
-        // Add row to user_text table
-
-        if($isPublicText == false) {
-            $text->users()->attach(auth()->user()->id);
-        }
-
-
         // 5 - save pages to database
 
         foreach ($pages as $page_number => $page)
         {
-//            $sentences = explode('.', $page);
-//            $finalContent = '';
-//
-//            foreach ($sentences as $sentence)
-//            {
-//                $finalContent.= '<p>'.$sentence.'</p>'.PHP_EOL;
-//            }
-
 
             $textPage = new TextPage();
             $textPage->text_id = $text->id;
@@ -135,11 +113,6 @@ class AddTextController extends Controller
         }
 
         DB::commit();
-
-
-        if($isPublicText) {
-            return redirect()->route('rt_public_texts');
-        }
 
         return redirect()->route('reader_texts');
 

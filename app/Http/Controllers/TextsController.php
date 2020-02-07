@@ -6,13 +6,11 @@
  * Time: 7:10 PM
  */
 
-namespace App\Http\Controllers\Reader;
+namespace App\Http\Controllers;
 
 
-use App\Config\Lang;
-use App\Http\Controllers\Controller;
-use App\Models\Main\User;
-use App\Models\Reader\Text;
+use App\Models\Text;
+use App\Models\Word;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -23,10 +21,9 @@ class TextsController extends Controller
     {
         $perPage = 10;
 
-        $user = User::where('id', auth()->user()->id)->first();
-        $texts = $user->texts()->where('public', false)->orderBy('id', 'DESC')->paginate($perPage);
+        $texts = Text::orderBy('id', 'DESC')->paginate($perPage);
 
-        $myWords = $user->words()->where('user_id', auth()->user()->id)->get();
+        //$myWords = Word::where('lang_id', auth()->user()->id)->get();
 
         return view('reader.reader_texts')->with('texts', $texts);
     }
@@ -48,7 +45,6 @@ class TextsController extends Controller
         DB::beginTransaction();
 
         $text = Text::find($textId);
-        $text->users()->detach(auth()->user()->id);
         $text->delete();
 
         DB::commit();

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateUserTextTable extends Migration
+class CreateTextPageTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateUserTextTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_text', function (Blueprint $table) {
+        Schema::create('text_page', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('text_id');
-            $table->unsignedBigInteger('user_id');
-            $table->integer('current_page')->default(0);
+            $table->integer('page_number');
+            $table->text('content');
 
-            $table->foreign('text_id')->references('id')->on('texts')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('text_id')->references('id')->on('text')->onDelete('cascade');
         });
+
     }
 
     /**
@@ -31,6 +31,6 @@ class CreateUserTextTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_text');
+        Schema::dropIfExists('text_pages');
     }
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateGoogleTranslationsTable extends Migration
+class CreateWordTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,10 @@ class CreateGoogleTranslationsTable extends Migration
      */
     public function up()
     {
-        Schema::create('google_translations', function (Blueprint $table) {
+        Schema::create('word', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('word_id');
             $table->integer('lang_id');
-            $table->string('translation');
+            $table->string('word');
             $table->timestamps();
         });
     }
@@ -29,6 +28,6 @@ class CreateGoogleTranslationsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('google_translations');
+        Schema::dropIfExists('words');
     }
 }

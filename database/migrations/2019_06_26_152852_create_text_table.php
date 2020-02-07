@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateQuestionsTable extends Migration
+class CreateTextTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,18 @@ class CreateQuestionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('questions', function (Blueprint $table) {
+        Schema::create('text', function (Blueprint $table)
+        {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->integer('text_id')->nullable()->default(0);
-            $table->integer('page')->nullable()->default(0);
             $table->integer('lang_id');
-            $table->integer('about_lang_id');
+            $table->integer('translate_to_lang_id');
+            $table->integer('current_page')->default(1);
             $table->string('title');
-            $table->text('content');
-            $table->integer('views')->default(0);
+            $table->integer('total_symbols');
+            $table->integer('total_pages')->default(1);
+            $table->integer('total_words');
+            $table->integer('unique_words');
+            $table->longText('words');
             $table->timestamps();
         });
     }
@@ -34,6 +36,6 @@ class CreateQuestionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('questions');
+        Schema::dropIfExists('texts');
     }
 }

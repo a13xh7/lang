@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Models\Reader;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class CommunityTranslation extends Model
+class Translation extends Model
 {
-    protected $table = 'community_translations';
+    protected $table = 'translation';
 
     public function word()
     {

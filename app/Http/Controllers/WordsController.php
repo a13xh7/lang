@@ -6,14 +6,14 @@
  * Time: 7:10 PM
  */
 
-namespace App\Http\Controllers\Reader;
+namespace App\Http\Controllers;
 
 use App\Config\Lang;
 use App\Config\WordConfig;
 use App\Http\Controllers\Controller;
 use App\Models\Main\User;
 
-use App\Models\Reader\GoogleTranslation;
+use App\Models\Reader\Translation;
 use App\Models\Reader\Word;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -162,7 +162,7 @@ class WordsController extends Controller
 
 //                $google = new GoogleTranslateForFree();
 //
-//                $translation = new GoogleTranslation();
+//                $translation = new Translation();
 //                $translation->word_id = $word->id;
 //                $translation->lang_id = $wordTranslateToLangId;
 //                $translation->translation = $google->translate(Lang::get($word->lang_id)['code'], Lang::get($wordTranslateToLangId)['code'], $wordFromRequest, 5);
@@ -193,7 +193,7 @@ class WordsController extends Controller
 
 //            return $wordTranslateToLangId;
 
-            $translation = new GoogleTranslation();
+            $translation = new Translation();
             $translation->word_id = $word->id;
             $translation->lang_id = $wordTranslateToLangId;
             $translation->translation = $google->translate(Lang::get($word->lang_id)['code'], Lang::get($wordTranslateToLangId)['code'], $wordFromRequest, 5);

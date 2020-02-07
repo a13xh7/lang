@@ -17,7 +17,7 @@
         <div class="text_item border-bottom text_item_wrapper">
 
             <span class="text_title">
-               <a class="h4" href="{{route('reader_read_text_page', $text->id)}}?page=@if($text->pivot->current_page <= 0){{$text->pivot->current_page + 1}}@else{{$text->pivot->current_page}}@endif">{{$text->title}}</a> <i class="text-muted">({{$text->created_at->format('d-m-Y')}})</i>
+               <a class="h4" href="{{route('reader_read_text_page', $text->id)}}?page=@if($text->current_page <= 0){{$text->current_page + 1}}@else{{$text->current_page}}@endif">{{$text->title}}</a> <i class="text-muted">({{$text->created_at->format('d-m-Y')}})</i>
             </span>
 
             <div>
@@ -36,14 +36,14 @@
 
             <div class="text_pages_info">
                 {{__('Pages')}}: <span class="badge badge-dark">{{ $text->total_pages}}</span> <b>/</b>
-                {{__('Current page')}}: <span class="badge badge-dark">{{ $text->pivot->current_page}}</span>
+                {{__('Current page')}}: <span class="badge badge-dark">{{ $text->current_page}}</span>
             </div>
 
             <div class="progress">
                 <div class="progress-bar" role="progressbar"
                      style="width: @php
                          try {
-                             echo $text->pivot->current_page / $text->total_pages  * 100 . "%";
+                             echo $text->current_page / $text->total_pages  * 100 . "%";
                          } catch (\Exception $e) {
                              echo "0%";
                          }
@@ -54,7 +54,7 @@
 
             <div class="text_controls" align="right">
 
-                <a class="btn btn-primary text-light noradius" href="{{route('reader_read_text_page', $text->id)}}?page=@if($text->pivot->current_page <= 0){{$text->pivot->current_page + 1}}@else{{$text->pivot->current_page}}@endif">
+                <a class="btn btn-primary text-light noradius" href="{{route('reader_read_text_page', $text->id)}}?page=@if($text->current_page <= 0){{$text->current_page + 1}}@else{{$text->current_page}}@endif">
                     <i class="icofont-read-book"></i> {{__('Read')}}
                 </a>
 

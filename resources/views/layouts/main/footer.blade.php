@@ -24,11 +24,7 @@
                 </div>
 
                 <div class="col">
-                    <ul>
-                        <li><a href="{{route('reader_landing')}}" class="text-white">Reader</a></li>
-                        <li><a href="{{route('rt_landing')}}" class="text-white">Read Together</a></li>
-                        <li><a href="{{route('qa_index')}}" class="text-white">Q & A</a></li>
-                    </ul>
+
                 </div>
 
              </div>
