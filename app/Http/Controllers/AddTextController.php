@@ -16,7 +16,7 @@ class AddTextController extends Controller
 
     public function showPage()
     {
-        return view('reader.reader_add_text')->with('languages');
+        return view('add_text')->with('languages');
     }
 
     public function addText(Request $request)
@@ -40,7 +40,7 @@ class AddTextController extends Controller
             $allowedExtensions = ['txt', 'fb2', 'pdf'];
             if(in_array($fileExtension, $allowedExtensions) == false)
             {
-                return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'File extension is not supported']);
+                return redirect()->route('add_text_page')->withErrors(['input_name' => 'File extension is not supported']);
             }
 
             // 3 - extract text from file
@@ -54,14 +54,14 @@ class AddTextController extends Controller
                         $fb2 = new FB2Parser($request->file('text_file')->getRealPath());
                         $text = $fb2->getText();
                     } catch (\Exception $e) {
-                        return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'FB2 file parsing error']);
+                        return redirect()->route('add_text_page')->withErrors(['input_name' => 'FB2 file parsing error']);
                     }
                     break;
                 case 'pdf':
                     try {
                         $text = Pdf::getText($request->file('text_file')->getRealPath());
                     } catch (\Exception $e) {
-                        return redirect()->route('reader_add_text_page')->withErrors(['input_name' => 'PDF file parsing error']);
+                        return redirect()->route('add_text_page')->withErrors(['input_name' => 'PDF file parsing error']);
                     }
                     break;
             }
@@ -74,8 +74,6 @@ class AddTextController extends Controller
 
             $text = $request->get('text');
         }
-
-
 
         $textHandler = new TextHandler($text);
 
@@ -114,7 +112,7 @@ class AddTextController extends Controller
 
         DB::commit();
 
-        return redirect()->route('reader_texts');
+        return redirect()->route('texts');
 
 
     }

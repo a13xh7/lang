@@ -34,7 +34,7 @@ class TextPageController extends Controller
         // Выбирать только слова язык которых совпадает я языком текста
         // и перевод которых совпадает с языком на который переводится текст
 
-        $myWords = Word::with('translations')->where('lang_id', $text_lang_id)->whereHas('translation', function (Builder $query) use ($translate_to_lang_id) {
+        $myWords = Word::with('translation')->where('lang_id', $text_lang_id)->whereHas('translation', function (Builder $query) use ($translate_to_lang_id) {
             $query->where('lang_id', '=', $translate_to_lang_id);
         })->get();
 
@@ -66,7 +66,7 @@ class TextPageController extends Controller
             ->update(['current_page' => $pageNumber]);
 
 
-        return view('reader.reader_text_page')
+        return view('text_page')
             ->with('page', $page)
             ->with('pages', $pages)
             ->with('pageContent', $pageContent)
@@ -87,7 +87,7 @@ class TextPageController extends Controller
         $result = [];
 
         foreach ($userWords as $userWord) {
-            $result[$userWord->word] = $userWord->pivot->state;
+            $result[$userWord->word] = $userWord->state;
         }
 
         return $result;

@@ -1,19 +1,9 @@
-@extends('layouts.reader.reader_layout')
+@extends('main_layout')
 
-@section('reader_sidebar')
-
-    @if(app('request')->get('public') == 1)
-        @include('layouts.rt.rt_left_sidebar')
-    @else
-        @include('layouts.reader.reader_left_sidebar')
-    @endif
-
-@endsection
-
-@section('reader_content')
+@section('content')
 
 
-    <h1>{{__('Stats')}}</h1>
+    <h1>{{__('Text stats')}}</h1>
     <div class="w3-border-bottom">
         <ul>
 
@@ -37,7 +27,7 @@
 
     </div>
 
-    <h1>{{__('Words')}} <span class="h6 text-muted">{{__('Click on buttons to filter words')}}</span></h1>
+    <h1>{{__('Text words')}} <span class="h6 text-muted">{{__('Click on buttons to filter words')}}</span></h1>
 
     <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
 
@@ -60,15 +50,6 @@
         </li>
 
     </ul>
-
-    {{--<form action="{{route('reader_add_new_word')}}" method="POST">--}}
-{{--@csrf--}}
-        {{--word <input type="text" name="word">--}}
-        {{--lang id <input type="text" name="lang_id" value="1">--}}
-        {{--state <input type="text" name="state" value="1">--}}
-        {{--<button type="submit">Send</button>--}}
-
-    {{--</form>--}}
 
 
     <div class="row">
@@ -103,7 +84,7 @@
                         @else
 
 
-                            @if($myWords->where('word', $word[0])->first()->pivot->state == \App\Config\WordConfig::TO_STUDY)
+                            @if($myWords->where('word', $word[0])->first()->state == \App\Config\WordConfig::TO_STUDY)
                                 <span class="badge badge-warning h4">{{__('To study')}}</span>
                             @else
                                 <span class="badge badge-success h4">{{__('Known')}}</span>

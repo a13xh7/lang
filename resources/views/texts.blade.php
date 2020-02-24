@@ -1,23 +1,16 @@
-@extends('layouts.reader.reader_layout')
-
-@section('reader_sidebar')
-
-    @include('layouts.reader.reader_left_sidebar')
-
-@endsection
+@extends('main_layout')
 
 
-@section('reader_content')
+@section('content')
 
   <h1 class="uc">{{__('My texts')}}</h1>
 
     @foreach($texts as $text)
 
-
         <div class="text_item border-bottom text_item_wrapper">
 
             <span class="text_title">
-               <a class="h4" href="{{route('reader_read_text_page', $text->id)}}?page=@if($text->current_page <= 0){{$text->current_page + 1}}@else{{$text->current_page}}@endif">{{$text->title}}</a> <i class="text-muted">({{$text->created_at->format('d-m-Y')}})</i>
+               <a class="h4" href="{{route('read_text_page', $text->id)}}?page=@if($text->current_page <= 0){{$text->current_page + 1}}@else{{$text->current_page}}@endif">{{$text->title}}</a> <i class="text-muted">({{$text->created_at->format('d-m-Y')}})</i>
             </span>
 
             <div>
@@ -54,11 +47,11 @@
 
             <div class="text_controls" align="right">
 
-                <a class="btn btn-primary text-light noradius" href="{{route('reader_read_text_page', $text->id)}}?page=@if($text->current_page <= 0){{$text->current_page + 1}}@else{{$text->current_page}}@endif">
+                <a class="btn btn-primary text-light noradius" href="{{route('read_text_page', $text->id)}}?page=@if($text->current_page <= 0){{$text->current_page + 1}}@else{{$text->current_page}}@endif">
                     <i class="icofont-read-book"></i> {{__('Read')}}
                 </a>
 
-                <a class="btn btn-primary text-light noradius" href="{{ route('reader_text_stats', $text->id) }}">
+                <a class="btn btn-primary text-light noradius" href="{{ route('text_stats', $text->id) }}">
                     <i class="icofont-info-square"></i> {{__('Full Info')}}
                 </a>
 
@@ -71,7 +64,7 @@
                     <i class="icofont-ui-edit"></i> {{__('Edit')}}
                 </a>
 
-                <a class="btn btn-primary text-light noradius" href="{{route('reader_delete_text', $text->id)}}">
+                <a class="btn btn-primary text-light noradius" href="{{route('delete_text', $text->id)}}">
                     <i class="icofont-ui-delete"></i> {{__('Delete')}}
                 </a>
             </div>
@@ -96,7 +89,7 @@
               <div class="modal-body">
 
 
-                  <form action=" {{route('reader_update_text') }}" method="POST" enctype="multipart/form-data">
+                  <form action=" {{route('update_text') }}" method="POST" enctype="multipart/form-data">
                       @csrf
 
                       <input type="hidden" name="text_id" id="text_id" value="">

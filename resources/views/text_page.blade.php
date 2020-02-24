@@ -1,13 +1,6 @@
-@extends('layouts.main.main_layout')
+@extends('text_page_layout')
 
-@section('seo')
-
-    <title>{{__('Reader')}} - {{$page->text->title}}</title>
-
-@endsection
-
-
-@section('main_content')
+@section('content')
 
     <main class="row">
 
@@ -182,7 +175,7 @@
                                     @else
 
 
-                                        @if($myWords->where('word', $word[0])->first()->pivot->state == \App\Config\WordConfig::TO_STUDY)
+                                        @if($myWords->where('word', $word[0])->first()->state == \App\Config\WordConfig::TO_STUDY)
                                             <span class="badge badge-warning h4">To study</span>
                                         @else
                                             <span class="badge badge-success h4">Known</span>

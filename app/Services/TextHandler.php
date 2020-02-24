@@ -93,13 +93,6 @@ class TextHandler
         $userOnlyWords = array_keys($userWords);
 
         $wordRegex = "#\b[^\s]+\b#ui";
-//        $wordRegex = "#\w+#ui";
-//        dd(preg_match_all($wordRegex, $this->text));
-//
-//        preg_match_all('#[^\s0-9\.,\!\@\#\%]+#',  $this->text,$matches);
-//
-//        dd($matches);
-// dd(preg_split('/((^\p{P}+)|(\p{P}*\s+\p{P}*)|(\p{P}+$))/ui',  utf8_encode($this->text), -1, PREG_SPLIT_NO_EMPTY));
 
         $result = '';
 
@@ -123,7 +116,7 @@ class TextHandler
                     if($userWords[$wordKey] == WordConfig::TO_STUDY ) {
 
                         $state = WordConfig::TO_STUDY;
-                        $translation = $myWords->where('word', $wordKey)->first()->googleTranslation->translation;
+                        $translation = $myWords->where('word', $wordKey)->first()->translation->translation;
 
                         // если слово изучаемое, выделить его оранжевым
 
@@ -134,7 +127,7 @@ class TextHandler
                                 data-translate_to_lang_id='{$translateToLangId}'><span class='translation' style='display: none;'>(".$translation.")</span>{$matches[0]}</mark>";
                     } else {
 
-                        $translation = $myWords->where('word', $wordKey)->first()->googleTranslation->translation;
+                        $translation = $myWords->where('word', $wordKey)->first()->translation->translation;
                         $state = WordConfig::KNOWN;
                         // если слово знакомое, уже изученное, никак не выделять его
 
@@ -177,6 +170,6 @@ class TextHandler
         return $pageEndOffset + 1; //  +1 means + dot
     }
 
-    
-    
+
+
 }

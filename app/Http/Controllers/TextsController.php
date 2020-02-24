@@ -8,9 +8,7 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Models\Text;
-use App\Models\Word;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,7 +23,7 @@ class TextsController extends Controller
 
         //$myWords = Word::where('lang_id', auth()->user()->id)->get();
 
-        return view('reader.reader_texts')->with('texts', $texts);
+        return view('texts')->with('texts', $texts);
     }
 
     public function updateText(Request $request)
@@ -37,7 +35,7 @@ class TextsController extends Controller
         $text->translate_to_lang_id = $request->get('lang_to');
         $text->save();
 
-        return redirect()->route('reader_texts');
+        return redirect()->route('texts');
     }
 
     public function deleteText(int $textId)
@@ -49,6 +47,6 @@ class TextsController extends Controller
 
         DB::commit();
 
-        return redirect()->route('reader_texts');
+        return redirect()->route('texts');
     }
 }

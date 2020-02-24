@@ -1,17 +1,7 @@
-@extends('layouts.reader.reader_layout')
-
-@section('reader_sidebar')
-
-    @if(app('request')->get('public') == 1)
-        @include('layouts.rt.rt_left_sidebar')
-        @else
-        @include('layouts.reader.reader_left_sidebar')
-    @endif
+@extends('main_layout')
 
 
-@endsection
-
-@section('reader_content')
+@section('content')
 
     <h1 class="uc">{{__('My words')}}</h1>
 

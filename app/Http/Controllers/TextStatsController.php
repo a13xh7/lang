@@ -11,7 +11,6 @@ namespace App\Http\Controllers;
 use App\Config\WordConfig;
 use App\Models\Text;
 use App\Models\Word;
-use App\Services\TextHandler;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
@@ -59,18 +58,17 @@ class TextStatsController extends Controller
 
         }
 
-
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         $perPage = 200;
 
         $wordsToShow = array_slice($words, $perPage * ($currentPage - 1), $perPage);
 
         $paginator = new LengthAwarePaginator($wordsToShow, count($words), $perPage, $currentPage);
-        $paginator->withPath(''); // почему эта хуйня вообще работает?
+        $paginator->withPath(''); // почему это вообще работает?
 
 
 
-        return view('reader.reader_text_stats')
+        return view('text_stats')
             ->with('text', $text)
             ->with('words', $wordsToShow)
             ->with('knownWords', $knownWords)

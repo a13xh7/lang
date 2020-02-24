@@ -14,25 +14,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.10/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/trix/1.1.1/trix.css">
 
-    @yield('seo')
+    <title>WexLang</title>
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-145055116-1"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        gtag('config', 'UA-145055116-1');
-    </script>
-
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "ca-pub-9396978979458544",
-            enable_page_level_ads: true
-        });
-    </script>
 
 </head>
 <body>
@@ -41,18 +24,83 @@
 <div class="container-fluid">
 
     <!-- HEADER START-->
-    @include('layouts.main.header')
+    <header class="row border-bottom sticky-top header">
+
+        <div class="container align-self-center nopadding">
+
+            <div class="row align-items-center">
+
+                <div class="col-md-12 col-lg-2">
+                    <a href="/" class="logo">
+                        WexLang
+                    </a>
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
     <!-- HEADER END-->
 
 
     <!-- MAIN CONTENT START-->
-    @yield('main_content')
+    <main class="row">
+
+        <div class="container-fluid">
+
+            <div class="row">
+
+                <div class="col reader_main_content">
+
+                    @yield('content')
+
+                </div>
+
+            </div>
+        </div>
+
+    </main>
     <!-- MAIN CONTENT END-->
 
+    {{--FOOTER START--}}
+    <div class="row">
 
-    <!-- FOOTER START -->
-    @include('layouts.main.footer')
-    <!-- FOOTER END -->
+        <footer class="container-fluid footer">
+
+            <div class="container">
+                <div class="row text-white">
+
+                    <div class="col">
+                        <p>© 2019 WexLang <br> All Rights Reserved</p>
+                    </div>
+
+                    <div class="col ">
+                        <b>Contacts</b><br>
+                        <a href="mailto:predewill@gmail.com" class="text-white">predewill@gmail.com</a>
+
+                    </div>
+
+                    <div class="col">
+                        <ul>
+                            <li><a href="#" class="text-white">Facebook</a></li>
+                            <li><a href="https://vk.com/wexlang" class="text-white">VK</a></li>
+                            <li><a href="https://twitter.com/predewill" class="text-white">Twitter</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="col">
+
+                    </div>
+
+                </div>
+            </div>
+
+        </footer>
+
+    </div>
+    {{--FOOTER END--}}
 
 </div>
 

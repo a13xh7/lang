@@ -1,18 +1,7 @@
-@extends('layouts.reader.reader_layout')
-
-@section('reader_sidebar')
-
-    @if(app('request')->get('public') == 1)
-        @include('layouts.rt.rt_left_sidebar')
-    @else
-        @include('layouts.reader.reader_left_sidebar')
-    @endif
+@extends('main_layout')
 
 
-@endsection
-
-
-@section('reader_content')
+@section('content')
 
     <h1 class="гс">{{__('Upload text file')}}</h1>
 
@@ -33,7 +22,7 @@
         <span class="badge badge-info">.pdf</span>
     </p>
 
-    <form action="{{route('reader_add_text')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('add_text')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group row">
             <label for="text_title" class="col-sm-2 col-form-label">{{__('Title')}}</label>
@@ -106,7 +95,7 @@
 
     <h1>{{__('Or add plain text')}}</h1>
 
-    <form action="{{route('reader_add_text')}}" method="POST" enctype="multipart/form-data">
+    <form action="{{route('add_text')}}" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="form-group row">
             <label for="text_title" class="col-sm-2 col-form-label">{{__('Title')}}</label>
