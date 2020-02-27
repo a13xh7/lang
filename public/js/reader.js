@@ -1,14 +1,3 @@
-
-// SET HIGHT
-
-//$('header').height() + $('footer').height()
-
-var mainHeight = window.innerHeight - ( 65+120 );
-
-$('main').css("min-height", mainHeight);
-$('.sidebar').css("min-height", mainHeight);
-$('.qa_sidebar').css("min-height", mainHeight);
-
 $( document ).ready(function() {
 
 const show_all_words = 0;

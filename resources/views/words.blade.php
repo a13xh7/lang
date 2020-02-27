@@ -114,14 +114,14 @@
                 {{--All words tab - allow user to set any state wor a word--}}
                 @if(\Illuminate\Support\Facades\Cookie::get('show_words') == 0)
 
-                    @if($word->pivot->state == \App\Config\WordConfig::TO_STUDY )
+                    @if($word->state == \App\Config\WordConfig::TO_STUDY )
                         <span class="badge badge-warning h4">To study</span>
                         <button type="button" class="btn btn-success btn-sm words_btn"
                                 data-word_id="{{$word->id}}"
                                 data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                     @endif
 
-                    @if($word->pivot->state == \App\Config\WordConfig::KNOWN )
+                    @if($word->state == \App\Config\WordConfig::KNOWN )
                         <button type="button" class="btn btn-warning btn-sm words_btn"
                                 data-word_id="{{$word->id}}"
                                 data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
@@ -146,7 +146,7 @@
 
             </td>
             <td>{{$word->word}}</td>
-            <td> {{$word->googleTranslation->translation}} </td>
+            <td> {{$word->translation->translation}} </td>
         </tr>
 
 

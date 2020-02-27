@@ -107,6 +107,8 @@ class WordsController extends Controller
             })->first();
 
 
+        // У слова всегда есть перевод
+
         if($word != null) {
 
             // Если перевод слова существует и если язык перевода равен языку на который переводится текст, вернуть перевод слова
@@ -119,20 +121,19 @@ class WordsController extends Controller
 
             } else {
 
-                // Иначе - достать перевод из гугла и сохранить его в базу
+                // Перевести слово и сохранить перевод
 
-                $translate = new TranslateClient([
-                    'keyFilePath' => base_path('WexLang-a2e92e316f89.json')
-                ]);
+                $google = new GoogleTranslateForFree();
 
-                $result = $translate->translate('Русский', [
-                    'source' => Lang::get($word->lang_id)['code'],
-                    'target' => Lang::get($wordTranslateToLangId)['code']
-                ]);
+                $translation = new Translation();
+                $translation->word_id = $word->id;
+                $translation->lang_id = $wordTranslateToLangId;
+                $translation->translation = $google->translate(Lang::get($word->lang_id)['code'], Lang::get($wordTranslateToLangId)['code'], $wordFromRequest, 5);
+                $translation->save();
 
-                // затем вернуть перевод
+                // вернуть перевод
 
-                return $result['text'];
+                return $translation->translation;
 
             }
 
@@ -150,7 +151,6 @@ class WordsController extends Controller
 
             $google = new GoogleTranslateForFree();
 
-
             $translation = new Translation();
             $translation->word_id = $word->id;
             $translation->lang_id = $wordTranslateToLangId;
@@ -161,7 +161,6 @@ class WordsController extends Controller
 
             return $translation->translation;
         }
-
 
     }
 
