@@ -8,8 +8,6 @@ const word_new = 0;
 const word_to_study = 1;
 const word_known = 2;
 
-
-
 // CSRF init
 
 $.ajaxSetup({
@@ -49,9 +47,6 @@ $('a[data-target="#text_edit_modal"]').on('click',function(){
     // set translate to language
     $("#lang_to").val($(this).data('translate_to_lang_id')).change();
 });
-
-
-
 
 // MY WORDS PAGE -  -----------------------------------------------------------------------------------------------
 

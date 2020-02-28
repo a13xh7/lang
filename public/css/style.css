@@ -18,7 +18,6 @@
 
 html, body {
     height: 100%;
-    /*background-color: #F8F8FF;*/
 }
 
 body,h1,h2,h3,h4,h5,h6 {
@@ -34,35 +33,6 @@ h1 {
 .uc{
     text-transform: uppercase;
 }
-
-
-.avatar {
-    border: 2px solid white;
-    border-radius: 50%;
-}
-
-.header_user_name {
-    color: white !important;
-    font-weight: bold;
-}
-
-.header_user_name:hover {
-   text-decoration: none;
-}
-.header_user_name span {
-    padding-left: 10px;
-}
-
-.user_name {
-    display: inline-block;
-    white-space: nowrap;
-    overflow: hidden;
-    max-width: 200px;
-    vertical-align: middle;
-}
-
-
-/************************** HEADER*************************/
 
 .header {
     min-height: 60px;
@@ -92,50 +62,24 @@ h1 {
     white-space: nowrap
 }
 
-/*.header-menu > a:hover{*/
-/*    color: black;*/
-/*    font-size: x-large;*/
-/*    text-decoration: none;*/
-/*}*/
-
-.nav-left > a:nth-last-child(1) {
-    margin-left: 20px;
-}
-
-.main_content {
-    padding-top: 20px;
-}
-
-
-/**************************FOOTER*************************/
-
-.footer {
-    padding-top: 40px;
-    background-color: #252525;
-}
 
 /*************************************** COMMON STYLES END ****************************************/
 
 
 /**************************READER STYLES START*************************/
 
-.sidebar {
+#sidebar {
+    height:100%;
     background-color: #f3f3f3;
     padding-left: 0;
     padding-right: 0;
 }
 
-.sidebar li {
+#sidebar  li {
     border-bottom: 1px solid dimgray;
 }
 
-.reader_sidebar_block_name {
-    text-transform: uppercase;
-    color: #606060;
-    font-weight: bold;
-}
-
-.sidebar a {
+#sidebar a {
     font-size: large;
     text-transform: uppercase;
 }
@@ -171,7 +115,6 @@ h1 {
 }
 
 .text_item_wrapper {
-    max-width: 825px;
     overflow-wrap: break-word;
     overflow: hidden;
 }
@@ -188,7 +131,7 @@ h1 {
 }
 
 
-/* фикс для цвета селектора языков. это просто пиздец. ебанный фронтенд*/
+/* фикс для цвета селектора языков*/
 
 button[data-id="lang_to"], button[data-id="lang_from"], button[data-id="lang_known"], button[data-id="lang_learn"] {
     background-color: white;
@@ -228,57 +171,81 @@ span.translation {
 
 }
 
-/**************************READER STYLES END*************************/
+/**************************************/
 
-
-
-/**************************QA STYLES START*************************/
-
-.trix {
-    min-height: 300px;
+body {
+    padding-top: 56px;
 }
 
-/* All question page */
-
-.qa_main h1 {
-    padding-top: 15px;
+.sticky-offset {
+    top: 56px;
 }
 
-.q_lang_filter {
-    border: 2px solid lightgray;
-    padding: 10px 20px;
-    margin-bottom: 30px;
+#body-row {
+    margin-left:0;
+    margin-right:0;
+}
+#sidebar-container {
+    min-height: 100vh;
+    background-color: #333;
+    padding: 0;
 }
 
-/* single question page */
-
-.question_answers_count {
-    text-align: center;
+/* Sidebar sizes when expanded and expanded */
+.sidebar-expanded {
+    width: 230px;
+}
+.sidebar-collapsed {
+    width: 60px;
 }
 
-.q_lang_arrow {
-    font-size: x-large;
-    vertical-align: middle;
+/* Menu item*/
+#sidebar-container .list-group a {
+    height: 50px;
+    color: white;
 }
 
-.question_info {
-    margin-bottom: 30px;
+/* Submenu item*/
+#sidebar-container .list-group .sidebar-submenu a {
+    height: 45px;
+    padding-left: 30px;
+}
+.sidebar-submenu {
+    font-size: 0.9rem;
 }
 
-.question_content {
-    margin-bottom: 30px;
+/* Separators */
+.sidebar-separator-title {
+    background-color: #333;
+    height: 35px;
+}
+.sidebar-separator {
+    background-color: #333;
+    height: 25px;
+}
+.logo-separator {
+    background-color: #333;
+    height: 60px;
 }
 
-.answers_title {
-    border-bottom: 1px solid lightgray;
+/* Closed submenu icon */
+#sidebar-container .list-group .list-group-item[aria-expanded="false"] .submenu-icon::after {
+    content: " \f0d7";
+    font-family: FontAwesome;
+    display: inline;
+    text-align: right;
+    padding-left: 10px;
+}
+/* Opened submenu icon */
+#sidebar-container .list-group .list-group-item[aria-expanded="true"] .submenu-icon::after {
+    content: " \f0da";
+    font-family: FontAwesome;
+    display: inline;
+    text-align: right;
+    padding-left: 10px;
 }
 
-.answer_wrapper {
-    margin-top: 30px;
-    border-bottom: 1px solid lightgray;
-    padding-bottom: 20px;
-}
-
-.answer_form {
-    margin-top: 30px;
+#sidebar-container a {
+    text-transform: uppercase;
+    font-weight: bold;
 }

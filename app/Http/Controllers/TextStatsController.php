@@ -13,8 +13,7 @@ use App\Models\Text;
 use App\Models\Word;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
+
 
 class TextStatsController extends Controller
 {

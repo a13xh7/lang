@@ -23,8 +23,8 @@
                 {{__('Symbols')}}: <span class="badge badge-dark">{{ $text->total_symbols}}</span> <b>|</b>
                 {{__('Words')}}: <span class="badge badge-dark">{{ $text->total_words}}</span> <b>|</b>
                 {{__('Unique words')}}: <span class="badge badge-dark">{{ $text->unique_words}}</span>
-                {{--{{__('Known words')}}: <span class="badge badge-dark">{{ count($text->getKnownWords()) }}</span> <b>|</b>--}}
-                {{--{{__('Unknown Words')}}: <span class="badge badge-dark">{{ count($text->getUnknownWords()) }}</span>--}}
+                {{__('Known words')}}: <span class="badge badge-dark">{{ count($text->getKnownWords()) }}</span> <b>|</b>
+                {{__('Unknown Words')}}: <span class="badge badge-dark">{{ count($text->getUnknownWords()) }}</span>
             </div>
 
             <div class="text_pages_info">

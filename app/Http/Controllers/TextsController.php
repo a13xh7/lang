@@ -17,7 +17,7 @@ class TextsController extends Controller
 
     public function showTexts()
     {
-        $perPage = 10;
+        $perPage = 6;
 
         $texts = Text::orderBy('id', 'DESC')->paginate($perPage);
 
