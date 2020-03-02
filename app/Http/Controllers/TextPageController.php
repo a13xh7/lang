@@ -5,12 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 
 
+use App\Models\Text;
 use App\Models\TextPage;
 use App\Models\Word;
 use App\Services\TextHandler;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class TextPageController extends Controller
 {
@@ -61,10 +61,9 @@ class TextPageController extends Controller
 
         // Update current text page
 
-        DB::table('text')
-            ->where('text_id', $page->text->id)
-            ->update(['current_page' => $pageNumber]);
-
+        $text = Text::find($page->text_id);
+        $text->current_page = $pageNumber;
+        $text->save();
 
         return view('text_page')
             ->with('page', $page)
@@ -74,7 +73,8 @@ class TextPageController extends Controller
             ->with('translate_to_lang_id', $translate_to_lang_id)
             ->with('words', $textHandler->uniqueWords)
             ->with('knownWords', $knownWords)
-            ->with('myWords', $myWords);
+            ->with('myWords', $myWords)
+            ->with('text', $page->text);
     }
 
 

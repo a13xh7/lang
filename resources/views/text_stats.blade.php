@@ -2,64 +2,67 @@
 
 @section('content')
 
+    @php
+        $textLanguageFlag = 'img/flags/'. \App\Config\Lang::get($text->lang_id)['code'] . '.svg';
+        $textLanguageTitle = \App\Config\Lang::get($text->lang_id)['title'];
 
-    <h1>{{__('Text stats')}}</h1>
+        $translateToLangFlag = 'img/flags/'. \App\Config\Lang::get($text->translate_to_lang_id)['code'] . '.svg';
+        $translateToLangTitle = \App\Config\Lang::get($text->translate_to_lang_id)['title'];
+    @endphp
+
+    <h1>Text statistics</h1>
+
     <div class="w3-border-bottom">
         <ul>
+            <li>Unique words: <b>{{ $text->unique_words}}</b></li>
+            <li>Total words: <b>{{ $text->total_words}}</b></li>
+            <li>Symbols: <b>{{ $text->total_symbols}}</b></li>
+            <li>Pages: <b>{{$text->total_pages}}</b></li>
 
-            <li>
-                {{__('Text language')}}:  <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->lang_id)['code'] .'.svg')}}" class="text_flag" alt="">{{\App\Config\Lang::get($text->lang_id)['title']}}
-                <i class="text-muted">({{\App\Config\Lang::get($text->lang_id)['eng_title']}})</i>
+            <li style="margin-top: 10px;">
+                Text language:  <img src="{{asset($textLanguageFlag)}}" class="text_flag" alt=""> {{$textLanguageTitle}}
             </li>
             <li>
-                {{__('Translate to')}}:  <img src="{{asset('img/flags/'. \App\Config\Lang::get($text->translate_to_lang_id)['code'] .'.svg')}}" class="text_flag" alt="">{{\App\Config\Lang::get($text->translate_to_lang_id)['title']}}
-                <i class="text-muted">({{\App\Config\Lang::get($text->translate_to_lang_id)['eng_title']}})</i>
+                Translate to:  <img src="{{asset($translateToLangFlag)}}" class="text_flag" alt=""> {{$translateToLangTitle}}
             </li>
-            <li>{{__('Pages')}}: <b>{{$text->total_pages}}</b></li>
-            <li>{{__('Symbols')}}: <b>{{ $text->total_symbols}}</b></li>
-            <li>{{__('Total words')}}: <b>{{ $text->total_words}}</b></li>
-            <li>{{__('Unique words')}}: <b>{{ $text->unique_words}}</b></li>
         </ul>
-
-        <p> </p>
-
-
-
     </div>
 
-    <h1>{{__('Text words')}} <span class="h6 text-muted">{{__('Click on buttons to filter words')}}</span></h1>
+    <h1>Text words <span class="h6 text-muted">Click on buttons to filter words</span></h1>
 
+    {{--FILTERS START--}}
     <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
 
         <li class="nav-item" style="margin-right: 50px;">
-            <button type="button" class="btn btn-primary noradius active" id="show_all_words">
-                <span class="h3">{{__('ALL')}}: <span class="badge badge-dark"> {{ $text->unique_words}}</span> </span>
-            </button>
+            <a href="{{route('text_stats', $text->id)}}?show_words={{\App\Config\WordConfig::NEW}}" type="button" class="btn btn-primary noradius active">
+                <span class="h3">ALL: <span class="badge badge-dark"> {{ $text->unique_words}}</span> </span>
+            </a>
         </li>
 
         <li class="nav-item" style="margin-right: 50px;">
-            <button type="button" class="btn btn-primary noradius active" id="show_unknown_words">
-                <span class="h3">{{__('UNKNOWN')}}: <span class="badge badge-warning"> {{ count($text->getUnknownWords()) }}</span> </span>
-            </button>
+            <a href="{{route('text_stats', $text->id)}}?show_words={{\App\Config\WordConfig::TO_STUDY}}" type="button" class="btn btn-primary noradius active">
+                <span class="h3">NEW / UNKNOWN: <span class="badge badge-warning"> {{ count($text->getUnknownWords()) }}</span> </span>
+            </a>
         </li>
 
         <li class="nav-item">
-            <button type="button" class="btn btn-primary noradius" id="show_known_words">
-                <span class="h3">{{__('KNOWN')}}: <span class="badge badge-success">{{ count($knownWords) }}</span> </span>
-            </button>
+            <a href="{{route('text_stats', $text->id)}}?show_words={{\App\Config\WordConfig::KNOWN}}" type="button" class="btn btn-primary noradius">
+                <span class="h3">KNOWN / TO STUDY: <span class="badge badge-success">{{ count($text->getKnownAndToStudyWords())}}</span> </span>
+            </a>
         </li>
 
     </ul>
+    {{--FILTERS END--}}
 
-
+    {{--WORDS TABLE START--}}
     <div class="row">
 
         <table class="table" id="all_text_words">
             <thead class="thead-light">
             <tr>
-                <th>{{__('State')}}</th>
-                <th scope="col">{{__('Word')}}</th>
-                <th scope="col">{{__('Usage frequency')}}</th>
+                <th>State</th>
+                <th scope="col">Word</th>
+                <th scope="col">Usage frequency</th>
             </tr>
             </thead>
             <tbody>
@@ -69,25 +72,23 @@
                 <tr>
                     <td>
 
-                        @if(!in_array($word[0], $knownWords))
+                        @if(!in_array($word[0], $myWordsInThisText))
                             <button type="button" class="btn btn-warning btn-sm word_btn"
                                     data-word="{{$word[0]}}"
                                     data-lang_id="{{$text->lang_id}}"
                                     data-translate_to_lang_id="{{$text->translate_to_lang_id}}"
-                                    data-state="{{\App\Config\WordConfig::TO_STUDY}}">{{__('To study')}}</button>
+                                    data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
 
                             <button type="button" class="btn btn-success btn-sm word_btn"
                                     data-word="{{$word[0]}}"
                                     data-lang_id="{{$text->lang_id}}"
-                                    data-translate_to_lang_id="{{$text->translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">{{__('Known')}}</button>
-
+                                    data-translate_to_lang_id="{{$text->translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                         @else
 
-
-                            @if($myWords->where('word', $word[0])->first()->state == \App\Config\WordConfig::TO_STUDY)
-                                <span class="badge badge-warning h4">{{__('To study')}}</span>
+                            @if($allMyWords->where('word', $word[0])->first()->state == \App\Config\WordConfig::TO_STUDY)
+                                <span class="badge badge-warning h4">To study</span>
                             @else
-                                <span class="badge badge-success h4">{{__('Known')}}</span>
+                                <span class="badge badge-success h4">Known</span>
                             @endif
 
                         @endif
@@ -100,16 +101,12 @@
 
             @endforeach
 
-
-
             </tbody>
         </table>
 
-</div>
+    </div>
+    {{--WORDS TABLE END--}}
 
     {{$paginator->links()}}
-
-
-
 
 @endsection

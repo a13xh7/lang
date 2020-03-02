@@ -39,21 +39,23 @@ class TextHandler
         $allWords = preg_split('/((^\p{P}+)|(\p{P}*\s+\p{P}*)|(\p{P}+$))/ui', $text, -1, PREG_SPLIT_NO_EMPTY);
 
         // Add all words to array
+
         $this->allWords = $allWords;
 
         // Count and save unique words to array. Array format - ['word_key' => 'usage_frequency]
+
         $words = array_count_values(array_map('mb_strtolower', $this->allWords));
         arsort($words);
 
         // count usage frequency percent
+
         $this->totalWords = count($allWords);
 
         $wordsFinal = [];
 
-        foreach ($words as $word => $usage_frequency) {
-
+        foreach ($words as $word => $usage_frequency)
+        {
             $percent = round (($usage_frequency / $this->totalWords) * 100, 4);
-
             $wordsFinal[] = [$word, $usage_frequency, $percent];
         }
 
@@ -70,7 +72,6 @@ class TextHandler
     {
         return serialize($this->uniqueWords);
     }
-
 
     public function splitTextToPages($pageLength = 2000)
     {
@@ -102,8 +103,6 @@ class TextHandler
             $wordRegex = "#\b[^\s]+\b#ui";
         }
 
-
-
         $result = preg_replace_callback($wordRegex,
 
             function ($matches) use ($userOnlyWords, $userWords, $wordsLangId, $translateToLangId, $myWords)
@@ -129,6 +128,7 @@ class TextHandler
 
                         $translation = $myWords->where('word', $wordKey)->first()->translation->translation;
                         $state = WordConfig::KNOWN;
+
                         // если слово знакомое, уже изученное, никак не выделять его
 
                         return '<mark  data-state='.$state.' ><span class="translation" style="display: none;">('.$translation.')</span>'.$matches[0] . '</mark>';
@@ -148,13 +148,8 @@ class TextHandler
 
             $this->text);
 
-
-
         return $result;
     }
-
-
-
 
     private function findPageEnd($text, $pageLength):int
     {
@@ -169,7 +164,4 @@ class TextHandler
 
         return $pageEndOffset + 1; //  +1 means + dot
     }
-
-
-
 }

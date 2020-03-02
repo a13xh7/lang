@@ -5,7 +5,7 @@
 
     <h1 class="uc">{{__('My words')}}</h1>
 
-
+    {{--LANGUAGE FILTER START--}}
     <div class="form-group row">
         <label class="col-md-auto col-form-label" for="w_lang"><b>{{__('Words language')}}</b></label>
         <div class="col">
@@ -60,33 +60,35 @@
             </select>
         </div>
     </div>
+    {{--LANGUAGE FILTER END--}}
 
     <hr>
 
-    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+    {{--FILTERS START--}}
+    <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
 
         <li class="nav-item" style="margin-right: 50px;">
-            <button type="button" class="btn btn-primary noradius active" id="show_all_words">
+            <a href="{{route('words')}}?show_words={{\App\Config\WordConfig::NEW}}" type="button" class="btn btn-primary noradius active">
                 <span class="h2">{{__('ALL')}}: <span class="badge badge-light">{{ $totalWords }}</span> </span>
-            </button>
+            </a>
         </li>
 
         <li class="nav-item" style="margin-right: 50px;">
-            <button type="button" class="btn btn-primary noradius" id="show_unknown_words">
+            <a href="{{route('words')}}?show_words={{\App\Config\WordConfig::TO_STUDY}}" type="button" class="btn btn-primary noradius">
                 <span class="h2">{{__('TO STUDY')}}: <span class="badge badge-warning">{{ $totalNewWords }} </span> </span>
-            </button>
+            </a>
         </li>
 
         <li class="nav-item">
-            <button type="button" class="btn btn-primary noradius" id="show_known_words">
+            <a href="{{route('words')}}?show_words={{\App\Config\WordConfig::KNOWN}}" type="button" class="btn btn-primary noradius">
                 <span class="h2">{{__('KNOWN')}}: <span class="badge badge-success">{{ $totalKnownWords }}</span> </span>
-            </button>
+            </a>
         </li>
 
     </ul>
+    {{--FILTERS END--}}
 
-
-
+    {{--WORDS TABLE START--}}
     <table class="table" id="all_text_words">
         <thead class="thead-light">
         <tr>
@@ -97,67 +99,45 @@
         </thead>
         <tbody>
 
-
     @foreach($words as $word)
 
         <tr>
             <td>
 
-                {{--
-                    для всех слов - нужно показывать две кнопки. знакомое или к изучению
-                    для незнакомых слов - показывать кнопку - "сделать слово знакомым"
-                    для знакомых слов - только badge
-                --}}
+                @if($word->state == \App\Config\WordConfig::NEW )
+                    <button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
 
-
-
-                {{--All words tab - allow user to set any state wor a word--}}
-                @if(\Illuminate\Support\Facades\Cookie::get('show_words') == 0)
-
-                    @if($word->state == \App\Config\WordConfig::TO_STUDY )
-                        <span class="badge badge-warning h4">To study</span>
-                        <button type="button" class="btn btn-success btn-sm words_btn"
-                                data-word_id="{{$word->id}}"
-                                data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
-                    @endif
-
-                    @if($word->state == \App\Config\WordConfig::KNOWN )
-                        <button type="button" class="btn btn-warning btn-sm words_btn"
-                                data-word_id="{{$word->id}}"
-                                data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
-                        <span class="badge badge-success h4">Known</span>
-                    @endif
-
-
-                 {{--To study tab - --}}
-                @elseif(\Illuminate\Support\Facades\Cookie::get('show_words') == \App\Config\WordConfig::TO_STUDY)
-
-                    <button type="button" class="btn btn-success btn-sm words_btn"
-                            data-word_id="{{$word->id}}"
-                            data-state="{{\App\Config\WordConfig::KNOWN}}">Mark as known</button>
-
-                {{-- Know words tab - --}}
-                @elseif(\Illuminate\Support\Facades\Cookie::get('show_words') == \App\Config\WordConfig::KNOWN)
-
-                    <span class="badge badge-success h4">Known</span>
+                    <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
 
                 @endif
 
+                @if($word->state == \App\Config\WordConfig::TO_STUDY )
+                    <span class="badge badge-warning h4">To study</span>
+
+                    <button type="button" class="btn btn-success btn-sm words_btn"
+                            data-word_id="{{$word->id}}"
+                            data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                @endif
+
+                @if($word->state == \App\Config\WordConfig::KNOWN )
+                    <button type="button" class="btn btn-warning btn-sm words_btn"
+                            data-word_id="{{$word->id}}"
+                            data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
+                    <span class="badge badge-success h4">Known</span>
+                @endif
 
             </td>
             <td>{{$word->word}}</td>
             <td> {{$word->translation->translation}} </td>
         </tr>
 
-
-
     @endforeach
 
         </tbody>
     </table>
+    {{--WORDS TABLE END--}}
 
     {{$words->links()}}
-
 
 @endsection
 

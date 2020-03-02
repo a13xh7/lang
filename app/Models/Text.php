@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Config\WordConfig;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,14 +12,22 @@ class Text extends Model
 
     protected $settings = null;
 
+    /**
+     * @return array
+     * array structure
+     * [
+     *  0 => [ 0 => "the", 1 => 1804, 2 => 6.1381]
+     *  1 => [ 0 => "test", 1 => 1322, 2 => 5.44]
+     * ]
+     * WHERE: 0 - a word, 1 - usage frequency, 2 - usage frequency (percent)
+     */
     public function getWords()
     {
         return unserialize($this->words);
     }
 
-
     /**
-     * @return array - просто массив со словами. обычные индексы в качестве ключей
+     * @return array - just array [0 => 'word', 1 => 'word' , etc...]
      */
     public function getKnownWords()
     {
@@ -29,8 +38,7 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-
-        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translation', function (Builder $query) {
+        $allMyWords = Word::where('lang_id', $this->lang_id)->where('state', WordConfig::KNOWN)->whereHas('translation', function (Builder $query) {
             $query->where('lang_id', '=', $this->translate_to_lang_id);
         })->get();
 
@@ -43,11 +51,64 @@ class Text extends Model
         }
 
         return $myKnownWordsInThisText;
-
     }
 
     /**
-     * @return array - просто массив со словами. обычные индексы в качестве ключей
+     * @return array - just array [0 => 'word', 1 => 'word' , etc...]
+     */
+    public function getToStudyWords()
+    {
+        $textWords = $this->getWords();
+        $textWordsClean = [];
+
+        foreach ($textWords as $textWord) {
+            $textWordsClean[] = $textWord[0];
+        }
+
+        $allMyWords = Word::where('lang_id', $this->lang_id)->where('state', WordConfig::TO_STUDY)->whereHas('translation', function (Builder $query) {
+            $query->where('lang_id', '=', $this->translate_to_lang_id);
+        })->get();
+
+        $myToStudyWordsInThisText = [];
+
+        foreach ($allMyWords as $myWord) {
+            if(in_array($myWord->word, $textWordsClean))
+
+                $myToStudyWordsInThisText[] = $myWord->word;
+        }
+
+        return $myToStudyWordsInThisText;
+    }
+
+    /**
+     * @return array - just array [0 => 'word', 1 => 'word' , etc...]
+     */
+    public function getKnownAndToStudyWords()
+    {
+        $textWords = $this->getWords();
+        $textWordsClean = [];
+
+        foreach ($textWords as $textWord) {
+            $textWordsClean[] = $textWord[0];
+        }
+
+        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translation', function (Builder $query) {
+            $query->where('lang_id', '=', $this->translate_to_lang_id);
+        })->get();
+
+        $myWordsInThisText = [];
+
+        foreach ($allMyWords as $myWord) {
+            if(in_array($myWord->word, $textWordsClean))
+
+                $myWordsInThisText[] = $myWord->word;
+        }
+
+        return $myWordsInThisText;
+    }
+
+    /**
+     * @return array - just array [0 => 'word', 1 => 'word' , etc...]
      */
     public function getUnknownWords()
     {
@@ -57,7 +118,6 @@ class Text extends Model
         foreach ($textWords as $textWord) {
             $textWordsClean[] = $textWord[0];
         }
-
 
         $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translation', function (Builder $query) {
             $query->where('lang_id', '=', $this->translate_to_lang_id);

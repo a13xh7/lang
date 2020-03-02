@@ -1,6 +1,5 @@
 @extends('main_layout')
 
-
 @section('content')
 
     <h1 class="гс">{{__('Upload text file')}}</h1>
@@ -43,9 +42,7 @@
                         <option
                                 value="{{$lang['id']}}"
                                 data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
-
-                        >
+                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>">
                         </option>
 
                     @endforeach
@@ -65,9 +62,7 @@
                         <option
                                 value="{{$lang['id']}}"
                                 data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
-
-                        >
+                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>">
                         </option>
 
                     @endforeach
@@ -116,8 +111,7 @@
                         <option
                                 value="{{$lang['id']}}"
                                 data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
-                        >
+                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>">
                         </option>
 
                     @endforeach
@@ -137,8 +131,7 @@
                         <option
                                 value="{{$lang['id']}}"
                                 data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>"
-                        >
+                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>">
                         </option>
 
                     @endforeach

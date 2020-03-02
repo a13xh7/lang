@@ -25,19 +25,20 @@ class WordsController extends Controller
     {
         $perPage = 100;
 
+        $showWordsFilter = $request->get('show_words') != null ? $request->get('show_words') : 0;
         $wordsLangId = $request->cookie('w_lang') != null ? $request->cookie('w_lang') : 0;
         $wordsTranslationLangId = $request->cookie('wt_lang') != null ? $request->cookie('wt_lang') : 0;
 
         // Достать слова из базы с учетом фильтров по языкам
 
-        if($request->cookie('show_words') == WordConfig::TO_STUDY) {
+        if($showWordsFilter == WordConfig::TO_STUDY) {
             $words = Word::where('state', WordConfig::TO_STUDY)
                 ->where('lang_id', $wordsLangId)
                 ->whereHas('translation', function (Builder $query) use ($wordsTranslationLangId) {
                 $query->where('lang_id', '=', $wordsTranslationLangId);
             })->paginate($perPage);
 
-        } elseif ($request->cookie('show_words') == WordConfig::KNOWN) {
+        } elseif ($showWordsFilter == WordConfig::KNOWN) {
             $words = Word::where('state', WordConfig::KNOWN)
                 ->where('lang_id', $wordsLangId)
                 ->whereHas('translation', function (Builder $query) use ($wordsTranslationLangId) {

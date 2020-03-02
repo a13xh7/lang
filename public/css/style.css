@@ -119,15 +119,13 @@ h1 {
     overflow: hidden;
 }
 
-
 .text_item {
     padding-bottom: 5px;
     margin-top: 20px;
 }
 
-
 .text_controls {
-    margin-top: 10px;
+    margin-left: 10px;
 }
 
 

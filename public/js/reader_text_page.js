@@ -1,15 +1,11 @@
 $( document ).ready(function() {
 
-    const show_all_words = 0;
-    const show_unknown_words = 1;
-    const show_known_words = 2;
-
     const word_new = 0;
     const word_to_study = 1;
     const word_known = 2;
 
 
-// При загрузке страницы проверить какие слова нужно выделаить и выделить эти слова
+// При загрузке страницы проверить какие слова нужно выделить и выделить эти слова
 
     if(Cookies.get('h_known') == 0) {
         $("mark[data-state='" + word_to_study + "']").each(function(index,element) {
@@ -70,31 +66,6 @@ $( document ).ready(function() {
             });
         }
     });
-
-
-    // Right sidebar - open window on translate buttons click
-
-    // google translate
-    $('#rs').on('click', '#gt_btn', function() {
-
-        url = 'https://translate.google.com/#view=home&op=translate&sl='+ text_lang_code +'&tl='+ text_translate_to_lang_code +'&text=' + $('#rs_word').html();
-
-        window.open(url, 'window name', 'width=900, height=700');
-        return false;
-
-    });
-
-    // yandex translate
-    $('#rs').on('click', '#yt_btn', function() {
-
-        url = 'https://translate.yandex.com/?lang=' + text_lang_code + '-' + text_translate_to_lang_code +'&text=' + $('#rs_word').html();
-
-        window.open(url, 'window name', 'width=900, height=700');
-        return false;
-
-    });
-
-
 
     // Toggle word translation
 
@@ -172,11 +143,10 @@ $( document ).ready(function() {
 
         $('#rs_word_state').replaceWith('<span class="badge badge-success h4" id="rs_word_state" style="vertical-align: middle">Known</span>');
 
-
     });
 
 
-// Highlight to study words
+    // Highlight to study words
 
     $("#h_known").change(function() {
 
@@ -202,7 +172,7 @@ $( document ).ready(function() {
         }
     });
 
-// Highlight unknown words
+    // Highlight unknown words
 
     $("#h_unknown").change(function() {
 
@@ -227,25 +197,36 @@ $( document ).ready(function() {
         }
     });
 
-// Open google translate in new window
-// Translate selected text in google
+    // Open google translate in new window and translate selected text in google
 
     $("body").keypress(function(e) {
-
-
         if (e.code == 'KeyT') {
-
             url = 'https://translate.google.com/#view=home&op=translate&sl='+ text_lang_code +'&tl='+ text_translate_to_lang_code +'&text=' + window.getSelection().toString();
-
             window.open(url, 'window name', 'width=900, height=700');
             return false;
-
         }
     });
 
+    // Right sidebar - open window on translate buttons click - google translate
 
+    $('.text_page_sidebar').on('click', '#gt_btn', function() {
 
+        url = 'https://translate.google.com/#view=home&op=translate&sl='+ text_lang_code +'&tl='+ text_translate_to_lang_code +'&text=' + $('#rs_word').html();
 
+        window.open(url, 'window name', 'width=900, height=700');
+        return false;
 
+    });
+
+    // Right sidebar - open window on translate buttons click - yandex translate
+
+    $('.text_page_sidebar').on('click', '#yt_btn', function() {
+
+        url = 'https://translate.yandex.com/?lang=' + text_lang_code + '-' + text_translate_to_lang_code +'&text=' + $('#rs_word').html();
+
+        window.open(url, 'window name', 'width=900, height=700');
+        return false;
+
+    });
 
 });

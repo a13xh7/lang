@@ -20,59 +20,59 @@ class TextStatsController extends Controller
 
     public function showTextStats(int $textId, Request $request)
     {
+        // SHOW words
+        // 0 - all
+        // 1 - unknown / to study
+        // 2 - known
+
+        $showWordsFilter = $request->get('show_words') != null ? $request->get('show_words') : 0;
+
         $text = Text::findOrFail($textId);
 
-        $words = $text->getWords();
-        $knownWords = $text->getKnownWords();
+        $allWordsFromText = $text->getWords(); // array structure - [ [0=>'word', 1 => usage frequency, 2 => usage frequency (percent)] ]
+        $myWordsInThisText = $text->getKnownAndToStudyWords(); // usual array - [0 => 'word', 1 => 'word' , etc...]
+        $allMyWords = Word::where('lang_id', $text->lang_id)->get(); // all user worlds. the same language as the text
 
-        $myWords = Word::where('lang_id', $text->lang_id);
+        // Filter Words. Do not filter if show_words == 0 (all)
 
-        /* SHOW words
-        0 - all
-        1 - unknown
-        2 - known
-         */
-
-        // Filter Words - get only known or only new. By default we get all words.
-        if($request->cookie('show_words') == WordConfig::TO_STUDY) {
+        if($showWordsFilter == WordConfig::TO_STUDY) {
             $filteredWords = [];
 
-            foreach ($words as $word) {
-                if(in_array($word[0], $knownWords) == false) {
+            foreach ($allWordsFromText as $word) {
+                if(in_array($word[0], $myWordsInThisText) == false ) {
                     $filteredWords[] = $word;
                 }
             }
-            $words = $filteredWords;
 
-        } elseif ($request->cookie('show_words') == WordConfig::KNOWN) {
+            $allWordsFromText = $filteredWords;
+
+        } elseif ($showWordsFilter == WordConfig::KNOWN || $showWordsFilter == WordConfig::TO_STUDY ) {
 
             $filteredWords = [];
 
-            foreach ($words as $word) {
-                if(in_array($word[0], $knownWords)) {
+            foreach ($allWordsFromText as $word) {
+                if(in_array($word[0], $myWordsInThisText)) {
                     $filteredWords[] = $word;
                 }
             }
-            $words = $filteredWords;
 
+            $allWordsFromText = $filteredWords;
         }
+
+        // This is pagination
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
         $perPage = 200;
-
-        $wordsToShow = array_slice($words, $perPage * ($currentPage - 1), $perPage);
-
-        $paginator = new LengthAwarePaginator($wordsToShow, count($words), $perPage, $currentPage);
+        $wordsFromTextPaginated= array_slice($allWordsFromText, $perPage * ($currentPage - 1), $perPage);
+        $paginator = new LengthAwarePaginator($wordsFromTextPaginated, count($allWordsFromText), $perPage, $currentPage);
         $paginator->withPath(''); // почему это вообще работает?
-
-
 
         return view('text_stats')
             ->with('text', $text)
-            ->with('words', $wordsToShow)
-            ->with('knownWords', $knownWords)
-            ->with('myWords', $myWords)
-            ->with('paginator', $paginator)->withCookie('show_words', 1);
+            ->with('words', $wordsFromTextPaginated)
+            ->with('myWordsInThisText', $myWordsInThisText)
+            ->with('allMyWords', $allMyWords)
+            ->with('paginator', $paginator);
     }
 
 

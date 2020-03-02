@@ -16,8 +16,6 @@ $.ajaxSetup({
     }
 });
 
-
-
 // Set file name in file input
 
 $('#text_file').on('change',function(){
@@ -28,8 +26,9 @@ $('#text_file').on('change',function(){
 });
 
 
-// USER TEXTS PAGE ----------------------------------------------------------------------------------------------------
-
+/*******************************************************************************************************************
+* MY TEXTS PAGE
+*******************************************************************************************************************/
 
 // Update text modal window. Set form fields values
 
@@ -48,18 +47,20 @@ $('a[data-target="#text_edit_modal"]').on('click',function(){
     $("#lang_to").val($(this).data('translate_to_lang_id')).change();
 });
 
-// MY WORDS PAGE -  -----------------------------------------------------------------------------------------------
+/*******************************************************************************************************************
+ * MY WORDS PAGE
+ *******************************************************************************************************************/
 
 // word language filter
+
 $('#w_lang').on('change', function(){
-
     document.cookie = "w_lang=" + $(this).val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
-
     url = window.location.href.split('?')[0];
     location.href = url;
 });
 
 // word translation language filter
+
 $('#wt_lang').on('change', function(){
 
     document.cookie = "wt_lang=" + $(this).val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
@@ -69,10 +70,7 @@ $('#wt_lang').on('change', function(){
 });
 
 
-
-//AJAX - update word state
-// 1 - to study
-// 2 - known
+// Update word state - known or to study
 
 $('td').on('click', 'button.words_btn', function(){
 
@@ -93,16 +91,17 @@ $('td').on('click', 'button.words_btn', function(){
         data: {"word_id": $(this).data('word_id'), "state": $(this).data('state') },
 
         success: function (data) {
-
         }
     });
 
 });
 
+/*******************************************************************************************************************
+ * TEXTS STATS PAGE
+ *******************************************************************************************************************/
 
-// TEXTS STATS PAGE - filter words ----------------------------------------------------------------------------------
+// Add new word to study
 
-// AJAX - add new word to study
 $('button.word_btn').on('click',function(){
 
     $(this).prev().hide();
@@ -115,7 +114,6 @@ $('button.word_btn').on('click',function(){
     }
 
     $.ajax({
-
         url: "/reader/words/add",
         method: "POST",
         data: {"word": $(this).data('word'),
@@ -125,64 +123,228 @@ $('button.word_btn').on('click',function(){
         },
 
         success: function (data) {
+        }
+    });
+});
+
+/*******************************************************************************************************************
+ * TEXT PAGE (READER)
+ *******************************************************************************************************************/
 
 
+// При загрузке страницы проверить какие слова нужно выделить и выделить эти слова
+
+if(Cookies.get('h_known') == 0) {
+    $("mark[data-state='" + word_to_study + "']").each(function(index,element) {
+        $(element).removeClass('study');
+    });
+}
+
+if(Cookies.get('h_unknown') == 0) {
+    $("mark[data-state='" + word_new + "']").each(function(index,element) {
+        $(element).removeClass('unknown');
+    });
+}
+
+/*   При клике на слово:
+*
+*    Если слово новое / незнакомое:
+*
+*    добавить его в базу,
+*    получить перевод,
+*    добавить перевод в скобки рядом со словом
+*    убрать стиль / выделение цветом у слова
+*    добавить слово в правый сайдбар
+*    найти повторения этого слова в тексте и добавить им перевод
+*    убрать выделение цветом
+*/
+
+$('div.page_text_wrapper').on('click', 'mark.unknown, mark, mark[data-state="0"]', function() {
+
+    word = $(this);
+
+    // Ajax запрос на перевод слова. Возвращается перевод
+
+    if($(word).data('state') == word_new) {
+        $.ajax({
+            url: "/reader/words/add",
+            method: "POST",
+            data: {"word": $(this).data('word'),
+                "lang_id": $(this).data('lang_id'),
+                "translate_to_lang_id": $(this).data('translate_to_lang_id'),
+                "state": $(this).data('state')
+            },
+
+            success: function (data) {
+
+                translation = '<span class="translation">('+ data +')</span>';
+
+                $('mark[data-word="'+ word.data('word') +'"]').each(function(index,element) {
+                    $(element).removeClass();
+                    $(element).html( translation + ' ' + word.data('word'));
+                });
+
+                // добавить перевод слова в правом сайдбаре
+                $('#rs_word_translation').html(data);
+
+            }
+        });
+    }
+});
+
+// Toggle word translation
+
+$('div.page_text_wrapper').on('click', 'mark, mark.study, mark.unknown', function() {
+    word = $(this);
+    word.find('span').toggle();
+    word.removeClass();
+
+    // Указать текст и перевод слова
+
+    wordText = word.clone().children().remove().end().text();
+    wordTranslation = word.find('span').text().replace('(', '').replace(')', '');
+
+    $('#rs_word').html(wordText);
+    $('#rs_word_translation').html(wordTranslation);
+
+    // указать state слова
+
+    if(word.data('state') == word_new || word.data('state') == word_to_study) {
+        $('#rs_word_state').replaceWith('<span class="badge badge-warning h4" id="rs_word_state" style="vertical-align: middle">To study</span>')
+    } else {
+        $('#rs_word_state').replaceWith('<span class="badge badge-success h4" id="rs_word_state" style="vertical-align: middle">Known</span>')
+    }
+
+    // Скрыть или показать блок  кнопкой "mark as known"
+    // если кнопка показывается, установить ей дата атрибуты
+    if(word.data('state') == word_known) {
+        $('#rs_mark_known_wrapper').hide();
+    } else {
+        $('#rs_mark_known_wrapper').show();
+
+        $('#rs_mark_as_known_btn').attr('data-word', wordText);
+        $('#rs_mark_as_known_btn').prop('disabled', false);
+
+    }
+
+    //указать ссылку в кнопке "Translate in google"
+
+    googleUrl = 'https://translate.google.com/#view=home&op=translate&sl='+ text_lang_code +'&tl='+ text_translate_to_lang_code +'&text=' + wordText;
+    $('#gt_btn').attr('href', googleUrl);
+
+    yandexUrl = 'https://translate.yandex.com/?lang=' + text_lang_code + '-' + text_translate_to_lang_code +'&text=' + wordText;
+    $('#yt_btn').attr('href', yandexUrl);
+});
+
+// Клик на кнопку Known в правом сайдбаре
+// 1 - обновить статус слова в базе
+// 2 - найти в тексте копии этго слова и установить им новый статус
+
+$('#rs').on('click', '#rs_mark_as_known_btn', function() {
+
+    $(this).prop('disabled', true);
+    wordText = word.clone().children().remove().end().text();
+
+    $.ajax({
+        url: "/reader/words/update2",
+        method: "POST",
+        data: {
+            "word": $(this).data('word'),
+            "lang_id": $(this).data('lang_id'),
+            "translate_to_lang_id": $(this).data('translate_to_lang_id'),
+            "state": $(this).data('state')
+        },
+
+        success: function (data) {
+
+            $('mark[data-word="'+ wordText +'"]').each(function(index,element) {
+                $(element).attr('data-state', word_known);
+                $(element).removeClass();
+            });
         }
     });
 
+    $('#rs_word_state').replaceWith('<span class="badge badge-success h4" id="rs_word_state" style="vertical-align: middle">Known</span>');
 });
 
 
-//WORD FILTERS - SET ACTIVE
+// Highlight to study words
 
-if(Cookies.get('show_words') == show_all_words) {
-    $('#show_all_words').prop( "disabled", true );
-}
+$("#h_known").change(function() {
 
-if(Cookies.get('show_words') == show_unknown_words) {
-    $('#show_unknown_words').prop( "disabled", true );
-}
+    selector = "mark[data-state='" + word_to_study + "']";
 
-if(Cookies.get('show_words') == show_known_words) {
-    $('#show_known_words').prop( "disabled", true );
-}
+    if(this.checked == false) {
 
-//WORD FILTERS - SELECT
+        $(selector).each(function(index,element) {
+            $(element).removeClass('study');
+        });
 
-$('#show_all_words').on('click',function(){
-    document.cookie = "show_words=0; expires=Thu, 18 Dec 2023 12:00:00 UTC";
+        Cookies.set('h_known', 0);
 
-    url = window.location.href.split('?')[0];
-    location.href = url;
+    } else {
+
+        $(selector).each(function(index,element) {
+            $(element).addClass('study');
+        });
+
+        Cookies.set('h_known', 1);
+    }
 });
 
-$('#show_unknown_words').on('click',function(){
-    document.cookie = "show_words=1; expires=Thu, 18 Dec 2023 12:00:00 UTC";
+// Highlight unknown words
 
-    url = window.location.href.split('?')[0];
-    location.href = url;
+$("#h_unknown").change(function() {
+
+    selector = "mark[data-state='" + word_new + "']";
+
+    if(this.checked == false) {
+
+        $(selector).each(function(index,element) {
+            $(element).removeClass('unknown');
+        });
+
+        Cookies.set('h_unknown', 0);
+
+    } else {
+
+        $(selector).each(function(index,element) {
+            $(element).addClass('unknown');
+        });
+
+        Cookies.set('h_unknown', 1);
+    }
 });
 
-$('#show_known_words').on('click',function(){
-    document.cookie = "show_words=2; expires=Thu, 18 Dec 2023 12:00:00 UTC";
+// Open google translate in new window and translate selected text in google
 
-    url = window.location.href.split('?')[0];
-    location.href = url;
+$("body").keypress(function(e) {
+    if (e.code == 'KeyT') {
+        url = 'https://translate.google.com/#view=home&op=translate&sl='+ text_lang_code +'&tl='+ text_translate_to_lang_code +'&text=' + window.getSelection().toString();
+        window.open(url, 'window name', 'width=900, height=700');
+        return false;
+    }
 });
 
-// Фильтр  публичных тектсов по языкам
+// Right sidebar - open window on translate buttons click - google translate
 
-$('#pt_filter').on('click',function() {
+$('.text_page_sidebar').on('click', '#gt_btn', function() {
 
-    // I know lang selector
-    document.cookie = "pt_to_lang_id=" + $('#lang_from').val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
+    url = 'https://translate.google.com/#view=home&op=translate&sl='+ text_lang_code +'&tl='+ text_translate_to_lang_code +'&text=' + $('#rs_word').html();
 
-    // i want to learn selector
-    document.cookie = "pt_lang_id=" + $('#lang_to').val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
+    window.open(url, 'window name', 'width=900, height=700');
+    return false;
 
-    url = window.location.href.split('?')[0];
-    location.href = url;
+});
 
+// Right sidebar - open window on translate buttons click - yandex translate
+
+$('.text_page_sidebar').on('click', '#yt_btn', function() {
+
+    url = 'https://translate.yandex.com/?lang=' + text_lang_code + '-' + text_translate_to_lang_code +'&text=' + $('#rs_word').html();
+
+    window.open(url, 'window name', 'width=900, height=700');
+    return false;
 
 });
 

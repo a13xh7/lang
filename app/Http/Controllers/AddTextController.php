@@ -23,27 +23,23 @@ class AddTextController extends Controller
     {
         $pageLength = 2000;
 
-        // 1 - Validate form
-
-        $request->validate([
-            'text_title' => 'required|max:255',
-        ]);
-
-        // Если загружен файл - достать текст из файла
+        // 1 - Get uploaded text
 
         if ($request->file('text_file') != null) {
-            // 2 - Validate file extension
+
+            // Validate file extension
 
             $exploded = explode('.', $request->file('text_file')->getClientOriginalName());
             $fileExtension = $exploded[count($exploded)-1];
 
             $allowedExtensions = ['txt', 'fb2', 'pdf'];
+
             if(in_array($fileExtension, $allowedExtensions) == false)
             {
                 return redirect()->route('add_text_page')->withErrors(['input_name' => 'File extension is not supported']);
             }
 
-            // 3 - extract text from file
+            // extract text from file
 
             switch ($fileExtension) {
                 case 'txt':
@@ -66,55 +62,52 @@ class AddTextController extends Controller
                     break;
             }
         } else {
-            // если файла нет, достать текст из текстового поля
+
+            // Validate plain text form
 
             $request->validate([
                 'text' => 'required',
             ]);
 
+            // Get text from textarea if user didn't upload file
+
             $text = $request->get('text');
         }
 
-        $textHandler = new TextHandler($text);
-
         // 2 - split text to pages
 
+        $textHandler = new TextHandler($text);
         $pages = $textHandler->splitTextToPages($pageLength);
 
         DB::beginTransaction();
 
-        // 3 - Save text to database
+            // 3 - Save text to database
 
-        $text = new Text();
-        $text->lang_id = $request->get('lang_from');
-        $text->translate_to_lang_id = $request->get('lang_to');
-        $text->title = $request->get('text_title');
-        $text->total_pages = count($pages);
-        $text->total_symbols = $textHandler->totalSymbols;
-        $text->total_words = $textHandler->totalWords;
-        $text->unique_words = $textHandler->totalUniqueWords;
-        $text->words = $textHandler->getUniqueWordsSerialized();
+            $text = new Text();
+            $text->lang_id = $request->get('lang_from');
+            $text->translate_to_lang_id = $request->get('lang_to');
+            $text->title = $request->get('text_title');
+            $text->total_pages = count($pages);
+            $text->total_symbols = $textHandler->totalSymbols;
+            $text->total_words = $textHandler->totalWords;
+            $text->unique_words = $textHandler->totalUniqueWords;
+            $text->words = $textHandler->getUniqueWordsSerialized();
+            $text->save();
 
-        $text->save();
+            // 4 - save pages to database
 
+            foreach ($pages as $page_number => $page)
+            {
 
-        // 5 - save pages to database
-
-        foreach ($pages as $page_number => $page)
-        {
-
-            $textPage = new TextPage();
-            $textPage->text_id = $text->id;
-            $textPage->page_number = $page_number + 1; // because array starts from 0
-            $textPage->content = base64_encode($page);
-            $textPage->save();
-        }
+                $textPage = new TextPage();
+                $textPage->text_id = $text->id;
+                $textPage->page_number = $page_number + 1; // because array starts from 0
+                $textPage->content = base64_encode($page);
+                $textPage->save();
+            }
 
         DB::commit();
 
         return redirect()->route('texts');
-
-
     }
-
 }
