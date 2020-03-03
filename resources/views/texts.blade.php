@@ -31,7 +31,11 @@
                 {{__('Translate to')}}: <img src="{{asset($translateToLangFlag)}}" class="text_flag" alt=""> <i class="text-muted">({{$translateToLangTitle}})</i>
             </div>
 
-            <div style="padding-bottom: 5px;">
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" style="width:{{$readingProgress}}%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+            </div>
+
+            <div style="padding-top: 5px;">
                 {{__('Symbols')}}: <span class="badge badge-dark">{{ $text->total_symbols}}</span> <b>|</b>
                 {{__('Words')}}: <span class="badge badge-dark">{{ $text->total_words}}</span> <b>|</b>
                 {{__('Unique words')}}: <span class="badge badge-dark">{{ $text->unique_words}}</span>
@@ -40,13 +44,13 @@
                 {{__('Total Pages')}}: <span class="badge badge-dark">{{ $text->total_pages}}</span> <b>|</b>
                 {{__('Current page')}}: <span class="badge badge-dark">{{ $text->current_page}}</span>
 
-                <span class="text_controls">
+                <span class="text_controls" >
                     <a class="btn btn-primary text-light noradius" href="{{route('read_text_page', $text->id)}}?page={{$currentPage}}">
                         <i class="icofont-read-book"></i> {{__('Read')}}
                     </a>
 
                     <a class="btn btn-primary text-light noradius" href="{{ route('text_stats', $text->id) }}">
-                        <i class="icofont-info-square"></i> {{__('Full Info')}}
+                        <i class="icofont-info-square"></i> {{__('Text stats')}}
                     </a>
 
                     <a class="btn btn-primary text-light noradius text_edit_btn" data-toggle="modal" data-target="#text_edit_modal"
@@ -64,9 +68,7 @@
 
             </div>
 
-            <div class="progress">
-                <div class="progress-bar" role="progressbar" style="width:{{$readingProgress}}%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
-            </div>
+
 
         </div>
 

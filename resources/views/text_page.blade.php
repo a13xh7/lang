@@ -52,17 +52,41 @@
                 <tr>
                     <td>
 
-                        @if(!in_array($word[0], $knownWords))
-                            <button type="button" class="btn btn-warning btn-sm word_btn" data-word="{{$word[0]}}" data-lang_id="{{$text_lang_id}}" data-translate_to_lang_id="{{$translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
-                            <button type="button" class="btn btn-success btn-sm word_btn" data-word="{{$word[0]}}" data-lang_id="{{$text_lang_id}}" data-translate_to_lang_id="{{$translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+{{--                        @if(!in_array($word[0], $knownWords))--}}
+{{--                            <button type="button" class="btn btn-warning btn-sm word_btn" data-word="{{$word[0]}}" data-lang_id="{{$text_lang_id}}" data-translate_to_lang_id="{{$translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>--}}
+{{--                            <button type="button" class="btn btn-success btn-sm word_btn" data-word="{{$word[0]}}" data-lang_id="{{$text_lang_id}}" data-translate_to_lang_id="{{$translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>--}}
 
+{{--                        @else--}}
+{{--                            @if($myWords->where('word', $word[0])->first()->state == \App\Config\WordConfig::TO_STUDY)--}}
+{{--                                <span class="badge badge-warning h4">To study</span>--}}
+{{--                            @else--}}
+{{--                                <span class="badge badge-success h4">Known</span>--}}
+{{--                            @endif--}}
+{{--                        @endif--}}
+
+
+                        @if(in_array($word[0], $knownWords) == false)
+                            <button type="button" class="btn btn-warning btn-sm text_stats_word_btn"
+                                    data-word="{{$word[0]}}"
+                                    data-lang_id="{{$text->lang_id}}"
+                                    data-translate_to_lang_id="{{$text->translate_to_lang_id}}"
+                                    data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
+
+                            <button type="button" class="btn btn-success btn-sm text_stats_word_btn"
+                                    data-word="{{$word[0]}}"
+                                    data-lang_id="{{$text->lang_id}}"
+                                    data-translate_to_lang_id="{{$text->translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                         @else
-                            @if($myWords->where('word', $word[0])->first()->state == \App\Config\WordConfig::TO_STUDY)
+
+                            @if($myWords->where('word', $word[0])->first()->getTranslation($text->translate_to_lang_id)->state == \App\Config\WordConfig::TO_STUDY)
                                 <span class="badge badge-warning h4">To study</span>
                             @else
                                 <span class="badge badge-success h4">Known</span>
                             @endif
+
                         @endif
+
+
 
                     </td>
 
@@ -72,12 +96,14 @@
 
                         @if($myWords->where('word', $word[0])->where('lang_id', $text_lang_id)->first() != null)
 
-
-                            @if($myWords->where('word', $word[0])->where('lang_id', $text_lang_id)->first()->translation != null)
-                                {{$myWords->where('word', $word[0])->where('lang_id', $text_lang_id)->first()->translation->translation}}
+                            @if($myWords->where('word', $word[0])->where('lang_id', $text_lang_id)->first()->getTranslation($text->translate_to_lang_id) != null)
+                                {{$myWords->where('word', $word[0])->where('lang_id', $text_lang_id)->first()->getTranslation($text->translate_to_lang_id)->translation}}
+                            @else
+                                -
                             @endif
 
-
+                        @else
+                            -
                         @endif
 
                     </td>

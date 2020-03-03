@@ -16,8 +16,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Dejurin\GoogleTranslateForFree;
 
-use Google\Cloud\Translate\TranslateClient;
-
 class WordsController extends Controller
 {
     public function showPage(Request $request)
@@ -31,22 +29,19 @@ class WordsController extends Controller
         // Достать слова из базы с учетом фильтров по языкам
 
         if($showWordsFilter == WordConfig::TO_STUDY) {
-            $words = Word::where('state', WordConfig::TO_STUDY)
-                ->where('lang_id', $wordsLangId)
-                ->whereHas('translation', function (Builder $query) use ($wordsTranslationLangId) {
-                $query->where('lang_id', '=', $wordsTranslationLangId);
+            $words = Word::where('lang_id', $wordsLangId)->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
+                $query->where('lang_id', '=', $wordsTranslationLangId)->where('state', WordConfig::TO_STUDY);
             })->paginate($perPage);
 
         } elseif ($showWordsFilter == WordConfig::KNOWN) {
-            $words = Word::where('state', WordConfig::KNOWN)
-                ->where('lang_id', $wordsLangId)
-                ->whereHas('translation', function (Builder $query) use ($wordsTranslationLangId) {
-                    $query->where('lang_id', '=', $wordsTranslationLangId);
+            $words = Word::where('lang_id', $wordsLangId)
+                ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
+                    $query->where('lang_id', '=', $wordsTranslationLangId)->where('state', WordConfig::KNOWN);
                 })->paginate($perPage);
 
         } else {
             $words = Word::where('lang_id', $wordsLangId)
-                ->whereHas('translation', function (Builder $query) use ($wordsTranslationLangId) {
+                ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
                     $query->where('lang_id', '=', $wordsTranslationLangId);
             })->paginate($perPage);
 
@@ -55,20 +50,18 @@ class WordsController extends Controller
         // Посчитать количество слов с учетом фильтра по языкам
 
         $totalWords = Word::where('lang_id', $wordsLangId)
-            ->whereHas('translation', function (Builder $query) use ($wordsTranslationLangId) {
+            ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
                 $query->where('lang_id', '=', $wordsTranslationLangId);
             })->count();
 
-        $totalKnownWords = Word::where('state', WordConfig::KNOWN)
-            ->where('lang_id', $wordsLangId)
-            ->whereHas('translation', function (Builder $query) use ($wordsTranslationLangId) {
-                $query->where('lang_id', '=', $wordsTranslationLangId);
+        $totalKnownWords = Word::where('lang_id', $wordsLangId)
+            ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
+                $query->where('lang_id', '=', $wordsTranslationLangId)->where('state', WordConfig::KNOWN);
             })->count();
 
-        $totalNewWords = Word::where('state', WordConfig::TO_STUDY)
-            ->where('lang_id', $wordsLangId)
-            ->whereHas('translation', function (Builder $query) use ($wordsTranslationLangId) {
-                $query->where('lang_id', '=', $wordsTranslationLangId);
+        $totalNewWords = Word::where('lang_id', $wordsLangId)
+            ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
+                $query->where('lang_id', '=', $wordsTranslationLangId)->where('state', WordConfig::TO_STUDY);
             })->count();
 
         return view('words')
@@ -99,7 +92,7 @@ class WordsController extends Controller
 
             if($existingTranslation != null)
             {
-                return $existingTranslation->translation;
+                return [$word->id, $existingTranslation->translation];
 
             } else {
                 // Если нужного перевода нет перевести слово и сохранить перевод
@@ -110,10 +103,11 @@ class WordsController extends Controller
                 $translation->word_id = $word->id;
                 $translation->lang_id = $wordTranslateToLangId;
                 $translation->translation = $google->translate(Lang::get($word->lang_id)['code'], Lang::get($wordTranslateToLangId)['code'], $wordFromRequest, 5);
+                $translation->state = $wordState;
                 $translation->save();
 
                 // вернуть перевод
-                return $translation->translation;
+                return [$word->id, $translation->translation];
             }
 
         } else {
@@ -123,7 +117,6 @@ class WordsController extends Controller
             $word = new Word;
             $word->word = $wordFromRequest;
             $word->lang_id = $wordLangId;
-            $word->state = $wordState;
             $word->save();
 
             // Перевести слово и сохранить перевод
@@ -134,18 +127,21 @@ class WordsController extends Controller
             $translation->word_id = $word->id;
             $translation->lang_id = $wordTranslateToLangId;
             $translation->translation = $google->translate(Lang::get($word->lang_id)['code'], Lang::get($wordTranslateToLangId)['code'], $wordFromRequest, 5);
+            $translation->state = $wordState;
             $translation->save();
 
             // вернуть перевод
-            return $translation->translation;
+            return [$word->id, $translation->translation];
         }
     }
 
     public function ajaxUpdateWordState(Request $request)
     {
-        $word = Word::find($request->get('word_id'));
-        $word->state = $request->get('state');
-        $word->save();
+        $wordsTranslationLangId = $request->cookie('wt_lang') != null ? $request->cookie('wt_lang') : 0;
+
+        $translation = Translation::where('word_id', $request->get('word_id'))->where('lang_id', $wordsTranslationLangId)->first();
+        $translation->state = $request->get('state');
+        $translation->save();
     }
 
     public function ajaxUpdateWordStateFromPageReader(Request $request)

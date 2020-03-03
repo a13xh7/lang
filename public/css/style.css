@@ -125,7 +125,8 @@ h1 {
 }
 
 .text_controls {
-    margin-left: 10px;
+    float:right;
+    margin-right: 50px;
 }
 
 

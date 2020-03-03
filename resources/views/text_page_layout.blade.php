@@ -139,12 +139,23 @@
 
             <div id="rs_mark_known_wrapper">
                 <hr>
-                <b>{{__('Mark this word as known')}}:</b> <br>
+
+                <b>Mark this word as:</b>
+
+                <br>
+
                 <button type="button" id="rs_mark_as_known_btn" class="btn btn-success btn-sm"
                         data-lang_id="{{$text_lang_id}}"
                         data-translate_to_lang_id = "{{$translate_to_lang_id}}"
-                        data-word=""
                         data-state="{{\App\Config\WordConfig::KNOWN}}">{{__('Known')}}</button>
+
+                <button type="button" id="rs_mark_as_to_study_btn" class="btn btn-warning btn-sm"
+                        data-lang_id="{{$text_lang_id}}"
+                        data-translate_to_lang_id = "{{$translate_to_lang_id}}"
+                        data-state="{{\App\Config\WordConfig::TO_STUDY}}">{{__('To study')}}</button>
+
+                <br>
+                <span class="text-muted">New words have "To study" state</span>
             </div>
 
             <hr>

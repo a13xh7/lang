@@ -34,7 +34,7 @@ class TextStatsController extends Controller
         $myWordsInThisText = $text->getKnownAndToStudyWords(); // usual array - [0 => 'word', 1 => 'word' , etc...]
 
         // get all user words where word_lang_id == text_lang_id AND  word_translation_to_lang_id == text_translate_to_lang_id
-        $allMyWords = Word::where('lang_id', $text->lang_id)->whereHas('translation', function (Builder $query) use ($text) {
+        $allMyWords = Word::where('lang_id', $text->lang_id)->whereHas('translations', function (Builder $query) use ($text) {
                 $query->where('lang_id', '=', $text->translate_to_lang_id);
         })->get();
 

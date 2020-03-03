@@ -10,9 +10,6 @@ namespace App\Services;
 
 
 use App\Config\WordConfig;
-use App\Models\Reader\Word;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 
 class TextHandler
 {
@@ -115,7 +112,7 @@ class TextHandler
                     if($userWords[$wordKey] == WordConfig::TO_STUDY ) {
 
                         $state = WordConfig::TO_STUDY;
-                        $translation = $myWords->where('word', $wordKey)->first()->translation->translation;
+                        $translation = $myWords->where('word', $wordKey)->first()->getTranslation($translateToLangId)->translation;
 
                         // если слово изучаемое, выделить его оранжевым
 
@@ -126,12 +123,12 @@ class TextHandler
                                 data-translate_to_lang_id='{$translateToLangId}'><span class='translation' style='display: none;'>(".$translation.")</span>{$matches[0]}</mark>";
                     } else {
 
-                        $translation = $myWords->where('word', $wordKey)->first()->translation->translation;
+                        $translation = $myWords->where('word', $wordKey)->first()->getTranslation($translateToLangId)->translation;
                         $state = WordConfig::KNOWN;
 
                         // если слово знакомое, уже изученное, никак не выделять его
 
-                        return '<mark  data-state='.$state.' ><span class="translation" style="display: none;">('.$translation.')</span>'.$matches[0] . '</mark>';
+                        return '<mark class="known" data-state='.$state.' ><span class="translation" style="display: none;">('.$translation.')</span>'.$matches[0] . '</mark>';
 
                     }
 

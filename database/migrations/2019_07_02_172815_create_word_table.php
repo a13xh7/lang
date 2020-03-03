@@ -17,7 +17,6 @@ class CreateWordTable extends Migration
             $table->bigIncrements('id');
             $table->integer('lang_id');
             $table->string('word');
-            $table->integer('state');
             $table->timestamps();
         });
     }

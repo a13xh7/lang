@@ -38,8 +38,8 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $allMyWords = Word::where('lang_id', $this->lang_id)->where('state', WordConfig::KNOWN)->whereHas('translation', function (Builder $query) {
-            $query->where('lang_id', '=', $this->translate_to_lang_id);
+        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translations', function (Builder $query) {
+            $query->where('lang_id', '=', $this->translate_to_lang_id)->where('state', WordConfig::KNOWN);
         })->get();
 
         $myKnownWordsInThisText = [];
@@ -65,8 +65,8 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $allMyWords = Word::where('lang_id', $this->lang_id)->where('state', WordConfig::TO_STUDY)->whereHas('translation', function (Builder $query) {
-            $query->where('lang_id', '=', $this->translate_to_lang_id);
+        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translations', function (Builder $query) {
+            $query->where('lang_id', '=', $this->translate_to_lang_id)->where('state', WordConfig::TO_STUDY);
         })->get();
 
         $myToStudyWordsInThisText = [];
@@ -92,7 +92,7 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translation', function (Builder $query) {
+        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translations', function (Builder $query) {
             $query->where('lang_id', '=', $this->translate_to_lang_id);
         })->get();
 
@@ -119,7 +119,7 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translation', function (Builder $query) {
+        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translations', function (Builder $query) {
             $query->where('lang_id', '=', $this->translate_to_lang_id);
         })->get();
 

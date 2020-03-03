@@ -33,20 +33,26 @@
     {{--FILTERS START--}}
     <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
 
+        @php
+            $isAllDisabled = app('request')->input('show_words') == \App\Config\WordConfig::NEW ? "disabled" : "";
+            $isUnknownDisabled = app('request')->input('show_words') == \App\Config\WordConfig::TO_STUDY ? "disabled" : "";
+            $isKnownDisabled = app('request')->input('show_words') == \App\Config\WordConfig::KNOWN ? "disabled" : "";
+        @endphp
+
         <li class="nav-item" style="margin-right: 50px;">
-            <a href="{{route('text_stats', $text->id)}}?show_words={{\App\Config\WordConfig::NEW}}" type="button" class="btn btn-primary noradius active">
+            <a href="{{route('text_stats', $text->id)}}?show_words={{\App\Config\WordConfig::NEW}}" type="button" class="btn btn-primary noradius {{$isAllDisabled}}">
                 <span class="h3">ALL: <span class="badge badge-dark"> {{ $text->unique_words}}</span> </span>
             </a>
         </li>
 
         <li class="nav-item" style="margin-right: 50px;">
-            <a href="{{route('text_stats', $text->id)}}?show_words={{\App\Config\WordConfig::TO_STUDY}}" type="button" class="btn btn-primary noradius active">
+            <a href="{{route('text_stats', $text->id)}}?show_words={{\App\Config\WordConfig::TO_STUDY}}" type="button" class="btn btn-primary noradius {{$isUnknownDisabled}}">
                 <span class="h3">NEW / UNKNOWN: <span class="badge badge-warning"> {{ count($text->getUnknownWords()) }}</span> </span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a href="{{route('text_stats', $text->id)}}?show_words={{\App\Config\WordConfig::KNOWN}}" type="button" class="btn btn-primary noradius">
+            <a href="{{route('text_stats', $text->id)}}?show_words={{\App\Config\WordConfig::KNOWN}}" type="button" class="btn btn-primary noradius {{$isKnownDisabled}}">
                 <span class="h3">KNOWN / TO STUDY: <span class="badge badge-success">{{ count($text->getKnownAndToStudyWords())}}</span> </span>
             </a>
         </li>
@@ -86,23 +92,16 @@
                                     data-lang_id="{{$text->lang_id}}"
                                     data-translate_to_lang_id="{{$text->translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                         @else
-
-{{--                            @php--}}
-{{--                                $word = $allMyWords->where('word', $word[0])->first();--}}
-{{--                            @endphp--}}
-
-{{--                            @if($word->state == \App\Config\WordConfig::TO_STUDY)--}}
+{{--
+{{--                            @if($allMyWords->where('word', $word[0])->first()->getTranslation($text->translate_to_lang_id)->state == \App\Config\WordConfig::TO_STUDY)--}}
 {{--                                <span class="badge badge-warning h4">To study</span>--}}
-{{--                                <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>--}}
-{{--                            @endif--}}
-
-{{--                            @if($word->state == \App\Config\WordConfig::KNOWN )--}}
-{{--                                <button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>--}}
+{{--                                <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$allMyWords->where('word', $word[0])->first()->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>--}}
+{{--                            @else--}}
+{{--                                <button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="{{$allMyWords->where('word', $word[0])->first()->id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>--}}
 {{--                                <span class="badge badge-success h4">Known</span>--}}
 {{--                            @endif--}}
 
-
-                            @if($allMyWords->where('word', $word[0])->first()->state == \App\Config\WordConfig::TO_STUDY)
+                            @if($allMyWords->where('word', $word[0])->first()->getTranslation($text->translate_to_lang_id)->state == \App\Config\WordConfig::TO_STUDY)
                                 <span class="badge badge-warning h4">To study</span>
                             @else
                                 <span class="badge badge-success h4">Known</span>
@@ -121,7 +120,7 @@
 
                             @php
                                 try {
-                                    $translation = $allMyWords->where('word', $word[0])->first()->translation->translation;
+                                    $translation = $allMyWords->where('word', $word[0])->first()->getTranslation($text->translate_to_lang_id)->translation;
                                 } catch (Exception $e) {
                                  $translation = "ERROR";
                                  }
