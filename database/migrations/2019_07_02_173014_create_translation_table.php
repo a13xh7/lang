@@ -18,6 +18,7 @@ class CreateTranslationTable extends Migration
             $table->integer('word_id');
             $table->integer('lang_id');
             $table->string('translation');
+            $table->integer('state');
             $table->timestamps();
         });
     }

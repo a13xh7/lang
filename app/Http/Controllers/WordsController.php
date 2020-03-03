@@ -20,7 +20,6 @@ use Google\Cloud\Translate\TranslateClient;
 
 class WordsController extends Controller
 {
-
     public function showPage(Request $request)
     {
         $perPage = 100;
@@ -53,7 +52,6 @@ class WordsController extends Controller
 
         }
 
-
         // Посчитать количество слов с учетом фильтра по языкам
 
         $totalWords = Word::where('lang_id', $wordsLangId)
@@ -73,7 +71,6 @@ class WordsController extends Controller
                 $query->where('lang_id', '=', $wordsTranslationLangId);
             })->count();
 
-
         return view('words')
             ->with('words', $words)
             ->with('totalWords', $totalWords)
@@ -81,48 +78,31 @@ class WordsController extends Controller
             ->with('totalNewWords', $totalNewWords)
             ->with('wordsLangId', $wordsLangId)
             ->with('wordsTranslationLangId', $wordsTranslationLangId);
-
     }
-
 
     public function ajaxAddNewWord(Request $request)
     {
-        // Если это новое слово, статус сразу меняется на TO_STUDY
-
-        if($request->get('state') == 0) {
-            $request->merge([
-                'state' => WordConfig::TO_STUDY,
-            ]);
-        }
-
         $wordFromRequest = mb_strtolower($request->get('word'));
         $wordLangId = $request->get('lang_id');
         $wordTranslateToLangId = $request->get('translate_to_lang_id');
-        $wordState = $request->get('state');
+        $wordState = $request->get('state') == WordConfig::NEW ? WordConfig::TO_STUDY : $request->get('state');
 
-        // Найти слово в базе по слову, языку и переводу
+        // Find word in database
 
-        $word = Word::where('word', $wordFromRequest)->where('lang_id', $wordLangId)
-            ->whereHas('translation', function (Builder $query) use ($wordTranslateToLangId) {
-                $query->where('lang_id', '=', $wordTranslateToLangId);
-            })->first();
-
-
-        // У слова всегда есть перевод
+        $word = Word::where('word', $wordFromRequest)->where('lang_id', $wordLangId)->first();
 
         if($word != null) {
 
-            // Если перевод слова существует и если язык перевода равен языку на который переводится текст, вернуть перевод слова
+            // Если перевод слова на нужный язык существует, вернуть перевод слова
 
-            $existingTranslation = $word->translation;
+            $existingTranslation = Translation::where('word_id', $word->id)->where('lang_id', $wordTranslateToLangId)->first();
 
             if($existingTranslation != null)
             {
                 return $existingTranslation->translation;
 
             } else {
-
-                // Перевести слово и сохранить перевод
+                // Если нужного перевода нет перевести слово и сохранить перевод
 
                 $google = new GoogleTranslateForFree();
 
@@ -133,9 +113,7 @@ class WordsController extends Controller
                 $translation->save();
 
                 // вернуть перевод
-
                 return $translation->translation;
-
             }
 
         } else {
@@ -159,10 +137,8 @@ class WordsController extends Controller
             $translation->save();
 
             // вернуть перевод
-
             return $translation->translation;
         }
-
     }
 
     public function ajaxUpdateWordState(Request $request)
@@ -182,18 +158,5 @@ class WordsController extends Controller
         $word->users()->updateExistingPivot(auth()->user()->id, ['state' => WordConfig::KNOWN] );
 
         $word->save();
-    }
-
-
-    public function getTranslationFromDatabase(Request $request)
-    {
-        $wordFromRequest = mb_strtolower($request->get('word'));
-        $wordLangId = $request->get('lang_id');
-        $wordTranslateToLangId = $request->get('translate_to_lang_id');
-
-        $word = Word::where('word', $wordFromRequest)->where('lang_id', $wordLangId)->first();
-
-
-        return $word->translation->translation;
     }
 }

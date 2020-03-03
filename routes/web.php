@@ -28,6 +28,3 @@ Route::get('/reader/words', 'WordsController@showPage')->name('words');
 Route::post('/reader/words/add', 'WordsController@ajaxAddNewWord')->name('add_new_word');
 Route::post('/reader/words/update', 'WordsController@ajaxUpdateWordState')->name('update_word');
 Route::post('/reader/words/update2', 'WordsController@ajaxUpdateWordStateFromPageReader')->name('update_word2');
-
-Route::post('/reader/word/translate/', 'WordsController@getTranslationFromDatabase')->name('get_translation');
-

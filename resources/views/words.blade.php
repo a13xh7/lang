@@ -106,23 +106,16 @@
 
                 @if($word->state == \App\Config\WordConfig::NEW )
                     <button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
-
                     <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
-
                 @endif
 
                 @if($word->state == \App\Config\WordConfig::TO_STUDY )
                     <span class="badge badge-warning h4">To study</span>
-
-                    <button type="button" class="btn btn-success btn-sm words_btn"
-                            data-word_id="{{$word->id}}"
-                            data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                    <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                 @endif
 
                 @if($word->state == \App\Config\WordConfig::KNOWN )
-                    <button type="button" class="btn btn-warning btn-sm words_btn"
-                            data-word_id="{{$word->id}}"
-                            data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
+                    <button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
                     <span class="badge badge-success h4">Known</span>
                 @endif
 

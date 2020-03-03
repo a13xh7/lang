@@ -138,7 +138,7 @@ button[data-id="lang_to"], button[data-id="lang_from"], button[data-id="lang_kno
 
 #all_text_words td, #all_text_words th {
     text-align: center;
-    width: 33%;
+    width: 25%;
 }
 
 /**********************READER TEXT PAGE*********************/

@@ -60,8 +60,9 @@
         <table class="table" id="all_text_words">
             <thead class="thead-light">
             <tr>
-                <th>State</th>
+                <th scope="col">State</th>
                 <th scope="col">Word</th>
+                <th scope="col">Translation</th>
                 <th scope="col">Usage frequency</th>
             </tr>
             </thead>
@@ -70,20 +71,36 @@
             @foreach($words as $word)
 
                 <tr>
+                    {{--STATE START--}}
                     <td>
 
-                        @if(!in_array($word[0], $myWordsInThisText))
-                            <button type="button" class="btn btn-warning btn-sm word_btn"
+                        @if(in_array($word[0], $myWordsInThisText) == false)
+                            <button type="button" class="btn btn-warning btn-sm text_stats_word_btn"
                                     data-word="{{$word[0]}}"
                                     data-lang_id="{{$text->lang_id}}"
                                     data-translate_to_lang_id="{{$text->translate_to_lang_id}}"
                                     data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
 
-                            <button type="button" class="btn btn-success btn-sm word_btn"
+                            <button type="button" class="btn btn-success btn-sm text_stats_word_btn"
                                     data-word="{{$word[0]}}"
                                     data-lang_id="{{$text->lang_id}}"
                                     data-translate_to_lang_id="{{$text->translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                         @else
+
+{{--                            @php--}}
+{{--                                $word = $allMyWords->where('word', $word[0])->first();--}}
+{{--                            @endphp--}}
+
+{{--                            @if($word->state == \App\Config\WordConfig::TO_STUDY)--}}
+{{--                                <span class="badge badge-warning h4">To study</span>--}}
+{{--                                <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>--}}
+{{--                            @endif--}}
+
+{{--                            @if($word->state == \App\Config\WordConfig::KNOWN )--}}
+{{--                                <button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>--}}
+{{--                                <span class="badge badge-success h4">Known</span>--}}
+{{--                            @endif--}}
+
 
                             @if($allMyWords->where('word', $word[0])->first()->state == \App\Config\WordConfig::TO_STUDY)
                                 <span class="badge badge-warning h4">To study</span>
@@ -92,10 +109,32 @@
                             @endif
 
                         @endif
-
-
                     </td>
+                    {{--STATE END--}}
+
                     <td>{{$word[0]}}</td>
+
+                    {{--TRANSLATION START--}}
+
+                    <td>
+                        @if(in_array($word[0], $myWordsInThisText))
+
+                            @php
+                                try {
+                                    $translation = $allMyWords->where('word', $word[0])->first()->translation->translation;
+                                } catch (Exception $e) {
+                                 $translation = "ERROR";
+                                 }
+                            @endphp
+                            {{$translation}}
+                        @else
+                            -
+                        @endif
+                    </td>
+
+                    {{--TRANSLATION END--}}
+
+
                     <td>{{$word[1]}} <span class="small text-muted">{{$word[2]}}%</span> </td>
                 </tr>
 

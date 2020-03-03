@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 use App\Config\WordConfig;
 use App\Models\Text;
 use App\Models\Word;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -31,7 +32,12 @@ class TextStatsController extends Controller
 
         $allWordsFromText = $text->getWords(); // array structure - [ [0=>'word', 1 => usage frequency, 2 => usage frequency (percent)] ]
         $myWordsInThisText = $text->getKnownAndToStudyWords(); // usual array - [0 => 'word', 1 => 'word' , etc...]
-        $allMyWords = Word::where('lang_id', $text->lang_id)->get(); // all user worlds. the same language as the text
+
+        // get all user words where word_lang_id == text_lang_id AND  word_translation_to_lang_id == text_translate_to_lang_id
+        $allMyWords = Word::where('lang_id', $text->lang_id)->whereHas('translation', function (Builder $query) use ($text) {
+                $query->where('lang_id', '=', $text->translate_to_lang_id);
+        })->get();
+
 
         // Filter Words. Do not filter if show_words == 0 (all)
 

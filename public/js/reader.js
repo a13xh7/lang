@@ -9,12 +9,11 @@ const word_to_study = 1;
 const word_known = 2;
 
 // CSRF init
-
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+// $.ajaxSetup({
+//     headers: {
+//         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+//     }
+// });
 
 // Set file name in file input
 
@@ -62,9 +61,7 @@ $('#w_lang').on('change', function(){
 // word translation language filter
 
 $('#wt_lang').on('change', function(){
-
     document.cookie = "wt_lang=" + $(this).val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
-
     url = window.location.href.split('?')[0];
     location.href = url;
 });
@@ -100,18 +97,32 @@ $('td').on('click', 'button.words_btn', function(){
  * TEXTS STATS PAGE
  *******************************************************************************************************************/
 
-// Add new word to study
+// Add new word to database with known or to_study state
 
-$('button.word_btn').on('click',function(){
+$('td').on('click', 'button.text_stats_word_btn', function(){
+
+    td = $(this).parent();
+    translationTableCell = $(this).parent().parent().children('td').eq(2);
 
     $(this).prev().hide();
     $(this).next().hide();
 
-    if($(this).data('state') == 1) {
+    if($(this).data('state') == word_to_study) {
         $(this).replaceWith('<span class="badge badge-warning h4">To study</span>')
     } else {
         $(this).replaceWith('<span class="badge badge-success h4">Known</span>')
     }
+
+    // После клика на любую кнопку слово добавляется в базу
+    // После этого кнопки меняются на кнопки со страницы My Words. Используя новые кнопки можно обновлять статус слова
+    //
+    // if($(this).hasClass('btn-success')) {
+    //     td.find('button.btn-success').replaceWith('<span class="badge badge-success h4">Known</span>');
+    //     td.find('span.badge-warning').replaceWith('<button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="' + $(this).data('word_id') + '" data-state="'+ word_to_study +'">To study</button>');
+    // } else {
+    //     td.find('button.btn-warning').replaceWith('<span class="badge badge-warning h4">To study</span>');
+    //     td.find('span.badge-success').replaceWith('<button type="button" class="btn btn-success btn-sm words_btn" data-word_id="' + $(this).data('word_id') + '" data-state="'+ word_known +'">Known</button>');
+    // }
 
     $.ajax({
         url: "/reader/words/add",
@@ -123,8 +134,13 @@ $('button.word_btn').on('click',function(){
         },
 
         success: function (data) {
+            // add tranlation to table
+            translationTableCell.text(data);
         }
     });
+
+
+
 });
 
 /*******************************************************************************************************************
