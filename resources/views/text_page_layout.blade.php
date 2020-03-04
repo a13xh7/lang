@@ -141,21 +141,15 @@
                 <hr>
 
                 <b>Mark this word as:</b>
-
-                <br>
-
-                <button type="button" id="rs_mark_as_known_btn" class="btn btn-success btn-sm"
-                        data-lang_id="{{$text_lang_id}}"
-                        data-translate_to_lang_id = "{{$translate_to_lang_id}}"
-                        data-state="{{\App\Config\WordConfig::KNOWN}}">{{__('Known')}}</button>
-
-                <button type="button" id="rs_mark_as_to_study_btn" class="btn btn-warning btn-sm"
-                        data-lang_id="{{$text_lang_id}}"
-                        data-translate_to_lang_id = "{{$translate_to_lang_id}}"
-                        data-state="{{\App\Config\WordConfig::TO_STUDY}}">{{__('To study')}}</button>
-
                 <br>
                 <span class="text-muted">New words have "To study" state</span>
+                <br>
+
+                <button type="button" id="rs_mark_as_known_btn" class="btn btn-success btn-sm" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+
+                <button type="button" id="rs_mark_as_to_study_btn" class="btn btn-warning btn-sm" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
+
+
             </div>
 
             <hr>
@@ -186,6 +180,11 @@
 <script type="text/javascript">
     var text_lang_code = "<?php echo \App\Config\Lang::get($text_lang_id)['code'] ?>";
     var text_translate_to_lang_code = "<?php echo \App\Config\Lang::get($translate_to_lang_id)['code'] ?>";
+
+    // Set word language id
+    var w_lang_id = "<?php echo $text_lang_id?>";
+    // set word translate to language id
+    var wt_lang_id = "<?php echo $translate_to_lang_id?>";
 </script>
 
 </body>

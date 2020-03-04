@@ -1,9 +1,5 @@
 $( document ).ready(function() {
 
-const show_all_words = 0;
-const show_unknown_words = 1;
-const show_known_words = 2;
-
 const word_new = 0;
 const word_to_study = 1;
 const word_known = 2;
@@ -85,7 +81,11 @@ $('td').on('click', 'button.words_btn', function(){
 
         url: "/reader/words/update",
         method: "POST",
-        data: {"word_id": $(this).data('word_id'), "state": $(this).data('state') },
+        data: {
+            "word_id": $(this).data('word_id'),
+            "state": $(this).data('state'),
+            "wt_lang_id": wt_lang_id
+        },
 
         success: function (data) {
         }
@@ -131,11 +131,57 @@ $('td').on('click', 'button.text_stats_word_btn', function(){
 });
 
 /*******************************************************************************************************************
+ * MANAGE WORDS PAGE
+ *******************************************************************************************************************/
+
+// Delete word
+
+$('.admin_word_delete_btn').on('click', function() {
+
+    delete_button = $(this);
+
+    $.ajax({
+        url: "/reader/words/delete",
+        method: "POST",
+        data: {
+            "word_id": delete_button.data('word_id'),
+        },
+
+        success: function (data) {
+            // hide table row
+            delete_button.parent().parent().hide();
+        }
+    });
+});
+
+
+// Delete translation
+
+$('.admin_translation_delete_btn').on('click', function() {
+
+    delete_button = $(this);
+
+    $.ajax({
+        url: "/reader/translation/delete",
+        method: "POST",
+        data: {
+            "translation_id": delete_button.data('translation_id'),
+        },
+
+        success: function (data) {
+            // hide table row
+            delete_button.parent().parent().hide();
+        }
+    });
+});
+
+/*******************************************************************************************************************
  * TEXT PAGE (READER)
  *******************************************************************************************************************/
 
 
 // При загрузке страницы проверить какие слова нужно выделить и выделить эти слова
+// Выделить / скрыть новые / изучаемые слова
 
 if(Cookies.get('h_known') == 0) {
     $("mark[data-state='" + word_to_study + "']").each(function(index,element) {
@@ -158,8 +204,8 @@ $('div.page_text_wrapper').on('click', 'mark[data-state="0"]', function() {
 
     word = $(this);
 
-    // Ajax запрос на перевод слова. Возвращается перевод
-    // Перевод заправшивается только для новых слов, которых еще нет в базе или у которых в базе нет перевода
+    // Ajax запрос на перевод слова. Сохраняет слово или перевод в базе и возвращается перевод
+    // Перевод запрашивается только для новых слов, которых еще нет в базе или у которых в базе нет перевода
 
     if($(word).data('state') == word_new)
     {
@@ -179,12 +225,16 @@ $('div.page_text_wrapper').on('click', 'mark[data-state="0"]', function() {
 
                 translation = '<span class="translation" style="display: none;">('+ data[1] +')</span>';
 
+                word.attr('data-word_id', data[0]);
+
                 // Для повторений этого слова на странице
                 // Заменить класс на study, так как новое слово по умолчанию становится изучаемым
                 // изменить data-state на 1
+                // добавить data-word_id
 
                 $('mark[data-word="'+ word.data('word') +'"]').each(function(index,element)
                 {
+                    $(element).attr('data-word_id', data[0]);
                     $(element).data('state', word_to_study);
                     $(element).html( translation + ' ' + word.data('word'));
                     $(element).removeClass('unknown');
@@ -196,7 +246,8 @@ $('div.page_text_wrapper').on('click', 'mark[data-state="0"]', function() {
                 // добавить перевод слова в правом сайдбаре
                 $('#rs_word_translation').html(data[1]);
 
-                // кнопки
+                // Кнопки статуса в правом сайдбаре
+                // установить word_id
 
                 $('#rs_mark_as_known_btn').attr('data-word_id', data[0]);
                 $('#rs_mark_as_to_study_btn').attr('data-word_id', data[0]);
@@ -216,7 +267,7 @@ $('div.page_text_wrapper').on('click', 'mark.known, mark.study', function() {
     word = $(this);
     word.find('span').toggle(); // показать / скрыть перевод
 
-    // Указать текст и перевод слова
+    // Указать текст и перевод слова в правом сайдбаре
 
     wordText = word.clone().children().remove().end().text();
     wordTranslation = word.find('span').text().replace('(', '').replace(')', '');
@@ -224,7 +275,7 @@ $('div.page_text_wrapper').on('click', 'mark.known, mark.study', function() {
     $('#rs_word').html(wordText);
     $('#rs_word_translation').html(wordTranslation);
 
-    // указать state слова
+    // указать state слова в правом сайдбаре
 
     if(word.data('state') == word_new || word.data('state') == word_to_study) {
         $('#rs_word_state').replaceWith('<span class="badge badge-warning h4" id="rs_word_state" style="vertical-align: middle">To study</span>')
@@ -232,9 +283,12 @@ $('div.page_text_wrapper').on('click', 'mark.known, mark.study', function() {
         $('#rs_word_state').replaceWith('<span class="badge badge-success h4" id="rs_word_state" style="vertical-align: middle">Known</span>')
     }
 
+    // добавить word_id кнопкам статуса в правом сайдбаре
 
+    $('#rs_mark_as_known_btn').attr('data-word_id', word.data('word_id'));
+    $('#rs_mark_as_to_study_btn').attr('data-word_id', word.data('word_id'));
 
-    //указать ссылку в кнопке "Translate in google"
+    //указать ссылку в кнопке "Translate in google" в правом сайдбаре
 
     googleUrl = 'https://translate.google.com/#view=home&op=translate&sl='+ text_lang_code +'&tl='+ text_translate_to_lang_code +'&text=' + wordText;
     $('#gt_btn').attr('href', googleUrl);
@@ -250,33 +304,53 @@ $('div.page_text_wrapper').on('click', 'mark.known, mark.study', function() {
 
 $('.text_page_sidebar').on('click', '#rs_mark_as_known_btn, #rs_mark_as_to_study_btn', function() {
 
-    $(this).prop('disabled', true);
-    wordText = word.clone().children().remove().end().text();
+    button = $(this);
+
+    // Обновить статус слова
 
     $.ajax({
         url: "/reader/words/update",
         method: "POST",
         data: {
-            "word": $(this).data('word'),
-            "lang_id": $(this).data('lang_id'),
-            "translate_to_lang_id": $(this).data('translate_to_lang_id'),
-            "state": $(this).data('state')
+            "word_id": $(this).data('word_id'),
+            "state": $(this).data('state'),
+            "wt_lang_id": wt_lang_id
         },
 
         success: function (data) {
 
-            // $('mark[data-word="'+ wordText +'"]').each(function(index,element) {
-            //     $(element).attr('data-state', word_known);
-            //     $(element).removeClass();
-            // });
+            // Найти все копии слова в тексте, установить им новый статус
+
+            if(button.data('state') == word_to_study)
+            {
+
+                $('mark[data-word_id="'+ button.data('word_id') +'"]').each(function(index,element) {
+                    $(element).attr('data-word_id', button.data('word_id'));
+                    $(element).attr('state', word_to_study);
+                    $(element).removeClass();
+                    $(element).addClass('study');
+                });
+
+            } else {
+
+                $('mark[data-word_id="'+ button.data('word_id') +'"]').each(function(index,element) {
+                    $(element).attr('data-word_id', button.data('word_id'));
+                    $(element).attr('state', word_known);
+                    $(element).removeClass();
+                    $(element).addClass('known');
+                });
+
+            }
+
         }
     });
 
     $('#rs_word_state').replaceWith('<span class="badge badge-success h4" id="rs_word_state" style="vertical-align: middle">Known</span>');
 });
 
-
-// Highlight to study words
+/*******************************************************************************************************************
+* TEXT PAGE (READER) - Highlight to study words
+*******************************************************************************************************************/
 
 $("#h_known").change(function() {
 
@@ -300,7 +374,9 @@ $("#h_known").change(function() {
     }
 });
 
-// Highlight unknown words
+/*******************************************************************************************************************
+* TEXT PAGE (READER) - Highlight unknown words
+*******************************************************************************************************************/
 
 $("#h_unknown").change(function() {
 
@@ -324,7 +400,7 @@ $("#h_unknown").change(function() {
     }
 });
 
-// Open google translate in new window and translate selected text in google
+// T button - Open google translate in new window and translate selected text in google
 
 $("body").keypress(function(e) {
     if (e.code == 'KeyT') {

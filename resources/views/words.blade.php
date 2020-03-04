@@ -138,5 +138,12 @@
 
     {{$words->links()}}
 
+    <script type="text/javascript">
+        // Set word language id
+        var w_lang_id = "<?php echo $wordsLangId?>";
+        // set word translate to language id
+        var wt_lang_id = "<?php echo $wordsTranslationLangId?>";
+    </script>
+
 @endsection
 

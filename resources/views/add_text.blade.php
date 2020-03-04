@@ -30,8 +30,6 @@
             </div>
         </div>
 
-        <input type="hidden" id="text_pubic" name="text_pubic" value="@if(app('request')->get('public') == 1) 1 @else 0 @endif">
-
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="lang_from">{{__('Text language')}}</label>
             <div class="col-sm-10">
@@ -98,8 +96,6 @@
                 <input type="text" class="form-control" name="text_title" id="text_title" placeholder="Text title" required>
             </div>
         </div>
-
-        <input type="hidden" id="text_pubic" name="text_pubic" value="@if(app('request')->get('public') == 1) 1 @else 0 @endif">
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label" for="lang_from">{{__('Text language')}}</label>

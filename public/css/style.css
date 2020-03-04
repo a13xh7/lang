@@ -111,7 +111,19 @@ h1 {
 .text_flag {
     width: 35px;
     height: 20px;
-    /*border: 1px solid gray;*/
+}
+
+.admin_flag {
+    width: 20px;
+    height: 15px;
+}
+
+.admin_lang_name {
+    font-size: 12px;
+}
+
+.admin_word_size {
+    font-size: 24px;
 }
 
 .text_item_wrapper {

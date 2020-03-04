@@ -97,7 +97,7 @@ class TextHandler
         if(preg_match_all($wordRegex, $this->text) == false) {
             $wordRegex = "#[^\s0-9\.,\!\@\#\%]+#";
         } else {
-            $wordRegex = "#\b[^\s]+\b#ui";
+            $wordRegex = "#\b[^\s^\s0-9\.,]+\b#ui";
         }
 
         $result = preg_replace_callback($wordRegex,
@@ -112,34 +112,39 @@ class TextHandler
                     if($userWords[$wordKey] == WordConfig::TO_STUDY ) {
 
                         $state = WordConfig::TO_STUDY;
-                        $translation = $myWords->where('word', $wordKey)->first()->getTranslation($translateToLangId)->translation;
+                        $word = $myWords->where('word', $wordKey)->first();
+                        $translation = $word->getTranslation($translateToLangId)->translation;
 
                         // если слово изучаемое, выделить его оранжевым
 
                         return "<mark class='study' 
-                                data-word='{$matches[0]}' 
                                 data-state='{$state}' 
-                                data-lang_id='{$wordsLangId}'
-                                data-translate_to_lang_id='{$translateToLangId}'><span class='translation' style='display: none;'>(".$translation.")</span>{$matches[0]}</mark>";
+                                data-word_id='{$word->id}'><span class='translation' style='display: none;'>({$translation})</span>{$matches[0]}</mark>";
                     } else {
 
-                        $translation = $myWords->where('word', $wordKey)->first()->getTranslation($translateToLangId)->translation;
+                        $word = $myWords->where('word', $wordKey)->first();
+                        $translation = $word->getTranslation($translateToLangId)->translation;
                         $state = WordConfig::KNOWN;
 
                         // если слово знакомое, уже изученное, никак не выделять его
 
-                        return '<mark class="known" data-state='.$state.' ><span class="translation" style="display: none;">('.$translation.')</span>'.$matches[0] . '</mark>';
+                        return "<mark class='known'
+                                 data-state='{$state}' 
+                                 data-word_id='{$word->id}'><span class='translation' style='display: none;'>({$translation})</span>{$matches[0]}</mark>";
 
                     }
 
                 } else {
 
                     $state = WordConfig::NEW;
-                    return "<mark class='unknown'
-                             data-word='{$matches[0]}' 
-                             data-state='{$state}' 
-                             data-lang_id='{$wordsLangId}' 
-                             data-translate_to_lang_id='{$translateToLangId}'>{$matches[0]}</mark>"; // если слово незнакомое, выделить его
+
+                    // если слово незнакомое, выделить его
+
+                    return "<mark class='unknown' 
+                            data-word='{$matches[0]}'
+                            data-state='{$state}' 
+                            data-lang_id='{$wordsLangId}'
+                            data-translate_to_lang_id='{$translateToLangId}'>{$matches[0]}</mark>";
                 }
             },
 

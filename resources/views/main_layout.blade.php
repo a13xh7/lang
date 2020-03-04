@@ -46,7 +46,9 @@
 
             <a href="{{route('words')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-file-text"></i> {{__('My words')}}</a>
 
-            <a href="" class="bg-dark list-group-item list-group-item-action"><i class="icofont-file-text"></i> {{__('Upload dictionary')}}</a>
+            <a href="{{route('words_admin')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-gears"></i> {{__('Manage words')}}</a>
+
+            <a href="{{route('words_upload_dictionary')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-upload"></i> {{__('Upload dictionary')}}</a>
 
         </ul>
 

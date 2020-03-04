@@ -18,6 +18,19 @@ use Dejurin\GoogleTranslateForFree;
 
 class WordsController extends Controller
 {
+
+    public function showAdminPage()
+    {
+        $perPage = 50;
+        $words = Word::with('translations')->paginate($perPage);
+        return view('words_admin')->with('words', $words);
+    }
+
+    public function showUploadDictionaryPage()
+    {
+        return view('words_upload_dictionary');
+    }
+
     public function showPage(Request $request)
     {
         $perPage = 100;
@@ -137,22 +150,23 @@ class WordsController extends Controller
 
     public function ajaxUpdateWordState(Request $request)
     {
-        $wordsTranslationLangId = $request->cookie('wt_lang') != null ? $request->cookie('wt_lang') : 0;
+        $wordId = $request->get('word_id');
+        $wordState = $request->get('state');
+        $translationLangId = $request->get('wt_lang_id');
 
-        $translation = Translation::where('word_id', $request->get('word_id'))->where('lang_id', $wordsTranslationLangId)->first();
-        $translation->state = $request->get('state');
+        $translation = Translation::where('word_id', $wordId)->where('lang_id', $translationLangId)->first();
+        $translation->state = $wordState;
         $translation->save();
     }
 
-    public function ajaxUpdateWordStateFromPageReader(Request $request)
+    public function ajaxDeleteWord(Request $request)
     {
-        $word = Word::where('word', $request->get('word'))->where('lang_id', $request->get('lang_id'))
-            ->whereHas('googleTranslation', function (Builder $query) use ($request) {
-                $query->where('lang_id', '=', $request->get('translate_to_lang_id'));
-            })->first();
+       Word::find($request->get('word_id'))->delete();
+    }
 
-        $word->users()->updateExistingPivot(auth()->user()->id, ['state' => WordConfig::KNOWN] );
+    public function ajaxDeleteTranslation(Request $request)
+    {
+        Translation::find($request->get('translation_id'))->delete();
 
-        $word->save();
     }
 }

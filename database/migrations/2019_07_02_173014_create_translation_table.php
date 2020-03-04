@@ -20,6 +20,8 @@ class CreateTranslationTable extends Migration
             $table->string('translation');
             $table->integer('state')->default(0);
             $table->timestamps();
+
+            $table->foreign('word_id')->references('id')->on('word')->onDelete('cascade');
         });
     }
 

@@ -23,8 +23,15 @@ Route::get('/reader/read/text/{textId}', 'TextPageController@showPage')->name('r
 
 // Words
 Route::get('/reader/words', 'WordsController@showPage')->name('words');
+Route::get('/reader/words_admin', 'WordsController@showAdminPage')->name('words_admin');
+Route::get('/reader/upload_dictionary', 'WordsController@showUploadDictionaryPage')->name('words_upload_dictionary');
 
-// Words
+// Words ajax - add and update state
 Route::post('/reader/words/add', 'WordsController@ajaxAddNewWord')->name('add_new_word');
 Route::post('/reader/words/update', 'WordsController@ajaxUpdateWordState')->name('update_word');
-Route::post('/reader/words/update2', 'WordsController@ajaxUpdateWordStateFromPageReader')->name('update_word2');
+
+// Words ajax - delete word / translation
+Route::post('/reader/words/delete', 'WordsController@ajaxDeleteWord')->name('delete_word');
+Route::post('/reader/translation/delete', 'WordsController@ajaxDeleteTranslation')->name('delete_translation');
+
+// Upload dictionary

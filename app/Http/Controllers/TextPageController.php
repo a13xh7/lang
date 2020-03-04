@@ -35,7 +35,6 @@ class TextPageController extends Controller
             $query->where('lang_id', '=', $translate_to_lang_id);
         })->get();
 
-
         // Достать все уникальные слова из текущей страницы
 
         $userWords = $this->getWordStateArray($myWords, $translate_to_lang_id);
@@ -45,6 +44,9 @@ class TextPageController extends Controller
 
         $pageContent = base64_decode($page->content);
         $textHandler = new TextHandler($pageContent);
+
+        // Метод получает:
+        // $userWords -
         $pageContent = $textHandler->handleTextPage($userWords, $text_lang_id, $translate_to_lang_id, $myWords);
 
         // Get user known words. Создать обычный массив со словами. [0 => word, 1 =>word]
@@ -72,7 +74,6 @@ class TextPageController extends Controller
             ->with('myWords', $myWords)
             ->with('text', $page->text);
     }
-
 
     /**
      * @param $userWords
