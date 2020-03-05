@@ -86,6 +86,16 @@ class TextHandler
         return $pages;
     }
 
+    /**
+     * Текст страницы обрабатывается в preg_replace_callback
+     * Проверяется каждое слово.
+     * Каждому слову выставляется статус - new, to study, known
+     * В зависимости от статуса выставляются разные стили и дата атрибуты
+     * Если слово есть в базе и у него есть перевод, сразу добавляется перевод в скрытый тег span
+     *
+     * С регулярным выражением были проблемы, не работало с кирилицей и может еще с некоторыми языками.
+     * Сейчас вроде работает
+     */
     public function handleTextPage(array $userWords, $wordsLangId, $translateToLangId, $myWords):string
     {
         $userOnlyWords = array_keys($userWords);
@@ -109,21 +119,27 @@ class TextHandler
                 if(in_array($wordKey, $userOnlyWords)) {
 
                     // если слово есть в массиве знакомых слов, проверить статус (знакомое или изучаемое)
-                    if($userWords[$wordKey] == WordConfig::TO_STUDY ) {
+                    if($userWords[$wordKey] == WordConfig::TO_STUDY )
+                    {
 
                         $state = WordConfig::TO_STUDY;
                         $word = $myWords->where('word', $wordKey)->first();
-                        $translation = $word->getTranslation($translateToLangId)->translation;
+                        $translation = $word->translations->where('lang_id',$translateToLangId)->where('word_id', $word->id)->first()->translation;
+
+                        //$translation = $word->getTranslation($translateToLangId)->translation;
 
                         // если слово изучаемое, выделить его оранжевым
 
                         return "<mark class='study' 
                                 data-state='{$state}' 
                                 data-word_id='{$word->id}'><span class='translation' style='display: none;'>({$translation})</span>{$matches[0]}</mark>";
-                    } else {
+                    } elseif($userWords[$wordKey] == WordConfig::KNOWN )
+                    {
 
                         $word = $myWords->where('word', $wordKey)->first();
-                        $translation = $word->getTranslation($translateToLangId)->translation;
+                        //$translation = $word->getTranslation($translateToLangId)->translation;
+                        $translation = $word->translations->where('lang_id',$translateToLangId)->where('word_id', $word->id)->first()->translation;
+
                         $state = WordConfig::KNOWN;
 
                         // если слово знакомое, уже изученное, никак не выделять его
@@ -132,13 +148,26 @@ class TextHandler
                                  data-state='{$state}' 
                                  data-word_id='{$word->id}'><span class='translation' style='display: none;'>({$translation})</span>{$matches[0]}</mark>";
 
+                    } elseif($userWords[$wordKey] == WordConfig::NEW )
+                    {
+
+                        $state = WordConfig::NEW;
+
+                        // если слово незнакомое но оно есть в базе
+
+                        return "<mark class='unknown' 
+                            data-word='{$matches[0]}'
+                            data-state='{$state}' 
+                            data-lang_id='{$wordsLangId}'
+                            data-translate_to_lang_id='{$translateToLangId}'>{$matches[0]}</mark>";
                     }
+
 
                 } else {
 
                     $state = WordConfig::NEW;
 
-                    // если слово незнакомое, выделить его
+                    // если слово незнакомое, выделить его синим
 
                     return "<mark class='unknown' 
                             data-word='{$matches[0]}'

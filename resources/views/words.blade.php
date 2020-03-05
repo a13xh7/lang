@@ -127,7 +127,7 @@
 
             </td>
             <td>{{$word->word}}</td>
-            <td> {{$word->getTranslation($wordsTranslationLangId)->translation}} </td>
+            <td> {{$word->translations->where('lang_id', $wordsTranslationLangId)->first()->translation}} </td>
         </tr>
 
     @endforeach

@@ -15,6 +15,7 @@ use App\Models\Word;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Dejurin\GoogleTranslateForFree;
+use Illuminate\Support\Facades\DB;
 
 class WordsController extends Controller
 {
@@ -29,6 +30,103 @@ class WordsController extends Controller
     public function showUploadDictionaryPage()
     {
         return view('words_upload_dictionary');
+    }
+
+    public function deleteAllWords()
+    {
+        DB::beginTransaction();
+
+        $words = Word::all();
+
+        foreach ($words as $word) {
+            $word->delete();
+        }
+
+        DB::commit();
+
+        return redirect()->route('words_admin');
+    }
+
+    public function uploadDictionary(Request $request)
+    {
+        set_time_limit(300);
+        ini_set('memory_limit', '1024M');
+
+        $wordsLangId = $request->get('words_lang_id');
+        $wordsTranslationLangId = $request->get('translation_lang_id');
+
+        $text = $request->file('text_file')->get();
+
+        $words = json_decode($text);
+
+        foreach ($words as $word => $translation) {
+
+            $word = mb_strtolower($word);
+            $translation = mb_strtolower($translation);
+
+            $newWord = new Word;
+            $newWord->word = $word;
+            $newWord->lang_id = $wordsLangId;
+            $newWord->save();
+
+            $newTranslation = new Translation();
+            $newTranslation->word_id = $newWord->id;
+            $newTranslation->lang_id = $wordsTranslationLangId;
+            $newTranslation->translation = $translation;
+            $newTranslation->state = WordConfig::NEW;
+            $newTranslation->save();
+
+
+//            //достать слова чтобы не лезть в базу каждый раз
+//            $myWords = Word::with('translations')
+//                ->where('lang_id', $wordsLangId)
+//                ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
+//                    $query->where('lang_id', '=', $wordsTranslationLangId);
+//                })->get();
+//
+//            $wordInDatabase = $myWords->where('word', $word)->where('lang_id', $wordsLangId)->first();
+//
+//            // Проверить есть ли слово в базе
+//
+//            if($wordInDatabase != null) {
+//
+//                // Проверить существует ли перевод на нужный язык
+//                // Если перевода нет, добавить перевод из словаря
+//
+//                $existingTranslation = $myWords->translations
+//                        ->where('word_id', $wordInDatabase->id)
+//                        ->where('lang_id', $wordsTranslationLangId)->fist();
+//
+//               // $existingTranslation = Translation::where('word_id', $wordInDatabase->id)->where('lang_id', $wordsTranslationLangId)->first();
+//
+//                if($existingTranslation == null)
+//                {
+//                    $newTranslation = new Translation();
+//                    $newTranslation->word_id = $wordInDatabase->id;
+//                    $newTranslation->lang_id = $wordsTranslationLangId;
+//                    $newTranslation->translation = $translation;
+//                    $newTranslation->state = WordConfig::NEW;
+//                    $newTranslation->save();
+//                }
+//
+//            } else {
+//                // Если слова нет в базе - добавить слово и перевод в базy
+//
+//                $newWord = new Word;
+//                $newWord->word = $word;
+//                $newWord->lang_id = $wordsLangId;
+//                $newWord->save();
+//
+//                $newTranslation = new Translation();
+//                $newTranslation->word_id = $newWord->id;
+//                $newTranslation->lang_id = $wordsTranslationLangId;
+//                $newTranslation->translation = $translation;
+//                $newTranslation->state = WordConfig::NEW;
+//                $newTranslation->save();
+//            }
+        }
+
+        return redirect()->route('words_admin');
     }
 
     public function showPage(Request $request)
@@ -55,8 +153,10 @@ class WordsController extends Controller
         } else {
             $words = Word::where('lang_id', $wordsLangId)
                 ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
-                    $query->where('lang_id', '=', $wordsTranslationLangId);
-            })->paginate($perPage);
+                    $query->where('lang_id', '=', $wordsTranslationLangId)
+                        ->where('state', WordConfig::KNOWN)
+                        ->orWhere('state', WordConfig::TO_STUDY);
+                })->paginate($perPage);
 
         }
 
@@ -64,7 +164,9 @@ class WordsController extends Controller
 
         $totalWords = Word::where('lang_id', $wordsLangId)
             ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
-                $query->where('lang_id', '=', $wordsTranslationLangId);
+                $query->where('lang_id', '=', $wordsTranslationLangId)
+                    ->where('state', WordConfig::TO_STUDY)
+                    ->orWhere('state', WordConfig::TO_STUDY);
             })->count();
 
         $totalKnownWords = Word::where('lang_id', $wordsLangId)
@@ -72,7 +174,7 @@ class WordsController extends Controller
                 $query->where('lang_id', '=', $wordsTranslationLangId)->where('state', WordConfig::KNOWN);
             })->count();
 
-        $totalNewWords = Word::where('lang_id', $wordsLangId)
+        $totalToStudyWords = Word::where('lang_id', $wordsLangId)
             ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
                 $query->where('lang_id', '=', $wordsTranslationLangId)->where('state', WordConfig::TO_STUDY);
             })->count();
@@ -81,7 +183,7 @@ class WordsController extends Controller
             ->with('words', $words)
             ->with('totalWords', $totalWords)
             ->with('totalKnownWords', $totalKnownWords)
-            ->with('totalNewWords', $totalNewWords)
+            ->with('totalNewWords', $totalToStudyWords)
             ->with('wordsLangId', $wordsLangId)
             ->with('wordsTranslationLangId', $wordsTranslationLangId);
     }
@@ -167,6 +269,5 @@ class WordsController extends Controller
     public function ajaxDeleteTranslation(Request $request)
     {
         Translation::find($request->get('translation_id'))->delete();
-
     }
 }

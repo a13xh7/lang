@@ -92,16 +92,8 @@
                                     data-lang_id="{{$text->lang_id}}"
                                     data-translate_to_lang_id="{{$text->translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                         @else
-{{--
-{{--                            @if($allMyWords->where('word', $word[0])->first()->getTranslation($text->translate_to_lang_id)->state == \App\Config\WordConfig::TO_STUDY)--}}
-{{--                                <span class="badge badge-warning h4">To study</span>--}}
-{{--                                <button type="button" class="btn btn-success btn-sm words_btn" data-word_id="{{$allMyWords->where('word', $word[0])->first()->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>--}}
-{{--                            @else--}}
-{{--                                <button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="{{$allMyWords->where('word', $word[0])->first()->id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>--}}
-{{--                                <span class="badge badge-success h4">Known</span>--}}
-{{--                            @endif--}}
 
-                            @if($allMyWords->where('word', $word[0])->first()->getTranslation($text->translate_to_lang_id)->state == \App\Config\WordConfig::TO_STUDY)
+                            @if($allMyWords->where('word', $word[0])->first()->translations->where('lang_id', $text->translate_to_lang_id)->first()->state == \App\Config\WordConfig::TO_STUDY)
                                 <span class="badge badge-warning h4">To study</span>
                             @else
                                 <span class="badge badge-success h4">Known</span>
@@ -120,7 +112,7 @@
 
                             @php
                                 try {
-                                    $translation = $allMyWords->where('word', $word[0])->first()->getTranslation($text->translate_to_lang_id)->translation;
+                                    $translation = $allMyWords->where('word', $word[0])->first()->translations->where('lang_id', $text->translate_to_lang_id)->first()->translation;
                                 } catch (Exception $e) {
                                  $translation = "ERROR";
                                  }

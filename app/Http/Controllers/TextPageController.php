@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Config\WordConfig;
 use App\Models\Text;
 use App\Models\TextPage;
 use App\Models\Word;
@@ -32,30 +33,31 @@ class TextPageController extends Controller
         $myWords = Word::with('translations')
             ->where('lang_id', $text_lang_id)
             ->whereHas('translations', function (Builder $query) use ($translate_to_lang_id) {
-            $query->where('lang_id', '=', $translate_to_lang_id);
+            $query->where('lang_id', '=', $translate_to_lang_id)
+                ->where('state', WordConfig::KNOWN)
+                ->orWhere('state', WordConfig::TO_STUDY);
         })->get();
 
-        // Достать все уникальные слова из текущей страницы
-
-        $userWords = $this->getWordStateArray($myWords, $translate_to_lang_id);
-
         // Handle page content
-        // декодировать из base64, вокруг каждого слова добавить тег mark со стилем study или unknown
+        // декодировать текст страницы из base64
+        // вокруг каждого слова добавить тег mark со стилем study или unknown и с data атрибутами
 
         $pageContent = base64_decode($page->content);
         $textHandler = new TextHandler($pageContent);
 
+        // Передать в метод все слова (Word model) и получить массив в формате [word => state]
+        $wordStateArray = $this->getWordStateArray($myWords, $translate_to_lang_id);
+
         // Метод получает:
         // $userWords -
-        $pageContent = $textHandler->handleTextPage($userWords, $text_lang_id, $translate_to_lang_id, $myWords);
+        $pageContent = $textHandler->handleTextPage($wordStateArray, $text_lang_id, $translate_to_lang_id, $myWords);
 
-        // Get user known words. Создать обычный массив со словами. [0 => word, 1 =>word]
+        // Создать обычный массив со словами. [0 => word, 1 => word]
         $knownWords = [];
 
         foreach ($myWords as $myWord) {
             $knownWords[] = $myWord->word;
         }
-
 
         // Update current text page
 

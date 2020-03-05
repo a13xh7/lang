@@ -34,4 +34,10 @@ Route::post('/reader/words/update', 'WordsController@ajaxUpdateWordState')->name
 Route::post('/reader/words/delete', 'WordsController@ajaxDeleteWord')->name('delete_word');
 Route::post('/reader/translation/delete', 'WordsController@ajaxDeleteTranslation')->name('delete_translation');
 
+// Delete all words
+Route::get('/reader/words/delete-all', 'WordsController@deleteAllWords')->name('delete_all_words');
+
+// Upload dictionary
+Route::post('/reader/words/upload', 'WordsController@uploadDictionary')->name('words_upload');
+
 // Upload dictionary

@@ -93,7 +93,9 @@ class Text extends Model
         }
 
         $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translations', function (Builder $query) {
-            $query->where('lang_id', '=', $this->translate_to_lang_id);
+            $query->where('lang_id', '=', $this->translate_to_lang_id)
+                ->where('state', WordConfig::KNOWN)
+                ->orWhere('state', WordConfig::TO_STUDY);
         })->get();
 
         $myWordsInThisText = [];

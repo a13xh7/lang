@@ -243,7 +243,9 @@ $('div.page_text_wrapper').on('click', 'mark[data-state="0"]', function() {
 
                 word.find('span').toggle();
 
-                // добавить перевод слова в правом сайдбаре
+                // Указать текст и перевод слова в правом сайдбаре
+                wordText = word.clone().children().remove().end().text();
+                $('#rs_word').html(wordText);
                 $('#rs_word_translation').html(data[1]);
 
                 // Кнопки статуса в правом сайдбаре

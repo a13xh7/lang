@@ -5,6 +5,10 @@
 
     <h1 class="uc">Manage words and translations</h1>
 
+    <a href="{{route('delete_all_words')}}" type="button" class="btn btn-danger">Delete all</a>
+
+    <br><br>
+
      {{--WORDS TABLE START--}}
     <table class="table">
         <thead class="thead-light">

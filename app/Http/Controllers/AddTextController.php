@@ -21,7 +21,7 @@ class AddTextController extends Controller
 
     public function addText(Request $request)
     {
-        $pageLength = 1000;
+        $pageLength = 1500;
 
         // 1 - Get uploaded text
 
