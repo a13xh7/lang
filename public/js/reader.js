@@ -4,13 +4,6 @@ const word_new = 0;
 const word_to_study = 1;
 const word_known = 2;
 
-// CSRF init
-// $.ajaxSetup({
-//     headers: {
-//         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-//     }
-// });
-
 // Set file name in file input
 
 $('#text_file').on('change',function(){
@@ -28,151 +21,54 @@ $('#text_file').on('change',function(){
 // Update text modal window. Set form fields values
 
 $('a[data-target="#text_edit_modal"]').on('click',function(){
-
     // set text id
     $('#text_id').val($(this).data('text_id'));
 
     // set title
     $('#text_title').val($(this).data('text_title'));
-
-    // set text language
-    $("#lang_from").val($(this).data('text_lang')).change();
-
-    // set translate to language
-    $("#lang_to").val($(this).data('translate_to_lang_id')).change();
 });
 
 /*******************************************************************************************************************
- * MY WORDS PAGE
+ * WORDS and TEXT STATS PAGE - ADD NEW WORD AND TRANSLATION OR UPDATE WORD STATE
  *******************************************************************************************************************/
 
-// word language filter
 
-$('#w_lang').on('change', function(){
-    document.cookie = "w_lang=" + $(this).val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
-    url = window.location.href.split('?')[0];
-    location.href = url;
-});
+$('td').on('click', 'button.word_btn', function(){
 
-// word translation language filter
-
-$('#wt_lang').on('change', function(){
-    document.cookie = "wt_lang=" + $(this).val() + "; expires=Thu, 18 Dec 2023 12:00:00 UTC";
-    url = window.location.href.split('?')[0];
-    location.href = url;
-});
-
-
-// Update word state - known or to study
-
-$('td').on('click', 'button.words_btn', function(){
-
-    td = $(this).parent();
-
-    if(td.find('button').hasClass('btn-success')) {
-        td.find('button').replaceWith('<span class="badge badge-success h4">Known</span>');
-        td.find('span.badge-warning').replaceWith('<button type="button" class="btn btn-warning btn-sm words_btn" data-word_id="' + $(this).data('word_id') + '" data-state="'+ word_to_study +'">To study</button>');
-    } else {
-        td.find('button').replaceWith('<span class="badge badge-warning h4">To study</span>');
-        td.find('span.badge-success').replaceWith('<button type="button" class="btn btn-success btn-sm words_btn" data-word_id="' + $(this).data('word_id') + '" data-state="'+ word_known +'">Known</button>');
-    }
-
-    $.ajax({
-
-        url: "/reader/words/update",
-        method: "POST",
-        data: {
-            "word_id": $(this).data('word_id'),
-            "state": $(this).data('state'),
-            "wt_lang_id": wt_lang_id
-        },
-
-        success: function (data) {
-        }
-    });
-
-});
-
-/*******************************************************************************************************************
- * TEXTS STATS PAGE
- *******************************************************************************************************************/
-
-// Add new word to database with known or to_study state
-
-$('td').on('click', 'button.text_stats_word_btn', function(){
-
+    button = $(this);
     td = $(this).parent();
     translationTableCell = $(this).parent().parent().children('td').eq(2);
 
-    $(this).prev().hide();
-    $(this).next().hide();
-
-    if($(this).data('state') == word_to_study) {
-        $(this).replaceWith('<span class="badge badge-warning h4">To study</span>')
-    } else {
-        $(this).replaceWith('<span class="badge badge-success h4">Known</span>')
-    }
-
     $.ajax({
-        url: "/reader/words/add",
+
+        url: "/reader/words/add-or-update",
         method: "POST",
-        data: {"word": $(this).data('word'),
-            "lang_id": $(this).data('lang_id'),
-            "translate_to_lang_id": $(this).data('translate_to_lang_id'),
-            "state": $(this).data('state')
+        data: {
+            "id": button.data('word_id'),
+            "word": button.data('word'),
+            "state": button.data('state'),
         },
 
         success: function (data) {
-            // add tranlation to table
+
             translationTableCell.text(data[1]);
+
+            if(button.hasClass('btn-success')) {
+
+                button.replaceWith('<span class="badge badge-success h4">Known</span>');
+                td.find('span.badge-warning').replaceWith('<button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="' + data[0] + '" data-state="'+ word_to_study +'">To study</button>');
+                td.find('button.btn-warning').replaceWith('<button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="' + data[0] + '" data-state="'+ word_to_study +'">To study</button>');
+            } else {
+
+                button.replaceWith('<span class="badge badge-warning h4">To study</span>');
+                td.find('span.badge-success').replaceWith('<button type="button" class="btn btn-success btn-sm word_btn" data-word_id="' + data[0]  + '" data-state="'+ word_known +'">Known</button>');
+                td.find('button.btn-success').replaceWith('<button type="button" class="btn btn-success btn-sm word_btn" data-word_id="' + data[0]  + '" data-state="'+ word_known +'">Known</button>');
+            }
+
         }
+
     });
 
-});
-
-/*******************************************************************************************************************
- * MANAGE WORDS PAGE
- *******************************************************************************************************************/
-
-// Delete word
-
-$('.admin_word_delete_btn').on('click', function() {
-
-    delete_button = $(this);
-
-    $.ajax({
-        url: "/reader/words/delete",
-        method: "POST",
-        data: {
-            "word_id": delete_button.data('word_id'),
-        },
-
-        success: function (data) {
-            // hide table row
-            delete_button.parent().parent().hide();
-        }
-    });
-});
-
-
-// Delete translation
-
-$('.admin_translation_delete_btn').on('click', function() {
-
-    delete_button = $(this);
-
-    $.ajax({
-        url: "/reader/translation/delete",
-        method: "POST",
-        data: {
-            "translation_id": delete_button.data('translation_id'),
-        },
-
-        success: function (data) {
-            // hide table row
-            delete_button.parent().parent().hide();
-        }
-    });
 });
 
 /*******************************************************************************************************************
@@ -210,13 +106,13 @@ $('div.page_text_wrapper').on('click', 'mark[data-state="0"]', function() {
     if($(word).data('state') == word_new)
     {
         $.ajax({
-            url: "/reader/words/add",
+
+            url: "/reader/words/add-or-update",
             method: "POST",
             data: {
-                "word": $(this).data('word'),
-                "lang_id": $(this).data('lang_id'),
-                "translate_to_lang_id": $(this).data('translate_to_lang_id'),
-                "state": $(this).data('state')
+                "id": word.data('word_id'),
+                "word": word.data('word'),
+                "state": word.data('state'),
             },
 
             success: function (data) {
@@ -253,7 +149,6 @@ $('div.page_text_wrapper').on('click', 'mark[data-state="0"]', function() {
 
                 $('#rs_mark_as_known_btn').attr('data-word_id', data[0]);
                 $('#rs_mark_as_to_study_btn').attr('data-word_id', data[0]);
-
 
             }
         });
@@ -292,10 +187,10 @@ $('div.page_text_wrapper').on('click', 'mark.known, mark.study', function() {
 
     //указать ссылку в кнопке "Translate in google" в правом сайдбаре
 
-    googleUrl = 'https://translate.google.com/#view=home&op=translate&sl='+ text_lang_code +'&tl='+ text_translate_to_lang_code +'&text=' + wordText;
+    googleUrl = 'https://translate.google.com/#view=home&op=translate&sl=en&tl=ru&text=' + wordText;
     $('#gt_btn').attr('href', googleUrl);
 
-    yandexUrl = 'https://translate.yandex.com/?lang=' + text_lang_code + '-' + text_translate_to_lang_code +'&text=' + wordText;
+    yandexUrl = 'https://translate.yandex.com/?lang=en-ru&text=' + wordText;
     $('#yt_btn').attr('href', yandexUrl);
 });
 
@@ -311,12 +206,12 @@ $('.text_page_sidebar').on('click', '#rs_mark_as_known_btn, #rs_mark_as_to_study
     // Обновить статус слова
 
     $.ajax({
-        url: "/reader/words/update",
+        url: "/reader/words/add-or-update",
         method: "POST",
         data: {
-            "word_id": $(this).data('word_id'),
-            "state": $(this).data('state'),
-            "wt_lang_id": wt_lang_id
+            "id": button.data('word_id'),
+            "word": button.data('word'),
+            "state": button.data('state'),
         },
 
         success: function (data) {
@@ -333,6 +228,8 @@ $('.text_page_sidebar').on('click', '#rs_mark_as_known_btn, #rs_mark_as_to_study
                     $(element).addClass('study');
                 });
 
+                $('#rs_word_state').replaceWith('<span class="badge badge-warning h4" id="rs_word_state" style="vertical-align: middle">To study</span>');
+
             } else {
 
                 $('mark[data-word_id="'+ button.data('word_id') +'"]').each(function(index,element) {
@@ -342,12 +239,13 @@ $('.text_page_sidebar').on('click', '#rs_mark_as_known_btn, #rs_mark_as_to_study
                     $(element).addClass('known');
                 });
 
-            }
 
+                $('#rs_word_state').replaceWith('<span class="badge badge-success h4" id="rs_word_state" style="vertical-align: middle">Known</span>');
+            }
         }
     });
 
-    $('#rs_word_state').replaceWith('<span class="badge badge-success h4" id="rs_word_state" style="vertical-align: middle">Known</span>');
+
 });
 
 /*******************************************************************************************************************
@@ -434,5 +332,28 @@ $('.text_page_sidebar').on('click', '#yt_btn', function() {
 
 });
 
+/*******************************************************************************************************************
+* MANAGE WORDS PAGE
+*******************************************************************************************************************/
+
+// Delete word
+
+$('.admin_word_delete_btn').on('click', function() {
+
+    delete_button = $(this);
+
+    $.ajax({
+        url: "/reader/words/delete",
+        method: "POST",
+        data: {
+            "word_id": delete_button.data('word_id'),
+        },
+
+        success: function (data) {
+            // hide table row
+            delete_button.parent().parent().hide();
+        }
+    });
+});
 
 }); // document ready end

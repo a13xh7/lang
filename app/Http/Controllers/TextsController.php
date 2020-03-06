@@ -26,8 +26,6 @@ class TextsController extends Controller
     {
         $text = Text::find($request->get('text_id'));
         $text->title = $request->get('text_title');
-        $text->lang_id = $request->get('lang_from');
-        $text->translate_to_lang_id = $request->get('lang_to');
         $text->save();
 
         return redirect()->route('texts');

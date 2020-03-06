@@ -30,45 +30,6 @@
             </div>
         </div>
 
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="lang_from">{{__('Text language')}}</label>
-            <div class="col-sm-10">
-                <select class="selectpicker" name="lang_from" id="lang_from" data-live-search="true" data-width="100%">
-
-                    @foreach(\App\Config\Lang::all() as $lang)
-
-                        <option
-                                value="{{$lang['id']}}"
-                                data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>">
-                        </option>
-
-                    @endforeach
-
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="lang_to">{{__('Translate to')}}</label>
-            <div class="col-sm-10">
-
-                <select class="selectpicker" name="lang_to" id="lang_to" data-live-search="true" data-width="100%">
-
-                    @foreach(\App\Config\Lang::all() as $lang)
-
-                        <option
-                                value="{{$lang['id']}}"
-                                data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>">
-                        </option>
-
-                    @endforeach
-
-                </select>
-
-            </div>
-        </div>
 
         <div class="form-group row">
             <label class="col-sm-2 col-form-label">{{__('File')}}</label>
@@ -94,46 +55,6 @@
             <label for="text_title" class="col-sm-2 col-form-label">{{__('Title')}}</label>
             <div class="col-sm-10">
                 <input type="text" class="form-control" name="text_title" id="text_title" placeholder="Text title" required>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="lang_from">{{__('Text language')}}</label>
-            <div class="col-sm-10">
-                <select class="selectpicker" name="lang_from" id="lang_from" data-live-search="true" data-width="100%">
-
-                    @foreach(\App\Config\Lang::all() as $lang)
-
-                        <option
-                                value="{{$lang['id']}}"
-                                data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>">
-                        </option>
-
-                    @endforeach
-
-                </select>
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="lang_to">{{__('Translate to')}}</label>
-            <div class="col-sm-10">
-
-                <select class="selectpicker" name="lang_to" id="lang_to" data-live-search="true" data-width="100%">
-
-                    @foreach(\App\Config\Lang::all() as $lang)
-
-                        <option
-                                value="{{$lang['id']}}"
-                                data-subtext="{{$lang['eng_title']}}"
-                                data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>">
-                        </option>
-
-                    @endforeach
-
-                </select>
-
             </div>
         </div>
 

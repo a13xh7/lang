@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Word extends Model
 {
+    public $timestamps = false;
     protected $table = 'word';
 
     public function translations()

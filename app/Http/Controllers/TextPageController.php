@@ -21,22 +21,9 @@ class TextPageController extends Controller
         $pages = TextPage::where('text_id', $textId)->paginate(1);
         $page = TextPage::where('text_id', $textId)->where('page_number', $pageNumber)->firstOrFail();
 
-        // Set languages
+        // Get all user words
 
-        $text_lang_id = $page->text->lang_id;
-        $translate_to_lang_id = $page->text->translate_to_lang_id;
-
-        // Get all user words.
-        // Выбирать только слова язык которых совпадает c языком текста
-        // и перевод которых совпадает с языком на который переводится текст
-
-        $myWords = Word::with('translations')
-            ->where('lang_id', $text_lang_id)
-            ->whereHas('translations', function (Builder $query) use ($translate_to_lang_id) {
-            $query->where('lang_id', '=', $translate_to_lang_id)
-                ->where('state', WordConfig::KNOWN)
-                ->orWhere('state', WordConfig::TO_STUDY);
-        })->get();
+        $myWords = Word::where('state', WordConfig::KNOWN)->orWhere('state', WordConfig::TO_STUDY)->get();
 
         // Handle page content
         // декодировать текст страницы из base64
@@ -46,11 +33,14 @@ class TextPageController extends Controller
         $textHandler = new TextHandler($pageContent);
 
         // Передать в метод все слова (Word model) и получить массив в формате [word => state]
-        $wordStateArray = $this->getWordStateArray($myWords, $translate_to_lang_id);
+        $wordStateArray = $this->getWordStateArray($myWords);
 
         // Метод получает:
         // $userWords -
-        $pageContent = $textHandler->handleTextPage($wordStateArray, $text_lang_id, $translate_to_lang_id, $myWords);
+        //$pageContent = $textHandler->handleTextPage($wordStateArray, $myWords);
+
+        $pageContent = $textHandler->handleEnglishTextPage($wordStateArray, $myWords);
+        //dd($textHandler->handleEnglishTextPage($wordStateArray, $myWords));
 
         // Создать обычный массив со словами. [0 => word, 1 => word]
         $knownWords = [];
@@ -69,8 +59,6 @@ class TextPageController extends Controller
             ->with('page', $page)
             ->with('pages', $pages)
             ->with('pageContent', $pageContent)
-            ->with('text_lang_id', $text_lang_id)
-            ->with('translate_to_lang_id', $translate_to_lang_id)
             ->with('words', $textHandler->uniqueWords)
             ->with('knownWords', $knownWords)
             ->with('myWords', $myWords)
@@ -81,11 +69,11 @@ class TextPageController extends Controller
      * @param $userWords
      * @return array - array format ['word' => state]
      */
-    private function getWordStateArray($userWords, $translate_to_lang_id)
+    private function getWordStateArray($userWords)
     {
         $result = [];
         foreach ($userWords as $userWord) {
-            $result[$userWord->word] = $userWord->getTranslation($translate_to_lang_id)->state;
+            $result[$userWord->word] = $userWord->state;
         }
         return $result;
     }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Text extends Model
 {
+    public $timestamps = false;
     protected $table = 'text';
 
     protected $settings = null;
@@ -38,9 +39,7 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translations', function (Builder $query) {
-            $query->where('lang_id', '=', $this->translate_to_lang_id)->where('state', WordConfig::KNOWN);
-        })->get();
+        $allMyWords = Word::where('state', WordConfig::KNOWN)->get();
 
         $myKnownWordsInThisText = [];
 
@@ -65,9 +64,7 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translations', function (Builder $query) {
-            $query->where('lang_id', '=', $this->translate_to_lang_id)->where('state', WordConfig::TO_STUDY);
-        })->get();
+        $allMyWords = Word::where('state', WordConfig::TO_STUDY)->get();
 
         $myToStudyWordsInThisText = [];
 
@@ -92,11 +89,7 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translations', function (Builder $query) {
-            $query->where('lang_id', '=', $this->translate_to_lang_id)
-                ->where('state', WordConfig::KNOWN)
-                ->orWhere('state', WordConfig::TO_STUDY);
-        })->get();
+        $allMyWords = Word::where('state', WordConfig::KNOWN)->orWhere('state', WordConfig::TO_STUDY)->get();
 
         $myWordsInThisText = [];
 
@@ -121,9 +114,7 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $allMyWords = Word::where('lang_id', $this->lang_id)->whereHas('translations', function (Builder $query) {
-            $query->where('lang_id', '=', $this->translate_to_lang_id);
-        })->get();
+        $allMyWords = Word::all();
 
         $myWordsArray = [];
         foreach ($allMyWords as $myWord) {

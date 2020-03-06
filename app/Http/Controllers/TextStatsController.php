@@ -26,24 +26,20 @@ class TextStatsController extends Controller
         // 1 - unknown / to study
         // 2 - known
 
-        $showWordsFilter = $request->get('show_words') != null ? $request->get('show_words') : 0;
+        $wordsFilter = $request->get('show_words') != null ? $request->get('show_words') : 0;
 
         $text = Text::findOrFail($textId);
 
         $allWordsFromText = $text->getWords(); // array structure - [ [0=>'word', 1 => usage frequency, 2 => usage frequency (percent)] ]
         $myWordsInThisText = $text->getKnownAndToStudyWords(); // usual array - [0 => 'word', 1 => 'word' , etc...]
 
-        // get all user words where word_lang_id == text_lang_id AND  word_translation_to_lang_id == text_translate_to_lang_id
-        $allMyWords = Word::where('lang_id', $text->lang_id)->whereHas('translations', function (Builder $query) use ($text) {
-                $query->where('lang_id', '=', $text->translate_to_lang_id)
-                    ->where('state', WordConfig::KNOWN)
-                    ->orWhere('state', WordConfig::TO_STUDY);
-        })->get();
+        // get all user words where
 
+        $allMyWords = Word::where('state', WordConfig::KNOWN)->orWhere('state', WordConfig::TO_STUDY)->get();
 
         // Filter Words. Do not filter if show_words == 0 (all)
 
-        if($showWordsFilter == WordConfig::TO_STUDY) {
+        if($wordsFilter == WordConfig::TO_STUDY) {
             $filteredWords = [];
 
             foreach ($allWordsFromText as $word) {
@@ -54,7 +50,7 @@ class TextStatsController extends Controller
 
             $allWordsFromText = $filteredWords;
 
-        } elseif ($showWordsFilter == WordConfig::KNOWN || $showWordsFilter == WordConfig::TO_STUDY ) {
+        } elseif ($wordsFilter == WordConfig::KNOWN || $wordsFilter == WordConfig::TO_STUDY ) {
 
             $filteredWords = [];
 
@@ -80,6 +76,7 @@ class TextStatsController extends Controller
             ->with('words', $wordsFromTextPaginated)
             ->with('myWordsInThisText', $myWordsInThisText)
             ->with('allMyWords', $allMyWords)
+            ->with('wordsFilter', $wordsFilter)
             ->with('paginator', $paginator);
     }
 

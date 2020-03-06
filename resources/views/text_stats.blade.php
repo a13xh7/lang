@@ -2,14 +2,6 @@
 
 @section('content')
 
-    @php
-        $textLanguageFlag = 'img/flags/'. \App\Config\Lang::get($text->lang_id)['code'] . '.svg';
-        $textLanguageTitle = \App\Config\Lang::get($text->lang_id)['title'];
-
-        $translateToLangFlag = 'img/flags/'. \App\Config\Lang::get($text->translate_to_lang_id)['code'] . '.svg';
-        $translateToLangTitle = \App\Config\Lang::get($text->translate_to_lang_id)['title'];
-    @endphp
-
     <h1>Text statistics</h1>
 
     <div class="w3-border-bottom">
@@ -18,13 +10,6 @@
             <li>Total words: <b>{{ $text->total_words}}</b></li>
             <li>Symbols: <b>{{ $text->total_symbols}}</b></li>
             <li>Pages: <b>{{$text->total_pages}}</b></li>
-
-            <li style="margin-top: 10px;">
-                Text language:  <img src="{{asset($textLanguageFlag)}}" class="text_flag" alt=""> {{$textLanguageTitle}}
-            </li>
-            <li>
-                Translate to:  <img src="{{asset($translateToLangFlag)}}" class="text_flag" alt=""> {{$translateToLangTitle}}
-            </li>
         </ul>
     </div>
 
@@ -81,25 +66,23 @@
                     <td>
 
                         @if(in_array($word[0], $myWordsInThisText) == false)
-                            <button type="button" class="btn btn-warning btn-sm text_stats_word_btn"
+                            <button type="button" class="btn btn-warning btn-sm word_btn"
                                     data-word="{{$word[0]}}"
-                                    data-lang_id="{{$text->lang_id}}"
-                                    data-translate_to_lang_id="{{$text->translate_to_lang_id}}"
                                     data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
 
-                            <button type="button" class="btn btn-success btn-sm text_stats_word_btn"
+                            <button type="button" class="btn btn-success btn-sm word_btn"
                                     data-word="{{$word[0]}}"
-                                    data-lang_id="{{$text->lang_id}}"
-                                    data-translate_to_lang_id="{{$text->translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                                    data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                         @else
 
-                            @if($allMyWords->where('word', $word[0])->first()->translations->where('lang_id', $text->translate_to_lang_id)->first()->state == \App\Config\WordConfig::TO_STUDY)
+                            @if($allMyWords->where('word', $word[0])->first()->state == \App\Config\WordConfig::TO_STUDY)
                                 <span class="badge badge-warning h4">To study</span>
                             @else
                                 <span class="badge badge-success h4">Known</span>
                             @endif
 
                         @endif
+
                     </td>
                     {{--STATE END--}}
 
@@ -109,15 +92,7 @@
 
                     <td>
                         @if(in_array($word[0], $myWordsInThisText))
-
-                            @php
-                                try {
-                                    $translation = $allMyWords->where('word', $word[0])->first()->translations->where('lang_id', $text->translate_to_lang_id)->first()->translation;
-                                } catch (Exception $e) {
-                                 $translation = "ERROR";
-                                 }
-                            @endphp
-                            {{$translation}}
+                            {{$allMyWords->where('word', $word[0])->first()->translation}}
                         @else
                             -
                         @endif

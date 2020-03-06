@@ -84,8 +84,6 @@ class AddTextController extends Controller
             // 3 - Save text to database
 
             $text = new Text();
-            $text->lang_id = $request->get('lang_from');
-            $text->translate_to_lang_id = $request->get('lang_to');
             $text->title = $request->get('text_title');
             $text->total_pages = count($pages);
             $text->total_symbols = $textHandler->totalSymbols;
@@ -98,7 +96,6 @@ class AddTextController extends Controller
 
             foreach ($pages as $page_number => $page)
             {
-
                 $textPage = new TextPage();
                 $textPage->text_id = $text->id;
                 $textPage->page_number = $page_number + 1; // because array starts from 0

@@ -20,6 +20,11 @@
     <a class="navbar-brand" href="{{route('texts')}}">
         <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
         <span>WexLang</span>
+
+        <img src="{{asset('img/flags/en.svg')}}" class="text_flag" alt=""> <i class="text-muted">(English)</i>
+        <span class="q_lang_arrow">⟶</span>
+        <img src="{{asset('img/flags/ru.svg')}}" class="text_flag" alt=""> <i class="text-muted">(Русский)</i>
+
     </a>
 
 {{--    <ul class="navbar-nav">--}}

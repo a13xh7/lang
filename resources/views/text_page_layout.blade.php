@@ -29,12 +29,6 @@
 
 @php
 
-    $textLanguageFlag = 'img/flags/'. \App\Config\Lang::get($text->lang_id)['code'] . '.svg';
-    $textLanguageTitle = \App\Config\Lang::get($text->lang_id)['title'];
-
-    $translateToLangFlag = 'img/flags/'. \App\Config\Lang::get($text->translate_to_lang_id)['code'] . '.svg';
-    $translateToLangTitle = \App\Config\Lang::get($text->translate_to_lang_id)['title'];
-
     $toStudyCheckboxState = \Illuminate\Support\Facades\Cookie::get('h_unknown') == 1 || \Illuminate\Support\Facades\Cookie::get('h_unknown') == null ? "checked" : "";
     $unknownCheckboxState = \Illuminate\Support\Facades\Cookie::get('h_unknown') == 1 || \Illuminate\Support\Facades\Cookie::get('h_unknown') == null ? "checked" : "";
 
@@ -54,19 +48,6 @@
             </h4>
 
             <hr>
-
-            <div>
-                <p>
-                    {{__('Text language')}}:
-                    <img src="{{asset($textLanguageFlag)}}" class="text_flag" alt="">
-                    <i class="text-muted">({{$textLanguageTitle}})</i>
-                </p>
-                <p>
-                    {{__('Translate to')}}:
-                    <img src="{{asset($translateToLangFlag)}}" class="text_flag" alt="">
-                    <i class="text-muted">({{$translateToLangTitle}})</i>
-                </p>
-            </div>
 
             <h4 class="sidebar-heading mt-4 mb-1 text-muted">
                 <span>{{__('Words')}}</span> <br>
@@ -155,8 +136,8 @@
             <hr>
 
             <div class="pr-3 pt-3">
-                <a href="#" class="btn btn-primary w-100 mb-2" id="gt_btn">{{__('Translate in Google')}}</a>
-                <a href="#" class="btn btn-primary w-100 mb-2" id="yt_btn">{{__('Translate in Yandex')}}</a>
+                <a href="#" class="btn btn-primary w-100 mb-2" id="gt_btn">Translate in Google</a>
+                <a href="#" class="btn btn-primary w-100 mb-2" id="yt_btn">Translate in Yandex</a>
             </div>
 
         </div>
@@ -176,16 +157,6 @@
 <!-- App JavaScript -->
 <script src="{{asset('js/reader.js')}}"></script>
 <script src="{{asset('js/js.cookie.js')}}"></script>
-
-<script type="text/javascript">
-    var text_lang_code = "<?php echo \App\Config\Lang::get($text_lang_id)['code'] ?>";
-    var text_translate_to_lang_code = "<?php echo \App\Config\Lang::get($translate_to_lang_id)['code'] ?>";
-
-    // Set word language id
-    var w_lang_id = "<?php echo $text_lang_id?>";
-    // set word translate to language id
-    var wt_lang_id = "<?php echo $translate_to_lang_id?>";
-</script>
 
 </body>
 </html>

@@ -6,11 +6,11 @@
     <div class="col-md-auto">
         <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><b class="uc">{{__('Text')}}</b></a>
+                <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true"><b class="uc">Text</b></a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false"><b class="uc">{{__('Words')}}</b></a>
+                <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false"><b class="uc">Words</b></a>
             </li>
         </ul>
     </div>
@@ -55,17 +55,14 @@
                         @if(in_array($word[0], $knownWords) == false)
                             <button type="button" class="btn btn-warning btn-sm text_stats_word_btn"
                                     data-word="{{$word[0]}}"
-                                    data-lang_id="{{$text->lang_id}}"
-                                    data-translate_to_lang_id="{{$text->translate_to_lang_id}}"
                                     data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
 
                             <button type="button" class="btn btn-success btn-sm text_stats_word_btn"
                                     data-word="{{$word[0]}}"
-                                    data-lang_id="{{$text->lang_id}}"
-                                    data-translate_to_lang_id="{{$text->translate_to_lang_id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                                    data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                         @else
 
-                            @if($myWords->where('word', $word[0])->first()->translations->where('lang_id',$text->translate_to_lang_id)->first()->state == \App\Config\WordConfig::TO_STUDY)
+                            @if($myWords->where('word', $word[0])->first()->state == \App\Config\WordConfig::TO_STUDY)
 
                                 <span class="badge badge-warning h4">To study</span>
                             @else
@@ -82,37 +79,11 @@
 
                     <td>
 
-                        @php
-
-                        $wordWithTranslation = $myWords->where('word', $word[0])->where('lang_id', $text_lang_id)->first();
-
-                        $translation = "-";
-
-                        if($wordWithTranslation != null) {
-                            $translation = $wordWithTranslation->translations->where('lang_id', $text->translate_to_lang_id)->first() != null
-                            ? $wordWithTranslation->translations->where('lang_id', $text->translate_to_lang_id)->first()->translation
-                            : "-";
-                        }
-
-
-
-                        @endphp
-
-                        {{$translation}}
-
-
-{{--                        @if($myWords->where('word', $word[0])->where('lang_id', $text_lang_id)->first() != null)--}}
-
-{{--                            @if($myWords->where('word', $word[0])->where('lang_id', $text_lang_id)->first()->translations->where('lang_id', $text->translate_to_lang_id)->first() != null)--}}
-{{--                                {{$myWords->where('word', $word[0])->where('lang_id', $text_lang_id)->first()->translations->where('lang_id', $text->translate_to_lang_id)->first()->translation}}--}}
-{{--                            @else--}}
-{{--                                ---}}
-{{--                            @endif--}}
-
-{{--                        @else--}}
-{{--                            ---}}
-{{--                        @endif--}}
-
+                        @if(in_array($word[0], $knownWords) == true)
+                            {{$myWords->where('word', $word[0])->first()->translation}}
+                        @else
+                            -
+                        @endif
                     </td>
 
                     <td>{{$word[1]}} <span class="small text-muted">({{$word[2]}}%)</span> </td>

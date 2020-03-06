@@ -23,7 +23,7 @@ class WordsController extends Controller
     public function showAdminPage()
     {
         $perPage = 50;
-        $words = Word::with('translations')->paginate($perPage);
+        $words = Word::paginate($perPage);
         return view('words_admin')->with('words', $words);
     }
 
@@ -134,119 +134,137 @@ class WordsController extends Controller
         $perPage = 100;
 
         $showWordsFilter = $request->get('show_words') != null ? $request->get('show_words') : 0;
-        $wordsLangId = $request->cookie('w_lang') != null ? $request->cookie('w_lang') : 0;
-        $wordsTranslationLangId = $request->cookie('wt_lang') != null ? $request->cookie('wt_lang') : 0;
 
         // Достать слова из базы с учетом фильтров по языкам
 
         if($showWordsFilter == WordConfig::TO_STUDY) {
-            $words = Word::where('lang_id', $wordsLangId)->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
-                $query->where('lang_id', '=', $wordsTranslationLangId)->where('state', WordConfig::TO_STUDY);
-            })->paginate($perPage);
-
+            $words = Word::where('state', WordConfig::TO_STUDY)->paginate($perPage);
         } elseif ($showWordsFilter == WordConfig::KNOWN) {
-            $words = Word::where('lang_id', $wordsLangId)
-                ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
-                    $query->where('lang_id', '=', $wordsTranslationLangId)->where('state', WordConfig::KNOWN);
-                })->paginate($perPage);
-
+            $words = Word::where('state', WordConfig::KNOWN)->paginate($perPage);
         } else {
-            $words = Word::where('lang_id', $wordsLangId)
-                ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
-                    $query->where('lang_id', '=', $wordsTranslationLangId)
-                        ->where('state', WordConfig::KNOWN)
-                        ->orWhere('state', WordConfig::TO_STUDY);
-                })->paginate($perPage);
-
+            $words = Word::where('state', WordConfig::KNOWN)->orWhere('state', WordConfig::TO_STUDY)->paginate($perPage);
         }
 
-        // Посчитать количество слов с учетом фильтра по языкам
+        // Посчитать количество слов c разными статусами
 
-        $totalWords = Word::where('lang_id', $wordsLangId)
-            ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
-                $query->where('lang_id', '=', $wordsTranslationLangId)
-                    ->where('state', WordConfig::TO_STUDY)
-                    ->orWhere('state', WordConfig::TO_STUDY);
-            })->count();
-
-        $totalKnownWords = Word::where('lang_id', $wordsLangId)
-            ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
-                $query->where('lang_id', '=', $wordsTranslationLangId)->where('state', WordConfig::KNOWN);
-            })->count();
-
-        $totalToStudyWords = Word::where('lang_id', $wordsLangId)
-            ->whereHas('translations', function (Builder $query) use ($wordsTranslationLangId) {
-                $query->where('lang_id', '=', $wordsTranslationLangId)->where('state', WordConfig::TO_STUDY);
-            })->count();
+        $totalWords = Word::where('state', WordConfig::KNOWN)->orWhere('state', WordConfig::TO_STUDY)->count();
+        $totalKnownWords = Word::where('state', WordConfig::KNOWN)->count();
+        $totalToStudyWords = Word::where('state', WordConfig::TO_STUDY)->count();
 
         return view('words')
             ->with('words', $words)
             ->with('totalWords', $totalWords)
             ->with('totalKnownWords', $totalKnownWords)
-            ->with('totalNewWords', $totalToStudyWords)
-            ->with('wordsLangId', $wordsLangId)
-            ->with('wordsTranslationLangId', $wordsTranslationLangId);
+            ->with('totalNewWords', $totalToStudyWords);
     }
 
-    public function ajaxAddNewWord(Request $request)
+    public function ajaxAddOrUpdateWord(Request $request)
     {
+        // Get word and word_state from request
+
+        $wordId = $request->get('id') != null ? $request->get('id') : null;
+        $wordState = $request->get('state');
+
+        if($wordState == WordConfig::NEW) {
+            $wordState = WordConfig::TO_STUDY;
+        }
+
         $wordFromRequest = mb_strtolower($request->get('word'));
-        $wordLangId = $request->get('lang_id');
-        $wordTranslateToLangId = $request->get('translate_to_lang_id');
-        $wordState = $request->get('state') == WordConfig::NEW ? WordConfig::TO_STUDY : $request->get('state');
 
         // Find word in database
 
-        $word = Word::where('word', $wordFromRequest)->where('lang_id', $wordLangId)->first();
+        $word = $wordId != null ? Word::find($wordId) : Word::where('word', $wordFromRequest)->first();
 
+        // If word exists - update word state and add translation if there isn't one
         if($word != null) {
 
-            // Если перевод слова на нужный язык существует, вернуть перевод слова
+            // update word state
 
-            $existingTranslation = Translation::where('word_id', $word->id)->where('lang_id', $wordTranslateToLangId)->first();
+            $word->state = $wordState;
+            $word->save();
 
-            if($existingTranslation != null)
+
+            // Return translation if it exists
+            if($word->translation != null)
             {
-                return [$word->id, $existingTranslation->translation];
+                return [$word->id, $word->translation];
 
             } else {
-                // Если нужного перевода нет перевести слово и сохранить перевод
+                // Translate word and save translation in there wasn't one
 
                 $google = new GoogleTranslateForFree();
 
-                $translation = new Translation();
-                $translation->word_id = $word->id;
-                $translation->lang_id = $wordTranslateToLangId;
-                $translation->translation = $google->translate(Lang::get($word->lang_id)['code'], Lang::get($wordTranslateToLangId)['code'], $wordFromRequest, 5);
-                $translation->state = $wordState;
-                $translation->save();
+                $word->translation = $google->translate("en","ru", $wordFromRequest);
+                $word->save();
 
-                // вернуть перевод
-                return [$word->id, $translation->translation];
+                // Return translation
+                return [$word->id, $word->translation];
             }
 
         } else {
 
-            // Если слова нет в базе - добавить слово в базy
-
-            $word = new Word;
-            $word->word = $wordFromRequest;
-            $word->lang_id = $wordLangId;
-            $word->save();
-
-            // Перевести слово и сохранить перевод
+            // Если слова нет в базе - перевести и добавить слово в базy
 
             $google = new GoogleTranslateForFree();
 
-            $translation = new Translation();
-            $translation->word_id = $word->id;
-            $translation->lang_id = $wordTranslateToLangId;
-            $translation->translation = $google->translate(Lang::get($word->lang_id)['code'], Lang::get($wordTranslateToLangId)['code'], $wordFromRequest, 5);
-            $translation->state = $wordState;
-            $translation->save();
+            $word = new Word;
+            $word->word = $wordFromRequest;
+            $word->translation = $google->translate("en","ru", $wordFromRequest);
+            $word->state = $wordState;
+            $word->save();
 
             // вернуть перевод
-            return [$word->id, $translation->translation];
+            return [$word->id, $word->translation];
+        }
+    }
+
+
+
+
+    public function ajaxAddNewWord(Request $request)
+    {
+        $wordFromRequest = mb_strtolower($request->get('word'));
+        $wordState = $request->get('state') == WordConfig::NEW ? WordConfig::TO_STUDY : $request->get('state');
+
+        // Find word in database
+
+        $word = Word::where('word', $wordFromRequest)->first();
+
+        if($word != null) {
+
+            // Если перевод слова существует, вернуть перевод слова
+
+            if($word->translation != null)
+            {
+                return [$word->id, $word->translation];
+
+            } else {
+
+                // Если перевода нет перевести слово и сохранить перевод
+
+                $google = new GoogleTranslateForFree();
+
+                $word->translation = $google->translate("en","ru", $wordFromRequest);
+                $word->save();
+
+                // вернуть перевод
+                return [$word->id, $word->translation];
+            }
+
+        } else {
+
+            // Если слова нет в базе - перевести и добавить слово в базy
+
+            $google = new GoogleTranslateForFree();
+
+            $word = new Word;
+            $word->word = $wordFromRequest;
+            $word->translation = $google->translate("en","ru", $wordFromRequest);
+            $word->state = WordConfig::TO_STUDY;
+            $word->save();
+
+            // вернуть перевод
+            return [$word->id, $word->translation];
         }
     }
 
@@ -266,8 +284,4 @@ class WordsController extends Controller
        Word::find($request->get('word_id'))->delete();
     }
 
-    public function ajaxDeleteTranslation(Request $request)
-    {
-        Translation::find($request->get('translation_id'))->delete();
-    }
 }

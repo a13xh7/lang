@@ -11,25 +11,13 @@
         $currentPage = $text->current_page > 1 ? $text->current_page : 1;
         $readingProgress = $text->current_page / $text->total_pages * 100;
 
-        $textLanguageFlag = 'img/flags/'. \App\Config\Lang::get($text->lang_id)['code'] . '.svg';
-        $textLanguageTitle = \App\Config\Lang::get($text->lang_id)['title'];
-
-        $translateToLangFlag = 'img/flags/'. \App\Config\Lang::get($text->translate_to_lang_id)['code'] . '.svg';
-        $translateToLangTitle = \App\Config\Lang::get($text->translate_to_lang_id)['title'];
-
         @endphp
 
         <div class="text_item border-bottom text_item_wrapper">
 
             <span class="text_title">
-               <a class="h4" href="{{route('read_text_page', $text->id)}}?page={{$currentPage}}">{{$text->title}}</a> <i class="text-muted">({{$text->created_at->format('d-m-Y')}})</i>
+               <a class="h4" href="{{route('read_text_page', $text->id)}}?page={{$currentPage}}">{{$text->title}}</a>
             </span>
-
-            <div>
-                {{__('Text language')}}: <img src="{{asset($textLanguageFlag)}}" class="text_flag" alt=""> <i class="text-muted">({{$textLanguageTitle}})</i>
-                <span class="q_lang_arrow">⟶</span>
-                {{__('Translate to')}}: <img src="{{asset($translateToLangFlag)}}" class="text_flag" alt=""> <i class="text-muted">({{$translateToLangTitle}})</i>
-            </div>
 
             <div class="progress">
                 <div class="progress-bar" role="progressbar" style="width:{{$readingProgress}}%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
@@ -55,20 +43,16 @@
 
                     <a class="btn btn-primary text-light noradius text_edit_btn" data-toggle="modal" data-target="#text_edit_modal"
                        data-text_id="{{$text->id}}"
-                       data-text_title="{{$text->title}}"
-                       data-text_lang="{{$text->lang_id}}"
-                       data-translate_to_lang_id="{{$text->translate_to_lang_id}}">
-                        <i class="icofont-ui-edit"></i> {{__('Edit')}}
+                       data-text_title="{{$text->title}}">
+                        <i class="icofont-ui-edit"></i> Edit
                     </a>
 
                     <a class="btn btn-primary text-light noradius" href="{{route('delete_text', $text->id)}}">
-                        <i class="icofont-ui-delete"></i> {{__('Delete')}}
+                        <i class="icofont-ui-delete"></i> Delete
                     </a>
                 </span>
 
             </div>
-
-
 
         </div>
 
@@ -99,44 +83,6 @@
                           <label for="text_title" class="col-sm-2 col-form-label">{{__('Title')}}</label>
                           <div class="col-sm-10">
                               <input type="text" class="form-control" name="text_title" id="text_title" placeholder="Text title" maxlength="254" required>
-                          </div>
-                      </div>
-
-                      <div class="form-group row">
-                          <label class="col-sm-2 col-form-label" for="lang_from">{{__('Text language')}}</label>
-                          <div class="col-sm-10">
-                              <select class="selectpicker" name="lang_from" id="lang_from" data-live-search="true" data-width="100%">
-
-                                  @foreach(\App\Config\Lang::all() as $lang)
-
-                                      <option
-                                              value="{{$lang['id']}}"
-                                              data-subtext="{{$lang['eng_title']}}"
-                                              data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
-                                      </option>
-
-                                  @endforeach
-
-                              </select>
-                          </div>
-                      </div>
-
-                      <div class="form-group row">
-                          <label class="col-sm-2 col-form-label" for="lang_to">{{__('Translate to')}}</label>
-                          <div class="col-sm-10">
-                              <select class="selectpicker" name="lang_to" id="lang_to" data-live-search="true" data-width="100%">
-
-                                  @foreach(\App\Config\Lang::all() as $lang)
-
-                                      <option
-                                              value="{{$lang['id']}}"
-                                              data-subtext="{{$lang['eng_title']}}"
-                                              data-content="<img src='{{asset('img/flags/'.$lang['code'].'.svg')}}' class='text_flag' alt=''> {{$lang['title']}} <small class='text-muted'>{{$lang['eng_title']}}</small>" >
-                                      </option>
-
-                                  @endforeach
-
-                              </select>
                           </div>
                       </div>
 
