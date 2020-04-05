@@ -102,6 +102,28 @@ class Text extends Model
         return $myWordsInThisText;
     }
 
+    public function getMyWordsInThisText()
+    {
+        $textWords = $this->getWords();
+        $textWordsClean = [];
+
+        foreach ($textWords as $textWord) {
+            $textWordsClean[] = $textWord[0];
+        }
+
+        $allMyWords = Word::where('state', WordConfig::KNOWN)->orWhere('state', WordConfig::TO_STUDY)->get();
+
+        $myWordsInThisText = [];
+
+        foreach ($allMyWords as $myWord) {
+            if(in_array($myWord->word, $textWordsClean)) {
+                $myWordsInThisText[] = $myWord;
+            }
+        }
+
+        return $myWordsInThisText;
+    }
+
     /**
      * @return array - just array [0 => 'word', 1 => 'word' , etc...]
      */
@@ -114,7 +136,7 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $allMyWords = Word::all();
+        $allMyWords = Text::getMyWordsInThisText();
 
         $myWordsArray = [];
         foreach ($allMyWords as $myWord) {

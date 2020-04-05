@@ -19,9 +19,15 @@
 <div class="tab-content" id="pills-tabContent">
 
     {{-- PAGE CONTENT START--}}
-    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+    <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab" style="text-align: center;">
 
-        <div class="page_text_wrapper">{!! $pageContent !!}</div>
+
+
+        <div class="page_text_wrapper">
+            <button type="button" id="mark_all_as_known_btn" class="btn btn-success btn-sm" data-state="{{\App\Config\WordConfig::KNOWN}}">Mark all as known</button>
+
+            {!! $pageContent !!}
+        </div>
 
         <div class="mt-3">
             {{$pages->links()}}
@@ -52,17 +58,17 @@
                 <tr>
                     <td>
 
-                        @if(in_array($word[0], $knownWords) == false)
-                            <button type="button" class="btn btn-warning btn-sm text_stats_word_btn"
-                                    data-word="{{$word[0]}}"
+                        @if($word['id'] == null)
+                            <button type="button" class="btn btn-warning btn-sm word_btn"
+                                    data-word="{{$word['word']}}"
                                     data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
 
-                            <button type="button" class="btn btn-success btn-sm text_stats_word_btn"
-                                    data-word="{{$word[0]}}"
+                            <button type="button" class="btn btn-success btn-sm word_btn"
+                                    data-word="{{$word['word']}}"
                                     data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
                         @else
 
-                            @if($myWords->where('word', $word[0])->first()->state == \App\Config\WordConfig::TO_STUDY)
+                            @if($word['state'] == \App\Config\WordConfig::TO_STUDY)
 
                                 <span class="badge badge-warning h4">To study</span>
                             @else
@@ -75,18 +81,18 @@
 
                     </td>
 
-                    <td>{{$word[0]}}</td>
+                    <td>{{$word['word']}}</td>
 
                     <td>
 
-                        @if(in_array($word[0], $knownWords) == true)
-                            {{$myWords->where('word', $word[0])->first()->translation}}
+                        @if($word['translation'] != null)
+                            {{$word['translation']}}
                         @else
                             -
                         @endif
                     </td>
 
-                    <td>{{$word[1]}} <span class="small text-muted">({{$word[2]}}%)</span> </td>
+                    <td>{{$word['usage']}} <span class="small text-muted">({{$word['usage_percent']}}%)</span> </td>
                 </tr>
 
             @endforeach

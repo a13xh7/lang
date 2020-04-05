@@ -156,9 +156,11 @@ button[data-id="lang_to"], button[data-id="lang_from"], button[data-id="lang_kno
 /**********************READER TEXT PAGE*********************/
 
 .page_text_wrapper {
-    white-space: pre-wrap;
+    white-space: pre-line;
     font-size: 18px;
     line-height: 2;
+    display: inline-block;
+    text-align: left;
 }
 
 mark {

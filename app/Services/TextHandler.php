@@ -10,6 +10,7 @@ namespace App\Services;
 
 
 use App\Config\WordConfig;
+use App\Models\Word;
 use function foo\func;
 
 class TextHandler
@@ -87,139 +88,96 @@ class TextHandler
         return $pages;
     }
 
+    protected function handleCollocations()
+    {
+        $text = $this->text . PHP_EOL;
+
+        foreach (Word::getAllCollocations() as $word)
+        {
+            $regex = "#(\b{$word->word}\b)(?![^<]*>|[^<>]*<\/)#ui";
+            $replacement = 'mark_tag';
+
+            $translationArray = explode ("," , $word->translation);
+            $translation = $translationArray[0];
+
+            // должен быть пробел в конце строки
+            switch ($word->state) {
+                case WordConfig::NEW:
+                    $replacement = "<mark class='unknown' data-word='{$word->word}' data-state='{$word->state}' data-word_id='{$word->id}'><span class='translation' style='display: none;'>({$translation}) </span>{$word->word}</mark> ";
+                    break;
+                case WordConfig::TO_STUDY:
+                    $replacement = "<mark class='study' data-word='{$word->word}' data-state='{$word->state}' data-word_id='{$word->id}'><span class='translation' style='display: none;'>({$translation}) </span>{$word->word}</mark> ";
+                    break;
+                case WordConfig::KNOWN:
+                    $replacement = "<mark class='known' data-word='{$word->word}' data-state='{$word->state}' data-word_id='{$word->id}'><span class='translation' style='display: none;'>({$translation}) </span>{$word->word}</mark> ";
+                    break;
+            }
+            $text = preg_replace($regex, $replacement, $text);
+        };
+
+        $this->text = $text;
+    }
+
     /* //TODO
      * Доработка функции под английский язык
      * Нужно делать наоборот - доставать все слова из базы. Слово это регулярка, искать все повторения слова в тексте.
      * С этим вариантом будут работать фразовые глаголы и
      *
      */
-    public function handleEnglishTextPage(array $userWords, $myWords):string
+    public function handleEnglishTextPage($myWords):string
     {
+        // Сначала обработать модальные глаголы и прочие словосочетания
 
-        $text = $this->text;
+        $this->handleCollocations();
 
-        foreach ($myWords as $word) {
+        // Зачем выделить все незнакомые слова
 
-            $regex = "#\b({$word->word})\b#ui";
-            $replacement = 'mark_tag';
+        $text = $this->text . PHP_EOL;
+        $wordKeys = array_keys($myWords);
+        $wordRegex = "#(\b[\w'-]+\b)(?![^<]*>|[^<>]*<\/)#ui";
+        $text = preg_replace_callback($wordRegex, function ($matches) use ($wordKeys)
+        {
+            $word = $matches[0];
+            $data_word = trim(mb_strtolower($word));
+            $state = WordConfig::NEW;
 
-            // TODO нужно брать перевод до первого пробела. Короткий перевод идет в текст, полный перевод указывается в правом сайдбаре.
-           // $translation
-
-            switch ($word->state) {
-                case WordConfig::NEW:
-                    $replacement = "<mark class='unknown' data-state='{$word->state}' data-word_id='{$word->id}'><span class='translation' style='display: none;'>({$word->translation}) </span>{$word->word}</mark>";
-                    break;
-                case WordConfig::TO_STUDY:
-                    $replacement = "<mark class='study' data-state='{$word->state}' data-word_id='{$word->id}'><span class='translation' style='display: none;'>({$word->translation}) </span>{$word->word}</mark>";
-                    break;
-                case WordConfig::KNOWN:
-                    $replacement = "<mark class='known' data-state='{$word->state}' data-word_id='{$word->id}'><span class='translation' style='display: none;'>({$word->translation}) </span>{$word->word}</mark>";
-                    break;
+            if (!in_array($data_word, $wordKeys)) {
+                return "<mark class='unknown' data-word=\"{$data_word}\" data-state='{$state}' >{$word}</mark>";
             }
+            return $word;
+        }, $text);
 
-            $text = preg_replace($regex, $replacement, $text);
-        }
+        // Зачем обработать слова которые уже есть в базе. Добавить перевод,
 
-        // Найти и обработать слова из текста которых нет в базе
+        foreach ($myWords as $key => $data)
+        {
+            $regex = "#(\b{$key}\b)(?![^<]*>|[^<>]*<\/)#ui";
+            $myWord = $myWords[$key];
+            //$chars = preg_split('//', $str, -1, PREG_SPLIT_NO_EMPTY);
+            $translationArray = explode ("," , $myWord['translation']);
+            $translation = $translationArray[0];
 
-        $regex = "#(\b[^\s]+\b)(?![^<]*>|[^<>]*<\/)#ui";
-
-        $text = preg_replace_callback($regex,
-
-            function ($matches) use ($userWords, $myWords)
+            $text = preg_replace_callback($regex, function ($matches) use ($myWord, $key, $translation)
             {
-                $word = mb_strtolower($matches[0]);
-                $state = WordConfig::NEW;
+                $word = $matches[0];
 
-                return "<mark class='unknown' data-word='{$word}' data-state='{$state}' >{$word}</mark>";
-
+                switch ($myWord['state']) {
+                    case WordConfig::NEW:
+                        $replacement = "<mark class='unknown' data-word='{$key}' data-state='{$myWord['state']}' data-word_id='{$myWord['id']}'><span class='translation' style='display: none;'>({$translation}) </span>{$word}</mark> ";
+                        break;
+                    case WordConfig::TO_STUDY:
+                        $replacement = "<mark class='study' data-word='{$key}' data-state='{$myWord['state']}' data-word_id='{$myWord['id']}'><span class='translation' style='display: none;'>({$translation}) </span>{$word}</mark> ";
+                        break;
+                    case WordConfig::KNOWN:
+                        $replacement = "<mark class='known' data-word='{$key}' data-state='{$myWord['state']}' data-word_id='{$myWord['id']}' ><span class='translation' style='display: none;'>({$translation}) </span>{$word}</mark> ";
+                        break;
+                }
+                return $replacement;
             }, $text);
 
+
+        } // end foreach
         return $text;
-    }
-
-
-    /**
-     * Текст страницы обрабатывается в preg_replace_callback
-     * Проверяется каждое слово.
-     * Текст разбивается на слова -> Каждому слову выставляется статус - new, to study, known
-     * В зависимости от статуса выставляются разные стили и дата атрибуты
-     * Если слово есть в базе и у него есть перевод, сразу добавляется перевод в скрытый тег span
-     *
-     * С регулярным выражением были проблемы, не работало с кирилицей и может еще с некоторыми языками.
-     * Сейчас вроде работает.
-     */
-    public function handleTextPage(array $userWords, $myWords):string
-    {
-        $userOnlyWords = array_keys($userWords);
-
-        $wordRegex = "#\b[^\s]+\b#ui";
-
-        $result = '';
-
-        if(preg_match_all($wordRegex, $this->text) == false) {
-            $wordRegex = "#[^\s0-9\.,\!\@\#\%]+#";
-        } else {
-            $wordRegex = "#\b[^\s^\s0-9\.,]+\b#ui";
-        }
-
-        $result = preg_replace_callback($wordRegex,
-
-            function ($matches) use ($userOnlyWords, $userWords, $myWords)
-            {
-                $wordKey = mb_strtolower($matches[0]);
-
-                if(in_array($wordKey, $userOnlyWords)) {
-
-                    // если слово есть в массиве знакомых слов, проверить статус (знакомое или изучаемое)
-                    if($userWords[$wordKey] == WordConfig::TO_STUDY ) {
-
-                        $word = $myWords->where('word', $wordKey)->first();
-                        $translation = $word->translation;
-                        $state = WordConfig::TO_STUDY;
-
-                        // если слово изучаемое, выделить его оранжевым
-
-                        return "<mark class='study' 
-                                data-state='{$state}' 
-                                data-word_id='{$word->id}'><span class='translation' style='display: none;'>({$translation})</span>{$matches[0]}</mark>";
-
-                    } elseif($userWords[$wordKey] == WordConfig::KNOWN ) {
-
-                        $word = $myWords->where('word', $wordKey)->first();
-                        $translation = $word->translation;
-                        $state = WordConfig::KNOWN;
-
-                        // если слово знакомое, уже изученное, никак не выделять его
-
-                        return "<mark class='known'
-                                 data-state='{$state}' 
-                                 data-word_id='{$word->id}'><span class='translation' style='display: none;'>({$translation})</span>{$matches[0]}</mark>";
-
-                    } elseif($userWords[$wordKey] == WordConfig::NEW ) {
-
-                        $state = WordConfig::NEW;
-                        $word = $myWords->where('word', $wordKey)->first();
-                        // если слово незнакомое но оно есть в базе
-
-                        return "<mark class='unknown' data-word_id='{$word->id}' data-state='{$state}'>{$matches[0]}</mark>";
-                    }
-
-
-                } else {
-
-                    $state = WordConfig::NEW;
-
-                    // если слово незнакомое, выделить его синим
-
-                    return "<mark class='unknown' data-word='{$matches[0]}' data-state='{$state}' >{$matches[0]}</mark>";
-                }
-            },
-
-            $this->text);
-
-        return $result;
     }
 
     private function findPageEnd($text, $pageLength):int
@@ -231,7 +189,7 @@ class TextHandler
             return $pageLength;
         }
 
-        $pageEndOffset = strpos($text, '.', $realLength);
+        $pageEndOffset = strpos($text, '.', $realLength) != false ? strpos($text, '.', $realLength) : strpos($text, "\n", $realLength) ;
 
         return $pageEndOffset + 1; //  +1 means + dot
     }

@@ -15,10 +15,8 @@ $('#text_file').on('change',function(){
 
 
 /*******************************************************************************************************************
-* MY TEXTS PAGE
+* MY TEXTS PAGE - text edit modal
 *******************************************************************************************************************/
-
-// Update text modal window. Set form fields values
 
 $('a[data-target="#text_edit_modal"]').on('click',function(){
     // set text id
@@ -39,6 +37,8 @@ $('td').on('click', 'button.word_btn', function(){
     td = $(this).parent();
     translationTableCell = $(this).parent().parent().children('td').eq(2);
 
+    wordText = $(this).parent().parent().children('td').eq(1).text();
+
     $.ajax({
 
         url: "/reader/words/add-or-update",
@@ -51,28 +51,55 @@ $('td').on('click', 'button.word_btn', function(){
 
         success: function (data) {
 
-            translationTableCell.text(data[1]);
+            // Фикс чтобы не заменять инпут на текст на странице Мои Слова
+            if (window.location.href.indexOf("reader/words") <= -1) {
+                translationTableCell.text(data[1]);
+            }
+
+
+            translation = '<span class="translation" style="display: none;">('+ data[1] +')</span>';
 
             if(button.hasClass('btn-success')) {
 
                 button.replaceWith('<span class="badge badge-success h4">Known</span>');
                 td.find('span.badge-warning').replaceWith('<button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="' + data[0] + '" data-state="'+ word_to_study +'">To study</button>');
                 td.find('button.btn-warning').replaceWith('<button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="' + data[0] + '" data-state="'+ word_to_study +'">To study</button>');
+
+                // Найти слово в тексте, добавить перевод и прочие аттрибуты
+
+                $('mark[data-word="'+ wordText +'" i]').each(function(index,element)
+                {
+                    $(element).attr('data-word_id', data[0]);
+                    $(element).data('state', word_known);
+                    $(element).html( translation + ' ' + wordText);
+                    $(element).removeClass('unknown');
+                    $(element).addClass('known');
+                });
+
             } else {
 
                 button.replaceWith('<span class="badge badge-warning h4">To study</span>');
                 td.find('span.badge-success').replaceWith('<button type="button" class="btn btn-success btn-sm word_btn" data-word_id="' + data[0]  + '" data-state="'+ word_known +'">Known</button>');
                 td.find('button.btn-success').replaceWith('<button type="button" class="btn btn-success btn-sm word_btn" data-word_id="' + data[0]  + '" data-state="'+ word_known +'">Known</button>');
+
+                // Найти слово в тексте, добавить перевод и прочие аттрибуты
+
+                $('mark[data-word="'+ wordText +'" i]').each(function(index,element)
+                {
+                    $(element).attr('data-word_id', data[0]);
+                    $(element).data('state', word_to_study);
+                    $(element).html( translation + ' ' + wordText);
+                    $(element).removeClass('unknown');
+                    $(element).addClass('study');
+                });
+
             }
-
         }
-
     });
-
 });
 
 /*******************************************************************************************************************
- * TEXT PAGE (READER)
+ * TEXT PAGE (READER) - FILTERS
  *******************************************************************************************************************/
 
 
@@ -128,7 +155,7 @@ $('div.page_text_wrapper').on('click', 'mark[data-state="0"]', function() {
                 // изменить data-state на 1
                 // добавить data-word_id
 
-                $('mark[data-word="'+ word.data('word') +'"]').each(function(index,element)
+                $('mark[data-word="'+ word.data('word') +'" i]').each(function(index,element)
                 {
                     $(element).attr('data-word_id', data[0]);
                     $(element).data('state', word_to_study);
@@ -137,6 +164,7 @@ $('div.page_text_wrapper').on('click', 'mark[data-state="0"]', function() {
                     $(element).addClass('study');
                 });
 
+                // открыть перевод
                 word.find('span').toggle();
 
                 // Указать текст и перевод слова в правом сайдбаре
@@ -159,7 +187,7 @@ $('div.page_text_wrapper').on('click', 'mark[data-state="0"]', function() {
 * TEXT PAGE (READER) - КЛИК НА ЗНАКОМОЕ СЛОВО (KNOWN, TO_STUDY)
 *******************************************************************************************************************/
 
-$('div.page_text_wrapper').on('click', 'mark.known, mark.study', function() {
+$('div.page_text_wrapper').on('click', 'mark.study, mark.known, mark.study_hidden', function() {
 
     word = $(this);
     word.find('span').toggle(); // показать / скрыть перевод
@@ -171,6 +199,20 @@ $('div.page_text_wrapper').on('click', 'mark.known, mark.study', function() {
 
     $('#rs_word').html(wordText);
     $('#rs_word_translation').html(wordTranslation);
+
+
+    $.ajax({
+        url: "/reader/words/get-translation",
+        method: "POST",
+        data: {
+            "word_id": word.data('word_id'),
+        },
+
+        success: function (data) {
+            $('#rs_word_translation').html(data);
+        }
+
+    });
 
     // указать state слова в правом сайдбаре
 
@@ -187,10 +229,10 @@ $('div.page_text_wrapper').on('click', 'mark.known, mark.study', function() {
 
     //указать ссылку в кнопке "Translate in google" в правом сайдбаре
 
-    googleUrl = 'https://translate.google.com/#view=home&op=translate&sl=en&tl=ru&text=' + wordText;
+    googleUrl = 'https://translate.google.com/#view=home&op=translate&sl='+ learned_lang_code +'&tl='+ known_lang_code +'&text=' + wordText;
     $('#gt_btn').attr('href', googleUrl);
 
-    yandexUrl = 'https://translate.yandex.com/?lang=en-ru&text=' + wordText;
+    yandexUrl = 'https://translate.yandex.com/?lang='+ learned_lang_code +'-'+ known_lang_code +'&text=' + wordText;
     $('#yt_btn').attr('href', yandexUrl);
 });
 
@@ -203,27 +245,31 @@ $('.text_page_sidebar').on('click', '#rs_mark_as_known_btn, #rs_mark_as_to_study
 
     button = $(this);
 
+    data_word_id = button.attr('data-word_id');
+    data_word = button.attr('data-word');
+    data_state = button.attr('data-state');
+
     // Обновить статус слова
 
     $.ajax({
         url: "/reader/words/add-or-update",
         method: "POST",
         data: {
-            "id": button.data('word_id'),
-            "word": button.data('word'),
-            "state": button.data('state'),
+            "id": data_word_id,
+            "word": data_word,
+            "state": data_state,
         },
 
         success: function (data) {
 
             // Найти все копии слова в тексте, установить им новый статус
 
-            if(button.data('state') == word_to_study)
+            if(button.attr('data-state') == word_to_study)
             {
 
-                $('mark[data-word_id="'+ button.data('word_id') +'"]').each(function(index,element) {
-                    $(element).attr('data-word_id', button.data('word_id'));
-                    $(element).attr('state', word_to_study);
+                $('mark[data-word_id="'+ data_word_id +'"]').each(function(index,element) {
+                    $(element).attr('data-word_id', data_word_id);
+                    $(element).attr('data-state', word_to_study);
                     $(element).removeClass();
                     $(element).addClass('study');
                 });
@@ -232,9 +278,9 @@ $('.text_page_sidebar').on('click', '#rs_mark_as_known_btn, #rs_mark_as_to_study
 
             } else {
 
-                $('mark[data-word_id="'+ button.data('word_id') +'"]').each(function(index,element) {
-                    $(element).attr('data-word_id', button.data('word_id'));
-                    $(element).attr('state', word_known);
+                $('mark[data-word_id="'+ data_word_id +'"]').each(function(index,element) {
+                    $(element).attr('data-word_id', data_word_id);
+                    $(element).attr('data-state', word_known);
                     $(element).removeClass();
                     $(element).addClass('known');
                 });
@@ -242,12 +288,42 @@ $('.text_page_sidebar').on('click', '#rs_mark_as_known_btn, #rs_mark_as_to_study
 
                 $('#rs_word_state').replaceWith('<span class="badge badge-success h4" id="rs_word_state" style="vertical-align: middle">Known</span>');
             }
+
+            showAndHideSuccessNotification();
+        }
+    });
+});
+
+/*******************************************************************************************************************
+* TEXT PAGE (READER) - КНОПКA SAVE TRANSLATION В ПРАВОМ САЙДБАРЕ
+*******************************************************************************************************************/
+
+$('.text_page_sidebar').on('click', '#rs_save_translation_btn', function() {
+
+// Обновить перевод слова / указать свой перевод и сохранить
+
+    $.ajax({
+        url: "/reader/words/update-translation",
+        method: "POST",
+        data: {
+            "word_id": $('#rs_mark_as_known_btn').data('word_id'),
+            "word_translation": $('#rs_word_translation').val()
+        },
+
+        success: function (data) {
+
+            // Найти все копии слова в тексте, установить им новый перевод
+
+            $('mark[data-word_id="'+ data[0] +'"]').each(function(index,element) {
+                $(element).find('span').text("(" +data[1] + ") ");
+            });
+
+            showAndHideSuccessNotification();
+
         }
     });
 
-
 });
-
 /*******************************************************************************************************************
 * TEXT PAGE (READER) - Highlight to study words
 *******************************************************************************************************************/
@@ -260,6 +336,7 @@ $("#h_known").change(function() {
 
         $(selector).each(function(index,element) {
             $(element).removeClass('study');
+            $(element).addClass('study_hidden');
         });
 
         Cookies.set('h_known', 0);
@@ -286,6 +363,7 @@ $("#h_unknown").change(function() {
 
         $(selector).each(function(index,element) {
             $(element).removeClass('unknown');
+            $(element).addClass('unknown_hidden');
         });
 
         Cookies.set('h_unknown', 0);
@@ -300,21 +378,11 @@ $("#h_unknown").change(function() {
     }
 });
 
-// T button - Open google translate in new window and translate selected text in google
-
-$("body").keypress(function(e) {
-    if (e.code == 'KeyT') {
-        url = 'https://translate.google.com/#view=home&op=translate&sl='+ text_lang_code +'&tl='+ text_translate_to_lang_code +'&text=' + window.getSelection().toString();
-        window.open(url, 'window name', 'width=900, height=700');
-        return false;
-    }
-});
-
 // Right sidebar - open window on translate buttons click - google translate
 
 $('.text_page_sidebar').on('click', '#gt_btn', function() {
 
-    url = 'https://translate.google.com/#view=home&op=translate&sl='+ text_lang_code +'&tl='+ text_translate_to_lang_code +'&text=' + $('#rs_word').html();
+    url = 'https://translate.google.com/#view=home&op=translate&sl='+ learned_lang_code +'&tl='+ known_lang_code +'&text=' + $('#rs_word').html();
 
     window.open(url, 'window name', 'width=900, height=700');
     return false;
@@ -325,7 +393,7 @@ $('.text_page_sidebar').on('click', '#gt_btn', function() {
 
 $('.text_page_sidebar').on('click', '#yt_btn', function() {
 
-    url = 'https://translate.yandex.com/?lang=' + text_lang_code + '-' + text_translate_to_lang_code +'&text=' + $('#rs_word').html();
+    url = 'https://translate.yandex.com/?lang='+ learned_lang_code +'-'+ known_lang_code +'&text=' + $('#rs_word').html();
 
     window.open(url, 'window name', 'width=900, height=700');
     return false;
@@ -355,5 +423,144 @@ $('.admin_word_delete_btn').on('click', function() {
         }
     });
 });
+
+// Update translation
+
+$('.admin_word_save_btn').on('click', function() {
+
+    save_button = $(this);
+    translation = save_button.prev().val();
+
+    $.ajax({
+        url: "/reader/words/update-translation",
+        method: "POST",
+        data: {
+            "word_id": save_button.data('word_id'),
+            "word_translation": translation
+        },
+
+        success: function (data) {
+        }
+    });
+
+    showAndHideSuccessNotification();
+});
+
+
+function showAndHideSuccessNotification() {
+    $('#alert').toggle();
+
+    setTimeout(function() {
+        $('#alert').toggle();
+    }, 1000);
+
+}
+
+/////////////////////////////////////////////
+
+$('#mark_all_as_known_btn').on('click', function() {
+
+    // $('mark.unknown').each(function(index,element) {
+    //
+    //     word = $(element);
+    //
+    //     if(word.data('state') == word_new) {
+    //
+    //         $.ajax({
+    //
+    //             url: "/reader/words/add-or-update",
+    //             method: "POST",
+    //             async:false,
+    //             data: {
+    //                 "id": word.data('word_id'),
+    //                 "word": word.data('word'),
+    //                 "state": word.data('state'),
+    //             },
+    //
+    //             success: function (data) {
+    //
+    //                 console.log(element);
+    //
+    //
+    //                 // Добавить слову перевод - дочерний span элемент
+    //
+    //                 translation = '<span class="translation" style="display: none;">('+ data[1] +')</span>';
+    //
+    //                 word.attr('data-word_id', data[0]);
+    //
+    //                 // Для повторений этого слова на странице
+    //                 // Заменить класс на study, так как новое слово по умолчанию становится изучаемым
+    //                 // изменить data-state на 1
+    //                 // добавить data-word_id
+    //
+    //                 $('mark[data-word="'+ word.data('word') +'" i]').each(function(index,element) {
+    //                     $(element).attr('data-word_id', data[0]);
+    //                     $(element).data('state', word_to_study);
+    //                     $(element).html( translation + ' ' + word.data('word'));
+    //                     $(element).removeClass('unknown');
+    //                     $(element).addClass('study');
+    //                     console.log("word copy found");
+    //                 });
+    //             } // ajax success end
+    //         }); // ajax end
+    //
+    //     } // end if
+    //
+    // });
+
+recursive();
+    //showAndHideSuccessNotification();
+});
+
+
+
+function recursive() {
+
+    word = $('mark.unknown').first();
+
+    if(word.length) {
+
+        $.ajax({
+
+            url: "/reader/words/add-or-update",
+            method: "POST",
+            data: {
+                "id": word.data('word_id'),
+                "word": word.data('word'),
+                "state": word.data('state'),
+            },
+
+            success: function (data) {
+                alert( word.attr('data-word'));
+                return;
+                // Добавить слову перевод - дочерний span элемент
+
+                translation = '<span class="translation" style="display: none;">('+ data[1] +')</span>';
+
+                word.attr('data-word_id', data[0]);
+
+                // Для повторений этого слова на странице
+                // Заменить класс на study, так как новое слово по умолчанию становится изучаемым
+                // изменить data-state на 1
+                // добавить data-word_id
+
+                $('mark[data-word="'+ word.data('word') +'" i]').each(function(index,element) {
+                    $(element).attr('data-word_id', data[0]);
+                    $(element).data('state', word_to_study);
+                    $(element).html( translation + ' ' + word.data('word'));
+                    $(element).removeClass('unknown');
+                    $(element).addClass('study');
+                    console.log("word copy found");
+                });
+                console.log('ajax success');
+                recursive();
+                console.log('ajax success 222');
+            } // ajax success end
+
+        }); // ajax end
+
+    } // if end
+}
+
 
 }); // document ready end

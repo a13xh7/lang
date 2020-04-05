@@ -25,28 +25,59 @@ class TextPageController extends Controller
 
         $myWords = Word::where('state', WordConfig::KNOWN)->orWhere('state', WordConfig::TO_STUDY)->get();
 
-        // Handle page content
+
         // декодировать текст страницы из base64
         // вокруг каждого слова добавить тег mark со стилем study или unknown и с data атрибутами
 
         $pageContent = base64_decode($page->content);
         $textHandler = new TextHandler($pageContent);
 
-        // Передать в метод все слова (Word model) и получить массив в формате [word => state]
-        $wordStateArray = $this->getWordStateArray($myWords);
+        // Handle page content
 
-        // Метод получает:
-        // $userWords -
-        //$pageContent = $textHandler->handleTextPage($wordStateArray, $myWords);
+        //
+        // Отсортировать масив со словами. Иначе регулярка будет криво работать
 
-        $pageContent = $textHandler->handleEnglishTextPage($wordStateArray, $myWords);
-        //dd($textHandler->handleEnglishTextPage($wordStateArray, $myWords));
+        // Первыми должны идти слова с апострофом и тире
 
-        // Создать обычный массив со словами. [0 => word, 1 => word]
-        $knownWords = [];
+        $startArray = $page->getMyWordsOnThisPage();
+        $sortedArray = [];
 
-        foreach ($myWords as $myWord) {
-            $knownWords[] = $myWord->word;
+        foreach ($startArray as $wordKey => $data) {
+
+            if(preg_match("#[\'\-\_]#", $wordKey)) {
+                $sortedArray[$wordKey] = $data;
+            }
+        }
+
+        $finalArray = array_merge($sortedArray, $startArray);
+
+        $myWordsOnThisPage = $page->getMyWordsOnThisPage();
+        $pageContent = $textHandler->handleEnglishTextPage($finalArray);
+
+        // Создать массив со всеми уникальными словами на этой странице
+        $wordsToShow = [];
+
+        // Add words from text to $wordsToShow array
+
+        foreach ($textHandler->uniqueWords as $word) {
+            $wordsToShow[$word[0]] = [
+                'id' => null,
+                'state' => null,
+                'word' => $word[0],
+                'translation' => null,
+                'usage' => $word[1],
+                'usage_percent' => $word[2]
+            ];
+        }
+
+        $myWordsOnPagePage = $page->getMyWordsOnThisPage();
+
+        foreach ($myWordsOnPagePage as $key => $data) {
+            if(isset($wordsToShow[$key])) {
+                $wordsToShow[$key]['id'] = $data['id'];
+                $wordsToShow[$key]['state'] = $data['state'];
+                $wordsToShow[$key]['translation'] = $data['translation'];
+            }
         }
 
         // Update current text page
@@ -59,9 +90,7 @@ class TextPageController extends Controller
             ->with('page', $page)
             ->with('pages', $pages)
             ->with('pageContent', $pageContent)
-            ->with('words', $textHandler->uniqueWords)
-            ->with('knownWords', $knownWords)
-            ->with('myWords', $myWords)
+            ->with('words', $wordsToShow)
             ->with('text', $page->text);
     }
 

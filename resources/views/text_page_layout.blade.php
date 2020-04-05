@@ -14,22 +14,12 @@
 </head>
 <body>
 
-<!-- Bootstrap NavBar -->
-<nav class="navbar navbar-dark bg-dark fixed-top">
-
-    <a class="navbar-brand" href="{{route('texts')}}">
-        <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-        <span>WexLang</span>
-    </a>
-
-
-</nav>
-<!-- NavBar END -->
+@include("header")
 
 
 @php
 
-    $toStudyCheckboxState = \Illuminate\Support\Facades\Cookie::get('h_unknown') == 1 || \Illuminate\Support\Facades\Cookie::get('h_unknown') == null ? "checked" : "";
+    $toStudyCheckboxState = \Illuminate\Support\Facades\Cookie::get('h_known') == 1 || \Illuminate\Support\Facades\Cookie::get('h_unknown') == null ? "checked" : "";
     $unknownCheckboxState = \Illuminate\Support\Facades\Cookie::get('h_unknown') == 1 || \Illuminate\Support\Facades\Cookie::get('h_unknown') == null ? "checked" : "";
 
 @endphp
@@ -44,21 +34,15 @@
         <div class="position-fixed">
 
             <h4 class="sidebar-heading mt-4 mb-1 text-muted">
-                <span>{{__('Text')}}</span>
-            </h4>
-
-            <hr>
-
-            <h4 class="sidebar-heading mt-4 mb-1 text-muted">
-                <span>{{__('Words')}}</span> <br>
+                <span>{{__('Words')}}</span>
                 <span style="font-size: 16px">({{__('Click to translate')}})</span>
             </h4>
 
             <hr>
 
-            <p><mark>word</mark> - {{__('known words')}}</p>
-            <p><mark class="study">word</mark> - {{__('to study words')}}</p>
-            <p><mark class="unknown">word</mark> - {{__('unknown words')}}</p>
+{{--            <p><mark>word</mark> - {{__('known words')}}</p>--}}
+{{--            <p><mark class="study">word</mark> - {{__('to study words')}}</p>--}}
+{{--            <p><mark class="unknown">word</mark> - {{__('unknown words')}}</p>--}}
 
             <h4 class="sidebar-heading mt-4 mb-1 text-muted">
                 <span>{{__('Options')}}</span>
@@ -74,17 +58,6 @@
             <div class="custom-control custom-checkbox">
                 <input type="checkbox" class="custom-control-input" id="h_unknown" {{$unknownCheckboxState}}>
                 <label class="custom-control-label" for="h_unknown">{{__('Highlight unknown words')}}</label>
-            </div>
-
-            <h4 class="sidebar-heading mt-4 mb-1 text-muted">
-                <span>{{__('Other')}}</span>
-            </h4>
-
-            <hr>
-
-            <div style="Word-Wrap: break-word; max-width: 300px;">
-                {{__('Select text and press')}}
-                <span style="font-size: 20px; border: 1px solid gray; width: 30px; display: inline-block; text-align: center; border-radius: 20%;"><b>T</b></span> {{__('to translate selected text in Google Translate')}}
             </div>
 
         </div>
@@ -121,9 +94,13 @@
             <div id="rs_mark_known_wrapper">
                 <hr>
 
+                <button type="button" id="rs_save_translation_btn" class="btn btn-info">Save Translation</button>
+
+                <hr>
+
                 <b>Mark this word as:</b>
                 <br>
-                <span class="text-muted">New words have "To study" state</span>
+                <span class="text-muted">New words get "To study" state by default</span>
                 <br>
 
                 <button type="button" id="rs_mark_as_known_btn" class="btn btn-success btn-sm" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
@@ -157,6 +134,12 @@
 <!-- App JavaScript -->
 <script src="{{asset('js/reader.js')}}"></script>
 <script src="{{asset('js/js.cookie.js')}}"></script>
+
+<div class="alert alert-success fade show" id="alert" style="position: fixed; top: 57px; right: 0; z-index: 9999999 !important; display: none;" >
+
+    <strong>      Saved      </strong>
+
+</div>
 
 </body>
 </html>

@@ -19,4 +19,17 @@ class Word extends Model
     {
         return Translation::where('word_id', $this->id)->where('lang_id', $translationLangId)->first();
     }
+
+    public static function getAllCollocations() {
+        $result = [];
+
+        foreach (Word::all() as $word) {
+
+            if (preg_match("#[\s]#", $word->word)) {
+                $result[] = $word;
+            }
+        }
+
+        return $result;
+    }
 }

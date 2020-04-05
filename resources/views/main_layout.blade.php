@@ -14,27 +14,9 @@
 </head>
 <body>
 
-<!-- Bootstrap NavBar -->
-<nav class="navbar navbar-dark bg-dark fixed-top">
 
-    <a class="navbar-brand" href="{{route('texts')}}">
-        <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
-        <span>WexLang</span>
+@include("header")
 
-        <img src="{{asset('img/flags/en.svg')}}" class="text_flag" alt=""> <i class="text-muted">(English)</i>
-        <span class="q_lang_arrow">⟶</span>
-        <img src="{{asset('img/flags/ru.svg')}}" class="text_flag" alt=""> <i class="text-muted">(Русский)</i>
-
-    </a>
-
-{{--    <ul class="navbar-nav">--}}
-{{--        <li class="nav-item">--}}
-{{--            <a class="nav-link" href="#">Home</a>--}}
-{{--        </li>--}}
-{{--    </ul>--}}
-
-</nav>
-<!-- NavBar END -->
 
 <!-- Bootstrap row -->
 <div class="row" id="body-row">
@@ -45,15 +27,19 @@
 
             <br>
 
-            <a href="{{route('texts')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-book"></i> {{__('My Texts')}}</a>
+            <a href="{{route('texts')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-book"></i> My Texts</a>
 
-            <a href="{{route('add_text_page')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-plus-square"></i> {{__('Add text')}}</a>
+            <a href="{{route('add_text_page')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-plus-square"></i> Add text</a>
 
-            <a href="{{route('words')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-file-text"></i> {{__('My words')}}</a>
+            <a href="{{route('words')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-file-text"></i> My words</a>
 
-            <a href="{{route('words_admin')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-gears"></i> {{__('Manage words')}}</a>
+            <a href="{{route('words_upload_dictionary')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-upload"></i> Upload dictionary</a>
 
-            <a href="{{route('words_upload_dictionary')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-upload"></i> {{__('Upload dictionary')}}</a>
+            <a href="{{route('settings')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-gears"></i> Settings</a>
+
+            <a href="" class="bg-dark list-group-item list-group-item-action"><i class="icofont-upload"></i> FAQ</a>
+
+            <a href="{{route('settings')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-mail"></i> Feedback</a>
 
         </ul>
 
@@ -71,6 +57,14 @@
 </div>
 <!-- body-row END -->
 
+
+<div class="alert alert-success fade show" id="alert" style="position: fixed; top: 57px; right: 0; z-index: 9999999 !important; display: none;" >
+
+    <strong>      Saved      </strong>
+
+</div>
+
+
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->
 <script src="{{ asset('js/jquery-3.4.1.min.js')}}"></script>
@@ -81,6 +75,7 @@
 <!-- App JavaScript -->
 <script src="{{asset('js/reader.js')}}"></script>
 <script src="{{asset('js/js.cookie.js')}}"></script>
+
 
 </body>
 </html>

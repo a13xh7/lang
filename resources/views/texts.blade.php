@@ -21,14 +21,15 @@
 
             <div class="progress">
                 <div class="progress-bar" role="progressbar" style="width:{{$readingProgress}}%" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+{{--                <span align="center" style="color: black">{{$text->total_pages / $currentPage}}%</span>--}}
             </div>
 
             <div style="padding-top: 5px;">
-                {{__('Symbols')}}: <span class="badge badge-dark">{{ $text->total_symbols}}</span> <b>|</b>
                 {{__('Words')}}: <span class="badge badge-dark">{{ $text->total_words}}</span> <b>|</b>
                 {{__('Unique words')}}: <span class="badge badge-dark">{{ $text->unique_words}}</span>
+                {{__('Unknown Words')}}: <span class="badge badge-info">{{ count($text->getUnknownWords()) }}</span> <b>|</b>
+                {{__('To study words')}}: <span class="badge badge-warning">{{ count($text->getToStudyWords()) }}</span> <b>|</b>
                 {{__('Known words')}}: <span class="badge badge-success">{{ count($text->getKnownWords()) }}</span> <b>|</b>
-                {{__('Unknown Words')}}: <span class="badge badge-warning">{{ count($text->getUnknownWords()) }}</span> <b>|</b>
                 {{__('Total Pages')}}: <span class="badge badge-dark">{{ $text->total_pages}}</span> <b>|</b>
                 {{__('Current page')}}: <span class="badge badge-dark">{{ $text->current_page}}</span>
 
