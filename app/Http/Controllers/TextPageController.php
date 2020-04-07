@@ -14,7 +14,7 @@ class TextPageController extends Controller
 {
     public function showPage(int $textId, Request $request)
     {
-        $pageNumber = $request->get('page') ? $request->get('page') : 1;
+        $pageNumber = $request->get('page') ? $request->get('page') : Text::findOrFail($textId)->current_page;
 
         // Get pages and current page
 
@@ -91,8 +91,53 @@ class TextPageController extends Controller
             ->with('pages', $pages)
             ->with('pageContent', $pageContent)
             ->with('words', $wordsToShow)
-            ->with('text', $page->text);
+            ->with('text', $page->text)
+            ->with('text_id', $textId)
+            ->with('current_page', $pageNumber);
     }
+
+
+    public function showTextPageWordsPage(int $textId)
+    {
+        $currentPage = Text::findOrFail($textId)->current_page;
+        $page = TextPage::where('text_id', $textId)->where('page_number', $currentPage)->firstOrFail();
+
+        $pageContent = base64_decode($page->content);
+        $textHandler = new TextHandler($pageContent);
+
+        // Создать массив со всеми уникальными словами на этой странице
+        $wordsToShow = [];
+
+        // Add words from text to $wordsToShow array
+
+        foreach ($textHandler->uniqueWords as $word) {
+            $wordsToShow[$word[0]] = [
+                'id' => null,
+                'state' => null,
+                'word' => $word[0],
+                'translation' => null,
+                'usage' => $word[1],
+                'usage_percent' => $word[2]
+            ];
+        }
+
+        $myWordsOnPagePage = $page->getMyWordsOnThisPage();
+
+        foreach ($myWordsOnPagePage as $key => $data) {
+            if(isset($wordsToShow[$key])) {
+                $wordsToShow[$key]['id'] = $data['id'];
+                $wordsToShow[$key]['state'] = $data['state'];
+                $wordsToShow[$key]['translation'] = $data['translation'];
+            }
+        }
+
+        return view('text_page_words')
+            ->with('words', $wordsToShow)
+            ->with('text_id', $textId)
+            ->with('current_page', $currentPage);;
+    }
+
+
 
     /**
      * @param $userWords

@@ -25,11 +25,11 @@ class WordsController extends Controller
         $wordToFind = $request->get("word_to_find");
         $perPage = 100;
 
-        $showWordsFilter = $request->get('show_words') != null ? $request->get('show_words') : null;
+        $showWordsFilter = $request->get('show_words') != null ? $request->get('show_words') : 0;
 
         // Отфильтровать слова
         if($showWordsFilter) {
-            $words = Word::where('state', WordConfig::TO_STUDY)->paginate($perPage);
+            $words = Word::where('state', $showWordsFilter)->paginate($perPage);
         }
         else {
             $words = Word::paginate($perPage);
@@ -56,6 +56,37 @@ class WordsController extends Controller
     public function showUploadDictionaryPage()
     {
         return view('words_upload_dictionary');
+    }
+
+    public function exportToCsv()
+    {
+        $words = Word::all();
+
+//
+//        public static function getCsv($columnNames, $rows, $fileName = 'file.csv') {
+//        $headers = [
+//            "Content-type" => "text/csv",
+//            "Content-Disposition" => "attachment; filename=" . $fileName,
+//            "Pragma" => "no-cache",
+//            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+//            "Expires" => "0"
+//        ];
+//        $callback = function() use ($columnNames, $rows ) {
+//            $file = fopen('php://output', 'w');
+//            fputcsv($file, $columnNames);
+//            foreach ($rows as $row) {
+//                fputcsv($file, $row);
+//            }
+//            fclose($file);
+//        };
+//        return response()->stream($callback, 200, $headers);
+//    }
+//
+//        public function someOtherControllerFunction() {
+//        $rows = [['a','b','c'],[1,2,3]];//replace this with your own array of arrays
+//        $columnNames = ['blah', 'yada', 'hmm'];//replace this with your own array of string column headers
+//        return self::getCsv($columnNames, $rows);
+
     }
 
     public function addNewWord(Request $request)

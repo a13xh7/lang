@@ -3,50 +3,54 @@
 
 @section('content')
 
-    <h2>Add new word</h2>
+
     <form action="{{route('add_new_word')}}" method="POST" >
 
 
-        <div class="form-group">
-            <label for="new_word">New Word</label>
-            <input type="text" class="form-control" id="new_word" name="new_word" placeholder="word" required>
-        </div>
+        <div class="form-inline">
+            <h2 class="mr-2">Add new word:</h2>
+            <input type="text" class="form-control mr-2" id="new_word" name="new_word" placeholder="word" required>
 
-        <div class="form-group">
-            <label for="new_translation">Translation</label>
-            <input type="text" class="form-control" id="new_translation" name="new_translation" placeholder="translation" required>
-        </div>
+            <input type="text" class="form-control mr-2" id="new_translation" name="new_translation" placeholder="translation" required>
 
-        <div class="form-group">
-            <label for="new_word_state">State</label>
-            <select class="form-control" id="new_word_state" name="new_word_state">
+            <select class="form-control mr-2" id="new_word_state" name="new_word_state">
                 <option value="{{\App\Config\WordConfig::TO_STUDY}}">To study</option>
                 <option value="{{\App\Config\WordConfig::KNOWN}}">Known</option>
             </select>
+
+            <button type="submit" class="btn btn-primary" >ADD</button>
         </div>
 
-        <button type="submit" class="btn btn-primary w-100" >ADD</button>
+
     </form>
 
     <hr style="border: 1px solid #DCDCDC;">
 
-    <h2>Delete all words: <a href="{{route('delete_all_words')}}" type="button" class="btn btn-danger">Delete all</a></h2>
+
+        <div class="row">
+
+            <div class="col">
+                <form class="form-inline" method="GET" action="{{route("words")}}">
+
+                    <span class="h2 pr-1">Find:</span>
+                    <input type="text" class="form-control mr-2" id="word_to_find" name="word_to_find" placeholder="word" value="{{ app('request')->get('word_to_find') }}">
+
+                    <button type="submit" class="btn btn-primary mr-2">Search</button>
+                    <a href="{{route("words")}}" class="btn btn-success">Reset</a>
+                </form>
+            </div>
+
+            <div class="col">
+                <span class="h2 mr-2">Export: <a href="{{route("export_csv")}}" type="submit" class="btn btn-info" >EXPORT ALL AS <b>CSV</b></a></span>
+            </div>
+
+            <div class="col">
+                <span class="h2">Delete: <a href="{{route('delete_all_words')}}" type="button" class="btn btn-danger">Delete all words</a></span>
+            </div>
+
+        </div>
 
     <hr style="border: 1px solid #DCDCDC;">
-
-    {{--SEARCH FORM--}}
-    <form class="form-inline" method="GET" action="{{route("words")}}">
-
-        <p class="h2 pr-1">Find word</p>
-        <input type="text" class="form-control mr-2" id="word_to_find" name="word_to_find" placeholder="word" value="{{ app('request')->get('word_to_find') }}">
-
-        <button type="submit" class="btn btn-primary mr-2">Search</button>
-        <a href="{{route("words")}}" class="btn btn-success">Reset</a>
-    </form>
-    {{--SEARCH FORM END--}}
-
-    <hr style="border: 1px solid #DCDCDC;">
-
 
     {{--FILTERS START--}}
     <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">

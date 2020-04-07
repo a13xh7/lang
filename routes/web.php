@@ -16,15 +16,22 @@ Route::get('/reader/text/stats/{textId}', 'TextStatsController@showTextStats')->
 
 // TEXT PAGE. READ PAGE
 Route::get('/reader/read/text/{textId}', 'TextPageController@showPage')->name('read_text_page');
+Route::get('/reader/read/text/{textId}/words', 'TextPageController@showTextPageWordsPage')->name('text_page_words');
 
 // Words
 Route::get('/reader/words', 'WordsController@showPage')->name('words');
 Route::get('/reader/upload_dictionary', 'WordsController@showUploadDictionaryPage')->name('words_upload_dictionary');
-
+Route::get('/reader/words/exportcsv', 'WordsController@exportToCsv')->name('export_csv');
 
 //Settings
 Route::get('/reader/settings', 'SettingsController@showPage')->name('settings');
 Route::post('/reader/update-settings', 'SettingsController@updateSettings')->name('update_settings');
+
+// Feedback
+Route::get('/reader/feedback', 'PagesController@showFeedbackPage')->name('feedback');
+
+
+
 
 // Words ajax - add and update state
 Route::post('/reader/words/add-or-update', 'WordsController@ajaxAddOrUpdateWord')->name('add_or_update_word');
@@ -38,7 +45,6 @@ Route::post('/reader/words/delete', 'WordsController@ajaxDeleteWord')->name('del
 
 // Words ajax - get translation
 Route::post('/reader/words/get-translation', 'WordsController@ajaxGetWordTranslation')->name('get_translation');
-
 
 // Words ajax - update translation
 Route::post('/reader/words/update-translation', 'WordsController@ajaxUpdateWordTranslation')->name('update_translation');

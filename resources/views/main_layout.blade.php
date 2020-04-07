@@ -29,17 +29,15 @@
 
             <a href="{{route('texts')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-book"></i> My Texts</a>
 
-            <a href="{{route('add_text_page')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-plus-square"></i> Add text</a>
-
             <a href="{{route('words')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-file-text"></i> My words</a>
+
+            <a href="{{route('add_text_page')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-plus-square"></i> Add text</a>
 
             <a href="{{route('words_upload_dictionary')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-upload"></i> Upload dictionary</a>
 
             <a href="{{route('settings')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-gears"></i> Settings</a>
 
-            <a href="" class="bg-dark list-group-item list-group-item-action"><i class="icofont-upload"></i> FAQ</a>
-
-            <a href="{{route('settings')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-mail"></i> Feedback</a>
+            <a href="{{route('feedback')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-mail"></i> Feedback</a>
 
         </ul>
 

@@ -65,33 +65,12 @@ $('td').on('click', 'button.word_btn', function(){
                 td.find('span.badge-warning').replaceWith('<button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="' + data[0] + '" data-state="'+ word_to_study +'">To study</button>');
                 td.find('button.btn-warning').replaceWith('<button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="' + data[0] + '" data-state="'+ word_to_study +'">To study</button>');
 
-                // Найти слово в тексте, добавить перевод и прочие аттрибуты
-
-                $('mark[data-word="'+ wordText +'" i]').each(function(index,element)
-                {
-                    $(element).attr('data-word_id', data[0]);
-                    $(element).data('state', word_known);
-                    $(element).html( translation + ' ' + wordText);
-                    $(element).removeClass('unknown');
-                    $(element).addClass('known');
-                });
 
             } else {
 
                 button.replaceWith('<span class="badge badge-warning h4">To study</span>');
                 td.find('span.badge-success').replaceWith('<button type="button" class="btn btn-success btn-sm word_btn" data-word_id="' + data[0]  + '" data-state="'+ word_known +'">Known</button>');
                 td.find('button.btn-success').replaceWith('<button type="button" class="btn btn-success btn-sm word_btn" data-word_id="' + data[0]  + '" data-state="'+ word_known +'">Known</button>');
-
-                // Найти слово в тексте, добавить перевод и прочие аттрибуты
-
-                $('mark[data-word="'+ wordText +'" i]').each(function(index,element)
-                {
-                    $(element).attr('data-word_id', data[0]);
-                    $(element).data('state', word_to_study);
-                    $(element).html( translation + ' ' + wordText);
-                    $(element).removeClass('unknown');
-                    $(element).addClass('study');
-                });
 
             }
         }
@@ -456,111 +435,158 @@ function showAndHideSuccessNotification() {
 
 }
 
-/////////////////////////////////////////////
-
-$('#mark_all_as_known_btn').on('click', function() {
-
-    // $('mark.unknown').each(function(index,element) {
-    //
-    //     word = $(element);
-    //
-    //     if(word.data('state') == word_new) {
-    //
-    //         $.ajax({
-    //
-    //             url: "/reader/words/add-or-update",
-    //             method: "POST",
-    //             async:false,
-    //             data: {
-    //                 "id": word.data('word_id'),
-    //                 "word": word.data('word'),
-    //                 "state": word.data('state'),
-    //             },
-    //
-    //             success: function (data) {
-    //
-    //                 console.log(element);
-    //
-    //
-    //                 // Добавить слову перевод - дочерний span элемент
-    //
-    //                 translation = '<span class="translation" style="display: none;">('+ data[1] +')</span>';
-    //
-    //                 word.attr('data-word_id', data[0]);
-    //
-    //                 // Для повторений этого слова на странице
-    //                 // Заменить класс на study, так как новое слово по умолчанию становится изучаемым
-    //                 // изменить data-state на 1
-    //                 // добавить data-word_id
-    //
-    //                 $('mark[data-word="'+ word.data('word') +'" i]').each(function(index,element) {
-    //                     $(element).attr('data-word_id', data[0]);
-    //                     $(element).data('state', word_to_study);
-    //                     $(element).html( translation + ' ' + word.data('word'));
-    //                     $(element).removeClass('unknown');
-    //                     $(element).addClass('study');
-    //                     console.log("word copy found");
-    //                 });
-    //             } // ajax success end
-    //         }); // ajax end
-    //
-    //     } // end if
-    //
-    // });
-
-recursive();
-    //showAndHideSuccessNotification();
-});
+/*******************************************************************************************************************
+* MARK ALL WORDS ON TEXT PAGE AS KNOWN OR TO STUDY
+*******************************************************************************************************************/
 
 
+    $('#mark_all_as_to_study').on('click', function() {
+        recursive(word_to_study);
+        $('#mark_all_as_to_study').prop('disabled', true);
+        $('#mark_all_as_known_btn').prop('disabled', true);
+    });
 
-function recursive() {
+    $('#mark_all_as_known_btn').on('click', function() {
+        recursive(word_known);
+        $('#mark_all_as_to_study').prop('disabled', true);
+        $('#mark_all_as_known_btn').prop('disabled', true);
+    });
 
-    word = $('mark.unknown').first();
 
-    if(word.length) {
+    function recursive(wordStateToSet) {
+        var myFunc = markAllWordsAs(wordStateToSet);
+        $.when(myFunc).done(function (data) {
 
-        $.ajax({
+            if(wordStateToSet == word_to_study) {
+                selector = 'div.page_text_wrapper mark.unknown, div.page_text_wrapper mark.known';
+            } else {
+                selector = 'div.page_text_wrapper mark.study, div.page_text_wrapper mark.unknown';
+            }
+
+            if($(selector).length) {
+                recursive(wordStateToSet);
+            } else {
+                $('#mark_all_as_to_study').prop('disabled', false);
+                $('#mark_all_as_known_btn').prop('disabled', false);
+            }
+        });
+    }
+
+
+    function markAllWordsAs(wordStateToSet) {
+
+        if(wordStateToSet == word_to_study) {
+            word = $('div.page_text_wrapper mark.unknown, div.page_text_wrapper mark.known').first();
+            newClass = "study";
+        } else {
+            word = $('div.page_text_wrapper mark.unknown, div.page_text_wrapper mark.study').first();
+            newClass = "known";
+        }
+
+        return $.ajax({
 
             url: "/reader/words/add-or-update",
             method: "POST",
             data: {
                 "id": word.data('word_id'),
                 "word": word.data('word'),
-                "state": word.data('state'),
+                "state": wordStateToSet,
             },
 
             success: function (data) {
-                alert( word.attr('data-word'));
-                return;
                 // Добавить слову перевод - дочерний span элемент
-
                 translation = '<span class="translation" style="display: none;">('+ data[1] +')</span>';
 
                 word.attr('data-word_id', data[0]);
 
-                // Для повторений этого слова на странице
-                // Заменить класс на study, так как новое слово по умолчанию становится изучаемым
-                // изменить data-state на 1
-                // добавить data-word_id
-
                 $('mark[data-word="'+ word.data('word') +'" i]').each(function(index,element) {
                     $(element).attr('data-word_id', data[0]);
-                    $(element).data('state', word_to_study);
+                    $(element).data('state', wordStateToSet);
                     $(element).html( translation + ' ' + word.data('word'));
                     $(element).removeClass('unknown');
-                    $(element).addClass('study');
-                    console.log("word copy found");
+                    $(element).removeClass('study');
+                    $(element).removeClass('known');
+                    $(element).addClass(newClass);
                 });
-                console.log('ajax success');
-                recursive();
-                console.log('ajax success 222');
             } // ajax success end
-
         }); // ajax end
+    }
 
-    } // if end
-}
+/*******************************************************************************************************************
+* MARK ALL WORDS ON TEXT_PAGE_WORDS PAGE AS KNOWN OR TO STUDY
+*******************************************************************************************************************/
 
+    $('#mark_all_as_to_study_on_words_page').on('click', function() {
+        recursive2(word_to_study);
+        $('#mark_all_as_to_study_on_words_page').prop('disabled', true);
+        $('#mark_all_as_known_on_words_page').prop('disabled', true);
+    });
+
+    $('#mark_all_as_known_on_words_page').on('click', function() {
+        recursive2(word_known);
+        $('#mark_all_as_to_study_on_words_page').prop('disabled', true);
+        $('#mark_all_as_known_on_words_page').prop('disabled', true);
+    });
+
+
+    function recursive2(wordStateToSet) {
+        var myFunc2 = markAllWordsAs2(wordStateToSet);
+        $.when(myFunc2).done(function (data) {
+
+            if(wordStateToSet == word_to_study) {
+                selector = 'button.btn-warning.word_btn';
+            } else {
+                selector = 'button.btn-success.word_btn';
+            }
+
+            if($(selector).length) {
+                recursive2(wordStateToSet);
+            } else {
+                $('#mark_all_as_to_study_on_words_page').prop('disabled', false);
+                $('#mark_all_as_known_on_words_page').prop('disabled', false);
+            }
+        });
+    }
+
+
+    function markAllWordsAs2(wordStateToSet) {
+
+        if(wordStateToSet == word_to_study) {
+            button = $('button.btn-warning.word_btn').first();
+        } else {
+            button = $('button.btn-success.word_btn').first();
+        }
+
+        td = $(this).parent();
+        translationTableCell = $(this).parent().parent().children('td').eq(2);
+
+        wordText = $(this).parent().parent().children('td').eq(1).text();
+
+        return $.ajax({
+
+            url: "/reader/words/add-or-update",
+            method: "POST",
+            data: {
+                "id": button.data('word_id'),
+                "word": button.data('word'),
+                "state": button.data('state'),
+            },
+
+            success: function (data) {
+
+                translation = '<span class="translation" style="display: none;">('+ data[1] +')</span>';
+
+                if(button.hasClass('btn-success')) {
+                    button.replaceWith('<span class="badge badge-success h4">Known</span>');
+                    td.find('span.badge-warning').replaceWith('<button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="' + data[0] + '" data-state="'+ word_to_study +'">To study</button>');
+                    td.find('button.btn-warning').replaceWith('<button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="' + data[0] + '" data-state="'+ word_to_study +'">To study</button>');
+                } else {
+                    button.replaceWith('<span class="badge badge-warning h4">To study</span>');
+                    td.find('span.badge-success').replaceWith('<button type="button" class="btn btn-success btn-sm word_btn" data-word_id="' + data[0]  + '" data-state="'+ word_known +'">Known</button>');
+                    td.find('button.btn-success').replaceWith('<button type="button" class="btn btn-success btn-sm word_btn" data-word_id="' + data[0]  + '" data-state="'+ word_known +'">Known</button>');
+                }
+            }
+        });
+    }
 
 }); // document ready end

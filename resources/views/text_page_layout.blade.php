@@ -40,9 +40,9 @@
 
             <hr>
 
-{{--            <p><mark>word</mark> - {{__('known words')}}</p>--}}
-{{--            <p><mark class="study">word</mark> - {{__('to study words')}}</p>--}}
-{{--            <p><mark class="unknown">word</mark> - {{__('unknown words')}}</p>--}}
+            <p><mark>word</mark> - {{__('known words')}}</p>
+            <p><mark class="study">word</mark> - {{__('to study words')}}</p>
+            <p><mark class="unknown">word</mark> - {{__('unknown words')}}</p>
 
             <h4 class="sidebar-heading mt-4 mb-1 text-muted">
                 <span>{{__('Options')}}</span>
@@ -60,12 +60,52 @@
                 <label class="custom-control-label" for="h_unknown">{{__('Highlight unknown words')}}</label>
             </div>
 
-        </div>
+            <hr>
+
+
+            @if( preg_match("#words#", url()->current()) )
+
+                <button type="button" id="mark_all_as_to_study_on_words_page" class="btn btn-warning mb-3"><b>Mark all as TO STUDY</b></button>
+                <br>
+                <button type="button" id="mark_all_as_known_on_words_page" class="btn btn-success"><b>Mark all as KNOWN</b></button>
+
+            @else
+
+                <button type="button" id="mark_all_as_to_study" class="btn btn-warning mb-3"><b>Mark all words as TO STUDY</b></button>
+                <br>
+                <button type="button" id="mark_all_as_known_btn" class="btn btn-success"><b>Mark all words as KNOWN</b></button>
+
+            @endif
+
+
+            </div>
     </div>
     <!-- LEFT SIDEBAR END -->
 
     <!-- MAIN -->
     <div class="col py-3">
+
+        <div class="row justify-content-md-center mt-3">
+            <div class="col-md-auto">
+                <ul class="nav nav-pills mb-3" >
+
+                    @php
+                        $textActiveState = !preg_match("#words#", url()->current()) ? "active" : "";
+                        $wordsActiveState = preg_match("#words#", url()->current()) ? "active" : "";
+                    @endphp
+
+                    <li class="nav-item">
+                        <a class="nav-link {{$textActiveState}}" href="{{route('read_text_page', $text_id)}}?page={{$current_page}}"><b class="uc">Text</b></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link {{$wordsActiveState}}" href="{{route('text_page_words', $text_id)}}"><b class="uc">Words</b></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
 
         @yield('content')
 

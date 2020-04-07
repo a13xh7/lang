@@ -130,37 +130,38 @@ class TextHandler
 
         $this->handleCollocations();
 
-        // Зачем выделить все незнакомые слова
-
         $text = $this->text . PHP_EOL;
         $wordKeys = array_keys($myWords);
         $wordRegex = "#(\b[\w'-]+\b)(?![^<]*>|[^<>]*<\/)#ui";
-        $text = preg_replace_callback($wordRegex, function ($matches) use ($wordKeys)
-        {
-            $word = $matches[0];
-            $data_word = trim(mb_strtolower($word));
-            $state = WordConfig::NEW;
 
-            if (!in_array($data_word, $wordKeys)) {
-                return "<mark class='unknown' data-word=\"{$data_word}\" data-state='{$state}' >{$word}</mark>";
-            }
-            return $word;
-        }, $text);
+        // не помню почему, но сначала обрабатывались новые слова. возможно будут баги
+//        $text = preg_replace_callback($wordRegex, function ($matches) use ($wordKeys)
+//        {
+//            $word = $matches[0];
+//            $data_word = trim(mb_strtolower($word));
+//            $state = WordConfig::NEW;
+//
+//            if (!in_array($data_word, $wordKeys)) {
+//                return "<mark class='unknown' data-word=\"{$data_word}\" data-state='{$state}' >{$word}</mark>";
+//            }
+//            return $word;
+//        }, $text);
 
         // Зачем обработать слова которые уже есть в базе. Добавить перевод,
 
         foreach ($myWords as $key => $data)
         {
-            $regex = "#(\b{$key}\b)(?![^<]*>|[^<>]*<\/)#ui";
+
+            //$regex = "#(\b{$key}\b)(?![^<]*>|[^<>]*<\/)#ui";
+            $regex = "#(\b{$key}\b)($|\s|[^'])(?![^<]*>|[^<>]*<\/)#ui";
             $myWord = $myWords[$key];
-            //$chars = preg_split('//', $str, -1, PREG_SPLIT_NO_EMPTY);
             $translationArray = explode ("," , $myWord['translation']);
             $translation = $translationArray[0];
 
             $text = preg_replace_callback($regex, function ($matches) use ($myWord, $key, $translation)
             {
-                $word = $matches[0];
-
+                $word = rtrim($matches[0]);
+               //$word = $matches[0];
                 switch ($myWord['state']) {
                     case WordConfig::NEW:
                         $replacement = "<mark class='unknown' data-word='{$key}' data-state='{$myWord['state']}' data-word_id='{$myWord['id']}'><span class='translation' style='display: none;'>({$translation}) </span>{$word}</mark> ";
@@ -172,11 +173,33 @@ class TextHandler
                         $replacement = "<mark class='known' data-word='{$key}' data-state='{$myWord['state']}' data-word_id='{$myWord['id']}' ><span class='translation' style='display: none;'>({$translation}) </span>{$word}</mark> ";
                         break;
                 }
+
                 return $replacement;
             }, $text);
 
 
         } // end foreach
+
+        // Зачем выделить все незнакомые слова.
+
+        $text = preg_replace_callback($wordRegex, function ($matches) use ($wordKeys)
+        {
+            $word = $matches[0];
+
+            // не выделять числа
+            if(preg_match("#\b[0-9]+\b#", $word)) {
+                return $word;
+            }
+
+            $data_word = trim(mb_strtolower($word));
+            $state = WordConfig::NEW;
+
+            if (!in_array($data_word, $wordKeys)) {
+                return "<mark class='unknown' data-word=\"{$data_word}\" data-state='{$state}' >{$word}</mark>";
+            }
+            return $word;
+        }, $text);
+
         return $text;
     }
 
