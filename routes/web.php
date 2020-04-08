@@ -58,3 +58,4 @@ Route::post('/reader/words/upload', 'WordsController@uploadDictionary')->name('w
 
 
 Route::get('/generate', 'WordsController@generate');
+Route::get('/xml', 'WordsController@xml');

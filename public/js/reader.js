@@ -149,7 +149,7 @@ $('div.page_text_wrapper').on('click', 'mark[data-state="0"]', function() {
                 // Указать текст и перевод слова в правом сайдбаре
                 wordText = word.clone().children().remove().end().text();
                 $('#rs_word').html(wordText);
-                $('#rs_word_translation').html(data[1]);
+                $('#rs_word_translation').val(data[1]);
 
                 // Кнопки статуса в правом сайдбаре
                 // установить word_id
@@ -188,7 +188,7 @@ $('div.page_text_wrapper').on('click', 'mark.study, mark.known, mark.study_hidde
         },
 
         success: function (data) {
-            $('#rs_word_translation').html(data);
+            $('#rs_word_translation').val(data);
         }
 
     });
@@ -200,6 +200,7 @@ $('div.page_text_wrapper').on('click', 'mark.study, mark.known, mark.study_hidde
     } else {
         $('#rs_word_state').replaceWith('<span class="badge badge-success h4" id="rs_word_state" style="vertical-align: middle">Known</span>')
     }
+
 
     // добавить word_id кнопкам статуса в правом сайдбаре
 
@@ -557,10 +558,10 @@ function showAndHideSuccessNotification() {
             button = $('button.btn-success.word_btn').first();
         }
 
-        td = $(this).parent();
-        translationTableCell = $(this).parent().parent().children('td').eq(2);
+        td = button.parent();
+        translationTableCell = button.parent().parent().children('td').eq(2);
 
-        wordText = $(this).parent().parent().children('td').eq(1).text();
+        wordText = button.parent().parent().children('td').eq(1).text();
 
         return $.ajax({
 

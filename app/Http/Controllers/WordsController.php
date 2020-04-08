@@ -12,6 +12,8 @@ use App\Config\Lang;
 use App\Config\WordConfig;
 use App\Models\Translation;
 use App\Models\Word;
+use App\Services\Translator;
+use App\Services\XmlParser;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Dejurin\GoogleTranslateForFree;
@@ -60,34 +62,32 @@ class WordsController extends Controller
 
     public function exportToCsv()
     {
+        $headers = [
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=WexLangWords.csv",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+
         $words = Word::all();
 
-//
-//        public static function getCsv($columnNames, $rows, $fileName = 'file.csv') {
-//        $headers = [
-//            "Content-type" => "text/csv",
-//            "Content-Disposition" => "attachment; filename=" . $fileName,
-//            "Pragma" => "no-cache",
-//            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
-//            "Expires" => "0"
-//        ];
-//        $callback = function() use ($columnNames, $rows ) {
-//            $file = fopen('php://output', 'w');
-//            fputcsv($file, $columnNames);
-//            foreach ($rows as $row) {
-//                fputcsv($file, $row);
-//            }
-//            fclose($file);
-//        };
-//        return response()->stream($callback, 200, $headers);
-//    }
-//
-//        public function someOtherControllerFunction() {
-//        $rows = [['a','b','c'],[1,2,3]];//replace this with your own array of arrays
-//        $columnNames = ['blah', 'yada', 'hmm'];//replace this with your own array of string column headers
-//        return self::getCsv($columnNames, $rows);
+        $callback = function() use ($words)
+        {
+            $columnNames = ['Word', 'Translation', 'State'];
 
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columnNames);
+            foreach ($words as $word) {
+                fputcsv($file, [$word->word, $word->translation, $word->state]);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
     }
+
+
 
     public function addNewWord(Request $request)
     {
@@ -128,30 +128,47 @@ class WordsController extends Controller
     {
         set_time_limit(300);
         ini_set('memory_limit', '1024M');
+        ini_set('upload_max_filesize', '200M');
+        ini_set('post_max_size','200M');
 
-        $text = $request->file('text_file')->get();
+        // Validate file extension
+        if ($request->file('text_file') != null) {
+            $exploded = explode('.', $request->file('text_file')->getClientOriginalName());
+            $fileExtension = $exploded[count($exploded) - 1];
+            $allowedExtensions = ['csv'];
 
-        $words = json_decode($text);
+            if (in_array($fileExtension, $allowedExtensions) == false) {
+                return redirect()->route('words_upload_dictionary')->withErrors(['input_name' => 'File extension is not supported']);
+            }
+        }
+
+        $wordsFromFile = array_map('str_getcsv', file($request->file('text_file')));
 
         // Все слова из базы
         $myWords = Word::all();
 
-        $wordsFromFile = [];
-        foreach($words as $word => $translation)
+        $wordsResult= [];
+        foreach($wordsFromFile as $key => $data)
         {
+            if($key == 0) {continue;}
+
+            $word = $data[0];
+            $translation = $data[1];
+            $state = $data[2];
+
             $wordInDatabase = $myWords->where('word', $word)->first();
 
             if($wordInDatabase == null)
             {
-                $wordsFromFile[] = [
+                $wordsResult[] = [
                     'word' => mb_strtolower($word),
                     'translation' => mb_strtolower($translation),
-                    'state' => 0,
+                    'state' => $state,
                 ];
             }
         }
 
-        Word::insert($wordsFromFile);
+        Word::insert($wordsResult);
 
         return redirect()->route('words');
     }
@@ -195,7 +212,7 @@ class WordsController extends Controller
 
                 $google = new GoogleTranslateForFree();
 
-                $word->translation = $google->translate($learned_lang_code, $known_lang_code, $wordFromRequest);
+                $word->translation = Translator::translate($wordFromRequest);
                 $word->save();
 
                 // Return translation
@@ -214,7 +231,7 @@ class WordsController extends Controller
 
             $word = new Word;
             $word->word = $wordFromRequest;
-            $word->translation = $google->translate($learned_lang_code, $known_lang_code, $wordFromRequest);
+            $word->translation = Translator::translate($wordFromRequest);
             $word->state = $wordState;
             $word->save();
 
@@ -224,52 +241,52 @@ class WordsController extends Controller
     }
 
 
-    public function ajaxAddNewWord(Request $request)
-    {
-        $wordFromRequest = mb_strtolower($request->get('word'));
-        $wordState = $request->get('state') == WordConfig::NEW ? WordConfig::TO_STUDY : $request->get('state');
-
-        // Find word in database
-
-        $word = Word::where('word', $wordFromRequest)->first();
-
-        if($word != null) {
-
-            // Если перевод слова существует, вернуть перевод слова
-
-            if($word->translation != null)
-            {
-                return [$word->id, $word->translation];
-
-            } else {
-
-                // Если перевода нет перевести слово и сохранить перевод
-
-                $google = new GoogleTranslateForFree();
-
-                $word->translation = $google->translate("en","ru", $wordFromRequest);
-                $word->save();
-
-                // вернуть перевод
-                return [$word->id, $word->translation];
-            }
-
-        } else {
-
-            // Если слова нет в базе - перевести и добавить слово в базy
-
-            $google = new GoogleTranslateForFree();
-
-            $word = new Word;
-            $word->word = $wordFromRequest;
-            $word->translation = $google->translate("en","ru", $wordFromRequest);
-            $word->state = WordConfig::TO_STUDY;
-            $word->save();
-
-            // вернуть перевод
-            return [$word->id, $word->translation];
-        }
-    }
+//    public function ajaxAddNewWord(Request $request)
+//    {
+//        $wordFromRequest = mb_strtolower($request->get('word'));
+//        $wordState = $request->get('state') == WordConfig::NEW ? WordConfig::TO_STUDY : $request->get('state');
+//
+//        // Find word in database
+//
+//        $word = Word::where('word', $wordFromRequest)->first();
+//
+//        if($word != null) {
+//
+//            // Если перевод слова существует, вернуть перевод слова
+//
+//            if($word->translation != null)
+//            {
+//                return [$word->id, $word->translation];
+//
+//            } else {
+//
+//                // Если перевода нет перевести слово и сохранить перевод
+//
+//                $google = new GoogleTranslateForFree();
+//
+//                $word->translation = $google->translate("en","ru", $wordFromRequest);
+//                $word->save();
+//
+//                // вернуть перевод
+//                return [$word->id, $word->translation];
+//            }
+//
+//        } else {
+//
+//            // Если слова нет в базе - перевести и добавить слово в базy
+//
+//            $google = new GoogleTranslateForFree();
+//
+//            $word = new Word;
+//            $word->word = $wordFromRequest;
+//            $word->translation = $google->translate("en","ru", $wordFromRequest);
+//            $word->state = WordConfig::TO_STUDY;
+//            $word->save();
+//
+//            // вернуть перевод
+//            return [$word->id, $word->translation];
+//        }
+//    }
 
     public function ajaxUpdateWordState(Request $request)
     {
@@ -317,11 +334,11 @@ class WordsController extends Controller
     public function generate()
     {
         $resultArray = [];
-        $handle = fopen("/home/alex/mp/lang/3000_list.txt", "r");
+        $handle = fopen("/home/alex/mp/lang/words.txt", "r");
         if ($handle) {
 
+            $counter = 0;
             while (($line = fgets($handle)) !== false) {
-
 
                 preg_match("#[a-z]+.*[a-z]+#ui", $line, $matches);
 
@@ -331,18 +348,108 @@ class WordsController extends Controller
                 $translation = isset($matches[0]) ? $matches[0] : null;
 
                 if($translation != null && $word!= null) {
-                    $resultArray[$word] = $translation;
-                }
-            echo $word . "<br>";
-            }
 
+                    $resultArray[$counter] = [mb_strtolower($word), mb_strtolower($translation), 0];
+                    $counter++;
+                }
+            }
             fclose($handle);
+
+
+//            foreach ( $resultArray as $key =>$data) {
+//                echo $key . "     ". $data[1] . "<br>";
+//            }
+
+            $headers = [
+                "Content-type" => "text/csv",
+                "Content-Disposition" => "attachment; filename=WexLangWords.csv",
+                "Pragma" => "no-cache",
+                "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+                "Expires" => "0"
+            ];
+
+
+
+            $callback = function() use ($resultArray)
+            {
+                $columnNames = ['Word', 'Translation', 'State'];
+
+                $file = fopen('php://output', 'w');
+                fputcsv($file, $columnNames);
+                foreach ($resultArray as $word) {
+                    fputcsv($file, [$word[0]. rand(1,9999999), $word[1], 1]);
+                }
+                fclose($file);
+            };
+
+            return response()->stream($callback, 200, $headers);
+
+
+
         } else {
             echo "file error";
         }
 
-        //return json_encode($resultArray, JSON_UNESCAPED_UNICODE);
     }
 
+    public function xml()
+    {
+        $xml = simplexml_load_file("/home/alex/mp/lang/dict.xdxf");
 
+//        $xml = simplexml_load_string("<ar><k>-em</k>
+//(разговорное) сокр. от them - put 'em down положи их - up and at 'em, boys! бей их, ребята!</ar>");
+
+//dd($xml->xpath('//ar')[0]->children()->__toString());
+
+//        foreach ($xml->xpath('//ar') as $data) {
+//
+//            echo $data->children()->__toString() ." ---> ";
+//            echo $data->__toString(). "<br><hr>";
+//
+//        }
+
+
+        $headers = [
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=WexLangWords.csv",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+
+
+
+        $callback = function() use ($xml)
+        {
+            $columnNames = ['Word', 'Translation', 'State'];
+
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columnNames);
+            foreach ($xml->xpath('//ar') as $data) {
+                fputcsv($file, [$data->children()->__toString(), $data->__toString(), 1]);
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+
+
+
+
+
+
+
+
+        return;
+        ini_set("pcre.backtrack_limit", "10485760000");
+        ini_set("pcre.recursion_limit", "10485760000");
+
+        $xml = file_get_contents("/home/alex/mp/lang/dict.xdxf");
+
+        preg_match_all('#<ar>(.|$|\s)+?<\/ar>#mui', $xml, $matches);
+
+        foreach ($matches[0] as $match) {
+            echo $match . "<br><hr>";
+        }
+    }
 }

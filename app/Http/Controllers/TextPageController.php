@@ -134,7 +134,7 @@ class TextPageController extends Controller
         return view('text_page_words')
             ->with('words', $wordsToShow)
             ->with('text_id', $textId)
-            ->with('current_page', $currentPage);;
+            ->with('current_page', $currentPage);
     }
 
 
