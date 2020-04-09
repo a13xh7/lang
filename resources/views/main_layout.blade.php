@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{asset('css/icofont.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-select.min.css')}}">
 
-    <title>WexLang</title>
+    <title>WexLang Reader</title>
 </head>
 <body>
 
@@ -27,17 +27,23 @@
 
             <br>
 
-            <a href="{{route('texts')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-book"></i> My Texts</a>
+            <a href="{{route('texts')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-book"></i> {{__('My texts')}}</a>
 
-            <a href="{{route('words')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-file-text"></i> My words</a>
+            <a href="{{route('words')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-file-text"></i> {{__('My words')}}</a>
 
-            <a href="{{route('add_text_page')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-plus-square"></i> Add text</a>
+            <br>
 
-            <a href="{{route('words_upload_dictionary')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-upload"></i> Upload dictionary</a>
+            <a href="{{route('add_text_page')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-plus-square"></i> {{__('Add text')}}</a>
 
-            <a href="{{route('settings')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-gears"></i> Settings</a>
+            <br>
 
-            <a href="{{route('feedback')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-mail"></i> Feedback</a>
+            <a href="{{route('words_upload_dictionary')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-upload"></i> {{__('Upload dictionary')}}</a>
+
+            <br>
+
+            <a href="{{route('settings')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-gears"></i> {{__('Settings')}}</a>
+
+            <a href="{{route('feedback')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-mail"></i> {{__('Feedback')}}</a>
 
         </ul>
 
@@ -73,7 +79,6 @@
 <!-- App JavaScript -->
 <script src="{{asset('js/reader.js')}}"></script>
 <script src="{{asset('js/js.cookie.js')}}"></script>
-
 
 </body>
 </html>

@@ -8,17 +8,17 @@
 
 
         <div class="form-inline">
-            <h2 class="mr-2">Add new word:</h2>
-            <input type="text" class="form-control mr-2" id="new_word" name="new_word" placeholder="word" required>
+            <h2 class="mr-2">{{__('Add new word')}}:</h2>
+            <input type="text" class="form-control mr-2" id="new_word" name="new_word" placeholder="{{__('word')}}" required>
 
-            <input type="text" class="form-control mr-2" id="new_translation" name="new_translation" placeholder="translation" required>
+            <input type="text" class="form-control mr-2" id="new_translation" name="new_translation" placeholder="{{__('translation')}}" required>
 
             <select class="form-control mr-2" id="new_word_state" name="new_word_state">
-                <option value="{{\App\Config\WordConfig::TO_STUDY}}">To study</option>
-                <option value="{{\App\Config\WordConfig::KNOWN}}">Known</option>
+                <option value="{{\App\Config\WordConfig::TO_STUDY}}">{{__('To study')}}</option>
+                <option value="{{\App\Config\WordConfig::KNOWN}}">{{__('Known')}}</option>
             </select>
 
-            <button type="submit" class="btn btn-primary" >ADD</button>
+            <button type="submit" class="btn btn-primary">{{__('ADD')}}</button>
         </div>
 
 
@@ -32,20 +32,20 @@
             <div class="col">
                 <form class="form-inline" method="GET" action="{{route("words")}}">
 
-                    <span class="h2 pr-1">Find:</span>
+                    <span class="h2 pr-1">{{__('Find')}}:</span>
                     <input type="text" class="form-control mr-2" id="word_to_find" name="word_to_find" placeholder="word" value="{{ app('request')->get('word_to_find') }}">
 
-                    <button type="submit" class="btn btn-primary mr-2">Search</button>
-                    <a href="{{route("words")}}" class="btn btn-success">Reset</a>
+                    <button type="submit" class="btn btn-primary mr-2">{{__('Search')}}</button>
+                    <a href="{{route("words")}}" class="btn btn-success">{{__('Reset')}}</a>
                 </form>
             </div>
 
             <div class="col">
-                <span class="h2 mr-2">Export: <a href="{{route("export_csv")}}" type="submit" class="btn btn-info" >EXPORT ALL AS <b>CSV</b></a></span>
+                <span class="h2 mr-2">{{__('Export')}}: <a href="{{route("export_csv")}}" type="submit" class="btn btn-info" >{{__('EXPORT ALL AS')}} <b>CSV</b></a></span>
             </div>
 
             <div class="col">
-                <span class="h2">Delete: <a href="{{route('delete_all_words')}}" type="button" class="btn btn-danger">Delete all words</a></span>
+                <span class="h2">{{__('Delete')}}: <a href="{{route('delete_all_words')}}" type="button" class="btn btn-danger">{{__('Delete all words')}}</a></span>
             </div>
 
         </div>
@@ -63,19 +63,19 @@
 
         <li class="nav-item" style="margin-right: 50px;">
             <a href="{{route('words')}}?show_words={{\App\Config\WordConfig::NEW}}" type="button" class="btn btn-primary noradius {{$isAllDisabled}}">
-                <span class="h2">ALL: <span class="badge badge-light">{{ $totalWords }}</span> </span>
+                <span class="h2 uc">{{__('All')}}: <span class="badge badge-light">{{ $totalWords }}</span> </span>
             </a>
         </li>
 
         <li class="nav-item" style="margin-right: 50px;">
             <a href="{{route('words')}}?show_words={{\App\Config\WordConfig::TO_STUDY}}" type="button" class="btn btn-primary {{$isUnknownDisabled}}">
-                <span class="h2">TO STUDY: <span class="badge badge-warning">{{ $totalNewWords }} </span> </span>
+                <span class="h2 uc">{{__('To study')}}: <span class="badge badge-warning">{{ $totalNewWords }} </span> </span>
             </a>
         </li>
 
         <li class="nav-item">
             <a href="{{route('words')}}?show_words={{\App\Config\WordConfig::KNOWN}}" type="button" class="btn btn-primary noradius {{$isKnownDisabled}}">
-                <span class="h2">KNOWN: <span class="badge badge-success">{{ $totalKnownWords }}</span> </span>
+                <span class="h2 uc">{{__('Known')}}: <span class="badge badge-success">{{ $totalKnownWords }}</span> </span>
             </a>
         </li>
 
@@ -87,10 +87,10 @@
     <table class="table" id="all_text_words">
         <thead class="thead-light">
         <tr>
-            <th scope="col" style="width: 15%">State</th>
-            <th scope="col">Word</th>
-            <th scope="col">Translation</th>
-            <th scope="col" style="width: 10%">Delete word</th>
+            <th scope="col" style="width: 15%">{{__('State')}}</th>
+            <th scope="col">{{__('Word')}}</th>
+            <th scope="col">{{__('Translation')}}</th>
+            <th scope="col" style="width: 10%">{{__('Delete word')}}</th>
         </tr>
         </thead>
         <tbody>
@@ -102,17 +102,17 @@
             <td style="width: 15%">
 
                 @if($word->state == \App\Config\WordConfig::NEW )
-                    <button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
-                    <button type="button" class="btn btn-success btn-sm word_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                    <button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">{{__('To study')}}</button>
+                    <button type="button" class="btn btn-success btn-sm word_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">{{__('Known')}}</button>
                 @endif
 
                 @if($word->state == \App\Config\WordConfig::TO_STUDY )
                     <span class="badge badge-warning h4">To study</span>
-                    <button type="button" class="btn btn-success btn-sm word_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                    <button type="button" class="btn btn-success btn-sm word_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::KNOWN}}">{{__('Known')}}</button>
                 @endif
 
                 @if($word->state == \App\Config\WordConfig::KNOWN )
-                    <button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
+                    <button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="{{$word->id}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">{{__('To study')}}</button>
                     <span class="badge badge-success h4">Known</span>
                 @endif
 
@@ -122,11 +122,11 @@
 
             <td>
                 <input class="admin_word_size" type="text" value="{{$word->translation}}">
-                <button type="button" class="btn btn-success btn-sm admin_word_save_btn" data-word_id="{{$word->id}}">Save</button>
+                <button type="button" class="btn btn-success btn-sm admin_word_save_btn" data-word_id="{{$word->id}}">{{__('Save')}}</button>
             </td>
 
             <td style="width: 10%">
-                <button type="button" class="btn btn-danger btn-sm admin_word_delete_btn" data-word_id="{{$word->id}}">Delete</button>
+                <button type="button" class="btn btn-danger btn-sm admin_word_delete_btn" data-word_id="{{$word->id}}">{{__('Delete')}}</button>
             </td>
 
         </tr>

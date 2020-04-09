@@ -97,7 +97,7 @@ class TextHandler
             $regex = "#(\b{$word->word}\b)(?![^<]*>|[^<>]*<\/)#ui";
             $replacement = 'mark_tag';
 
-            $translationArray = explode ("," , $word->translation);
+            $translationArray =  preg_split("#[,;]#", $word->translation);
             $translation = $translationArray[0];
 
             // должен быть пробел в конце строки
@@ -155,7 +155,7 @@ class TextHandler
             //$regex = "#(\b{$key}\b)(?![^<]*>|[^<>]*<\/)#ui";
             $regex = "#(\b{$key}\b)($|\s|[^'])(?![^<]*>|[^<>]*<\/)#ui";
             $myWord = $myWords[$key];
-            $translationArray = explode ("," , $myWord['translation']);
+            $translationArray = preg_split("#[,;]#", $myWord['translation']);
             $translation = $translationArray[0];
 
             $text = preg_replace_callback($regex, function ($matches) use ($myWord, $key, $translation)

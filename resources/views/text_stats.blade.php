@@ -2,18 +2,18 @@
 
 @section('content')
 
-    <h1>Text statistics</h1>
+    <h1>{{__('Text statistics')}}</h1>
 
     <div class="w3-border-bottom">
         <ul>
-            <li>Unique words: <b>{{ $text->unique_words}}</b></li>
-            <li>Total words: <b>{{ $text->total_words}}</b></li>
-            <li>Symbols: <b>{{ $text->total_symbols}}</b></li>
-            <li>Pages: <b>{{$text->total_pages}}</b></li>
+            <li>{{__('Unique words ')}}: <b>{{ $text->unique_words}}</b></li>
+            <li>{{__('Total words')}}: <b>{{ $text->total_words}}</b></li>
+            <li>{{__('Symbols')}}: <b>{{ $text->total_symbols}}</b></li>
+            <li>{{__('Pages')}}: <b>{{$text->total_pages}}</b></li>
         </ul>
     </div>
 
-    <h1>Text words</h1>
+    <h1>{{__('Text words')}}</h1>
 
     {{--FILTERS START--}}
     <ul class="nav nav-pills mb-3 justify-content-center" id="pills-tab" role="tablist">
@@ -26,19 +26,19 @@
 
         <li class="nav-item" style="margin-right: 50px;">
             <a href="{{route('text_stats', $text->id)}}?show_words={{\App\Config\WordConfig::NEW}}" type="button" class="btn btn-primary noradius {{$isAllDisabled}}">
-                <span class="h3">ALL: <span class="badge badge-dark"> {{ $text->unique_words}}</span> </span>
+                <span class="h3 uc">{{__('All')}}: <span class="badge badge-dark"> {{ $text->unique_words}}</span> </span>
             </a>
         </li>
 
         <li class="nav-item" style="margin-right: 50px;">
             <a href="{{route('text_stats', $text->id)}}?show_words={{\App\Config\WordConfig::TO_STUDY}}" type="button" class="btn btn-primary noradius {{$isUnknownDisabled}}">
-                <span class="h3">NEW / UNKNOWN: <span class="badge badge-warning"> {{ count($text->getUnknownWords()) }}</span> </span>
+                <span class="h3">{{__('UNKNOWN')}}: <span class="badge badge-warning"> {{ count($text->getUnknownWords()) }}</span> </span>
             </a>
         </li>
 
         <li class="nav-item">
             <a href="{{route('text_stats', $text->id)}}?show_words={{\App\Config\WordConfig::KNOWN}}" type="button" class="btn btn-primary noradius {{$isKnownDisabled}}">
-                <span class="h3">KNOWN / TO STUDY: <span class="badge badge-success">{{ count($text->getMyWordsInThisText())}}</span> </span>
+                <span class="h3">{{__('KNOWN / TO STUDY')}}: <span class="badge badge-success">{{ count($text->getMyWordsInThisText())}}</span> </span>
             </a>
         </li>
 
@@ -51,10 +51,10 @@
         <table class="table" id="all_text_words">
             <thead class="thead-light">
             <tr>
-                <th scope="col">State</th>
-                <th scope="col">Word</th>
-                <th scope="col">Translation</th>
-                <th scope="col">Usage frequency</th>
+                <th scope="col">{{__('State')}}</th>
+                <th scope="col">{{__('Word')}}</th>
+                <th scope="col">{{__('Translation')}}</th>
+                <th scope="col">{{__('Usage frequency')}}</th>
             </tr>
             </thead>
             <tbody>
@@ -68,17 +68,17 @@
                         @if($word['id'] == null)
                             <button type="button" class="btn btn-warning btn-sm word_btn"
                                     data-word="{{$word['word']}}"
-                                    data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
+                                    data-state="{{\App\Config\WordConfig::TO_STUDY}}">{{__('To study')}}</button>
 
                             <button type="button" class="btn btn-success btn-sm word_btn"
                                     data-word="{{$word['word']}}"
-                                    data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                                    data-state="{{\App\Config\WordConfig::KNOWN}}">{{__('Known')}}</button>
                         @else
 
                             @if($word['state'] == \App\Config\WordConfig::TO_STUDY)
-                                <span class="badge badge-warning h4">To study</span>
+                                <span class="badge badge-warning h4">{{__('To study')}}</span>
                             @else
-                                <span class="badge badge-success h4">Known</span>
+                                <span class="badge badge-success h4">{{__('Known')}}</span>
                             @endif
 
                         @endif

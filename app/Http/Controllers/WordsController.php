@@ -126,7 +126,7 @@ class WordsController extends Controller
 
     public function uploadDictionary(Request $request)
     {
-        set_time_limit(300);
+        set_time_limit(3000);
         ini_set('memory_limit', '1024M');
         ini_set('upload_max_filesize', '200M');
         ini_set('post_max_size','200M');
@@ -231,8 +231,11 @@ class WordsController extends Controller
 
             $word = new Word;
             $word->word = $wordFromRequest;
-            $word->translation = Translator::translate($wordFromRequest);
+            $word->translation = ""; // фикс для ситуации когда есть блокировка в гугле, чтобы не создавались дубли слов
             $word->state = $wordState;
+            $word->save();
+
+            $word->translation = Translator::translate($wordFromRequest);
             $word->save();
 
             // вернуть перевод

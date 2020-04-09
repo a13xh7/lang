@@ -6,6 +6,22 @@ namespace App\Config;
 
 class Config
 {
+
+    public static function getApiKey()
+    {
+        return Config::configArray()['api_key'];
+    }
+
+    public static function getUseFreeTranslatorSetting()
+    {
+        return Config::configArray()['use_free_translator'];
+    }
+
+    public static function getAppLangCode()
+    {
+        return Config::configArray()['app_lang'];
+    }
+
     public static function getLearnedLangData()
     {
         return Lang::get(static::getLearnedLanguageId());
@@ -25,6 +41,8 @@ class Config
     {
         return Config::configArray()['lang_i_know_id'];
     }
+
+
 
     public static function getPath()
     {

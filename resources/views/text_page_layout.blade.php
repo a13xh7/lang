@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{asset('css/icofont.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-select.min.css')}}">
 
-    <title>WexLang</title>
+    <title>WexLang Reader</title>
 </head>
 <body>
 
@@ -34,7 +34,7 @@
         <div class="position-fixed">
 
             <h4 class="sidebar-heading mt-4 mb-1 text-muted">
-                <span>{{__('Words')}}</span>
+                <span>{{__('Words')}}</span> <br>
                 <span style="font-size: 16px">({{__('Click to translate')}})</span>
             </h4>
 
@@ -65,15 +65,15 @@
 
             @if( preg_match("#words#", url()->current()) )
 
-                <button type="button" id="mark_all_as_to_study_on_words_page" class="btn btn-warning mb-3"><b>Mark all as TO STUDY</b></button>
+                <button type="button" id="mark_all_as_to_study_on_words_page" class="btn btn-warning mb-3"><b>{{__('Mark all as TO STUDY')}}</b></button>
                 <br>
-                <button type="button" id="mark_all_as_known_on_words_page" class="btn btn-success"><b>Mark all as KNOWN</b></button>
+                <button type="button" id="mark_all_as_known_on_words_page" class="btn btn-success"><b>{{__('Mark all as KNOWN')}}</b></button>
 
             @else
 
-                <button type="button" id="mark_all_as_to_study" class="btn btn-warning mb-3"><b>Mark all words as TO STUDY</b></button>
+                <button type="button" id="mark_all_as_to_study" class="btn btn-warning mb-3"><b>{{__('Mark all as TO STUDY')}}</b></button>
                 <br>
-                <button type="button" id="mark_all_as_known_btn" class="btn btn-success"><b>Mark all words as KNOWN</b></button>
+                <button type="button" id="mark_all_as_known_btn" class="btn btn-success"><b>{{__('Mark all as KNOWN')}}</b></button>
 
             @endif
 
@@ -95,11 +95,11 @@
                     @endphp
 
                     <li class="nav-item">
-                        <a class="nav-link {{$textActiveState}}" href="{{route('read_text_page', $text_id)}}?page={{$current_page}}"><b class="uc">Text</b></a>
+                        <a class="nav-link {{$textActiveState}}" href="{{route('read_text_page', $text_id)}}?page={{$current_page}}"><b class="uc">{{__('Text')}}</b></a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link {{$wordsActiveState}}" href="{{route('text_page_words', $text_id)}}"><b class="uc">Words</b></a>
+                        <a class="nav-link {{$wordsActiveState}}" href="{{route('text_page_words', $text_id)}}"><b class="uc">{{__('Words')}}</b></a>
                     </li>
                 </ul>
             </div>
@@ -134,18 +134,18 @@
             <div id="rs_mark_known_wrapper">
                 <hr>
 
-                <button type="button" id="rs_save_translation_btn" class="btn btn-info">Save Translation</button>
+                <button type="button" id="rs_save_translation_btn" class="btn btn-info">{{__('Save Translation')}}</button>
 
                 <hr>
 
-                <b>Mark this word as:</b>
+                <b>{{__('Mark this word as')}}:</b>
                 <br>
-                <span class="text-muted">New words get "To study" state by default</span>
+                <span class="text-muted">{{__('New words get "To study" state by default')}}</span>
                 <br>
 
-                <button type="button" id="rs_mark_as_known_btn" class="btn btn-success btn-sm" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                <button type="button" id="rs_mark_as_known_btn" class="btn btn-success btn-sm" data-state="{{\App\Config\WordConfig::KNOWN}}">{{__('Known')}}</button>
 
-                <button type="button" id="rs_mark_as_to_study_btn" class="btn btn-warning btn-sm" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
+                <button type="button" id="rs_mark_as_to_study_btn" class="btn btn-warning btn-sm" data-state="{{\App\Config\WordConfig::TO_STUDY}}">{{__('To study')}}</button>
 
 
             </div>
@@ -153,8 +153,8 @@
             <hr>
 
             <div class="pr-3 pt-3">
-                <a href="#" class="btn btn-primary w-100 mb-2" id="gt_btn">Translate in Google</a>
-                <a href="#" class="btn btn-primary w-100 mb-2" id="yt_btn">Translate in Yandex</a>
+                <a href="#" class="btn btn-primary w-100 mb-2" id="gt_btn">{{__('Translate in Google')}}</a>
+                <a href="#" class="btn btn-primary w-100 mb-2" id="yt_btn">{{__('Translate in Yandex')}}</a>
             </div>
 
         </div>

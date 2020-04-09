@@ -3,19 +3,19 @@
 
 @section('content')
 
-    <h1 class="uc">Upload dictionary</h1>
+    <h1 class="uc">{{__('Upload dictionary')}}</h1>
 
 
-    <p>Allowed file format - <b>.csv</b></p>
+    <p>{{__('Allowed file type')}} - <b>.csv</b></p>
 
-    <p>Allowed format (<span class="text-muted">State: 0 - new, 1 - to study, 2 - known</span>):</p>
+    <p>{{__('Allowed format')}} (<span class="text-muted">{{__('State: 0 - new, 1 - to study, 2 - known')}}</span>):</p>
 
     <table class="table table-bordered">
         <thead>
         <tr>
-            <th scope="col">Word</th>
-            <th scope="col">Translation</th>
-            <th scope="col">State</th>
+            <th scope="col">{{__('Word')}}</th>
+            <th scope="col">{{__('Translation')}}</th>
+            <th scope="col">{{__('State')}}</th>
         </tr>
         </thead>
         <tbody>
@@ -43,8 +43,8 @@
 
 
 
-    <p><b>P.S.</b> You may upload explanatory dictionary.</p>
-    <p><b>P.P.S.</b> First row (headers) is skipped.</p>
+{{--    <p><b>P.S.</b> {{__('You may upload explanatory dictionary')}}.</p>--}}
+    <p><b>P.S.</b> {{__('First row (headers) is skipped')}}.</p>
     <hr>
 
     @if ($errors->any())
@@ -60,7 +60,7 @@
     <form action="{{route('words_upload')}}" method="POST" enctype="multipart/form-data">
 
         <div class="form-group row">
-            <label class="col-sm-2 col-form-label">File</label>
+            <label class="col-sm-2 col-form-label">{{__('File')}}</label>
             <div class="col-sm-10">
                 <div class="custom-file">
                     <label class="custom-file-label" for="text_file">Choose file</label>
@@ -69,7 +69,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn w-100 btn-primary noradius"><b>UPLOAD</b></button>
+        <button type="submit" class="btn w-100 btn-primary noradius"><b>{{__('UPLOAD')}}</b></button>
 
     </form>
 

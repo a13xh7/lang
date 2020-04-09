@@ -4,15 +4,15 @@
 
 <div>
 
-    <h2>Unique words on this page ({{count($words)}})</h2>
+    <h2>{{__('Unique words on this page')}} ({{count($words)}})</h2>
 
     <table class="table">
         <thead class="thead-light">
         <tr>
-            <th scope="col" style="width:20%">State</th>
-            <th scope="col" style="width:25%">Word</th>
-            <th scope="col" style="width:30%">Translation</th>
-            <th scope="col" style="width:25%">Usage frequency</th>
+            <th scope="col" style="width:20%">{{__('State')}}</th>
+            <th scope="col" style="width:25%">{{__('Word')}}</th>
+            <th scope="col" style="width:30%">{{__('Translation')}}</th>
+            <th scope="col" style="width:25%">{{__('Usage frequency')}}</th>
         </tr>
         </thead>
         <tbody>
@@ -25,19 +25,19 @@
                     @if($word['id'] == null)
                         <button type="button" class="btn btn-warning btn-sm word_btn"
                                 data-word="{{$word['word']}}"
-                                data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
+                                data-state="{{\App\Config\WordConfig::TO_STUDY}}">{{__('To study')}}</button>
 
                         <button type="button" class="btn btn-success btn-sm word_btn"
                                 data-word="{{$word['word']}}"
-                                data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                                data-state="{{\App\Config\WordConfig::KNOWN}}">{{__('Known')}}</button>
                     @else
 
                         @if($word['state'] == \App\Config\WordConfig::TO_STUDY)
-                            <span class="badge badge-warning h4">To study</span>
-                            <button type="button" class="btn btn-success btn-sm word_btn" data-word_id="{{$word['id']}}" data-state="{{\App\Config\WordConfig::KNOWN}}">Known</button>
+                            <span class="badge badge-warning h4">{{__('To study')}}</span>
+                            <button type="button" class="btn btn-success btn-sm word_btn" data-word_id="{{$word['id']}}" data-state="{{\App\Config\WordConfig::KNOWN}}">{{__('Known')}}</button>
                         @else
-                            <button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="{{$word['id']}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">To study</button>
-                            <span class="badge badge-success h4">Known</span>
+                            <button type="button" class="btn btn-warning btn-sm word_btn" data-word_id="{{$word['id']}}" data-state="{{\App\Config\WordConfig::TO_STUDY}}">{{__('To study')}}</button>
+                            <span class="badge badge-success h4">{{__('Known')}}</span>
                         @endif
 
                     @endif

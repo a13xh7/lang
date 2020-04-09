@@ -25,7 +25,7 @@
             </div>
 
             <div style="padding-top: 5px;">
-                {{__('Words')}}: <span class="badge badge-dark">{{ $text->total_words}}</span> <b>|</b>
+                {{__('Total words')}}: <span class="badge badge-dark">{{ $text->total_words}}</span> <b>|</b>
                 {{__('Unique words')}}: <span class="badge badge-dark">{{ $text->unique_words}}</span>
                 {{__('Unknown Words')}}: <span class="badge badge-info">{{ count($text->getUnknownWords()) }}</span> <b>|</b>
                 {{__('To study words')}}: <span class="badge badge-warning">{{ count($text->getToStudyWords()) }}</span> <b>|</b>
@@ -45,11 +45,11 @@
                     <a class="btn btn-primary text-light noradius text_edit_btn" data-toggle="modal" data-target="#text_edit_modal"
                        data-text_id="{{$text->id}}"
                        data-text_title="{{$text->title}}">
-                        <i class="icofont-ui-edit"></i> Edit
+                        <i class="icofont-ui-edit"></i> {{__('Edit')}}
                     </a>
 
                     <a class="btn btn-primary text-light noradius" href="{{route('delete_text', $text->id)}}">
-                        <i class="icofont-ui-delete"></i> Delete
+                        <i class="icofont-ui-delete"></i> {{__('Delete')}}
                     </a>
                 </span>
 
@@ -81,8 +81,8 @@
                       <input type="hidden" name="text_id" id="text_id" value="">
 
                       <div class="form-group row">
-                          <label for="text_title" class="col-sm-2 col-form-label">{{__('Title')}}</label>
-                          <div class="col-sm-10">
+                          <label for="text_title" class="col-sm-3 col-form-label">{{__('Title')}}</label>
+                          <div class="col-sm-9">
                               <input type="text" class="form-control" name="text_title" id="text_title" placeholder="Text title" maxlength="254" required>
                           </div>
                       </div>

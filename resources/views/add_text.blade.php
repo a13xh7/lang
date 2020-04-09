@@ -2,7 +2,7 @@
 
 @section('content')
 
-    <h1 class="гс">{{__('Upload text file')}}</h1>
+    <h1 class="гс">{{__('Upload file')}}</h1>
 
     @if ($errors->any())
         <div class="alert alert-danger">

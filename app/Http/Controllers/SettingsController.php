@@ -18,8 +18,6 @@ class SettingsController extends Controller
 
     public function showPage()
     {
-        $perPage = 5;
-        $texts = Text::orderBy('id', 'DESC')->paginate($perPage);
         return view('settings');
     }
 
@@ -28,6 +26,9 @@ class SettingsController extends Controller
         $data = [
             "lang_i_learn_id" => $request->get("lang_i_learn_id"),
             "lang_i_know_id" => $request->get("lang_i_know_id"),
+            "app_lang" => $request->get("app_lang"),
+            "use_free_translator" => $request->get("use_free_translator"),
+            "api_key" => $request->get("api_key")
         ];
 
         $parsed_ini = parse_ini_file(Config::getPath(), true);
