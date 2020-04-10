@@ -1,7 +1,8 @@
 <nav class="navbar navbar-dark bg-dark fixed-top">
 
     <a class="navbar-brand" href="{{route('texts')}}">
-        <img src="https://v4-alpha.getbootstrap.com/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+
+        <img src="{{asset("img/logo.svg")}}" width="30" height="30" class="d-inline-block align-top" alt="">
         <span class="mr-3">WexLang Reader</span>
 
 

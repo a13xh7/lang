@@ -176,6 +176,10 @@ mark.unknown {
     background-color: #aee0f4;
 }
 
+.unknown_mw {
+    background-color:#aee0f4;
+}
+
 span.translation {
     color: green;
     font-size: 16px;

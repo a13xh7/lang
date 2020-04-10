@@ -6,7 +6,11 @@
     <h1 class="uc">{{__('Upload dictionary')}}</h1>
 
 
-    <p>{{__('Allowed file type')}} - <b>.csv</b></p>
+    <p>{{__('Allowed file type')}} - <b>.csv</b>.</p>
+
+    <p>{{__('Csv delimiter is semicolon')}} - <b style="color: red; font-size: 20px;">;</b></p>
+
+    <p>{{__('Translations must be separated by comma')}}.</p>
 
     <p>{{__('Allowed format')}} (<span class="text-muted">{{__('State: 0 - new, 1 - to study, 2 - known')}}</span>):</p>
 
@@ -69,7 +73,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn w-100 btn-primary noradius"><b>{{__('UPLOAD')}}</b></button>
+        <button type="submit" class="btn w-100 btn-primary noradius" onclick="showLoadingOverlay()"><b>{{__('UPLOAD')}}</b></button>
 
     </form>
 

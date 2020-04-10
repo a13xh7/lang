@@ -94,11 +94,12 @@ class TextHandler
 
         foreach (Word::getAllCollocations() as $word)
         {
-            $regex = "#(\b{$word->word}\b)(?![^<]*>|[^<>]*<\/)#ui";
+            $wordInRegex = preg_quote($word->word);
+            $regex = "#(\b{$wordInRegex}\b)(?![^<]*>|[^<>]*<\/)#ui";
             $replacement = 'mark_tag';
 
             $translationArray =  preg_split("#[,;]#", $word->translation);
-            $translation = $translationArray[0];
+            $translation = htmlspecialchars(addslashes($translationArray[0]));
 
             // должен быть пробел в конце строки
             switch ($word->state) {
@@ -153,13 +154,20 @@ class TextHandler
         {
 
             //$regex = "#(\b{$key}\b)(?![^<]*>|[^<>]*<\/)#ui";
-            $regex = "#(\b{$key}\b)($|\s|[^'])(?![^<]*>|[^<>]*<\/)#ui";
+            // #(\b{$wordInRegex}\b)($|\s|[^'])(?![^<]*>|[^<>]*<\/)#ui
+            $wordInRegex = preg_quote($key);
+            $regex = "#(\b{$wordInRegex}\b)($|\s|[^'<>])(?![^<]*>|[^<>]*<\/)#ui";
             $myWord = $myWords[$key];
             $translationArray = preg_split("#[,;]#", $myWord['translation']);
-            $translation = $translationArray[0];
+            $translation = htmlspecialchars(addslashes($translationArray[0]));
 
+            if($key == "so") {
+                //dd($translation);
+            }
             $text = preg_replace_callback($regex, function ($matches) use ($myWord, $key, $translation)
             {
+
+
                 $word = rtrim($matches[0]);
                //$word = $matches[0];
                 switch ($myWord['state']) {
@@ -168,6 +176,7 @@ class TextHandler
                         break;
                     case WordConfig::TO_STUDY:
                         $replacement = "<mark class='study' data-word='{$key}' data-state='{$myWord['state']}' data-word_id='{$myWord['id']}'><span class='translation' style='display: none;'>({$translation}) </span>{$word}</mark> ";
+
                         break;
                     case WordConfig::KNOWN:
                         $replacement = "<mark class='known' data-word='{$key}' data-state='{$myWord['state']}' data-word_id='{$myWord['id']}' ><span class='translation' style='display: none;'>({$translation}) </span>{$word}</mark> ";

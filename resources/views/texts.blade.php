@@ -25,20 +25,20 @@
             </div>
 
             <div style="padding-top: 5px;">
-                {{__('Total words')}}: <span class="badge badge-dark">{{ $text->total_words}}</span> <b>|</b>
-                {{__('Unique words')}}: <span class="badge badge-dark">{{ $text->unique_words}}</span>
-                {{__('Unknown Words')}}: <span class="badge badge-info">{{ count($text->getUnknownWords()) }}</span> <b>|</b>
-                {{__('To study words')}}: <span class="badge badge-warning">{{ count($text->getToStudyWords()) }}</span> <b>|</b>
-                {{__('Known words')}}: <span class="badge badge-success">{{ count($text->getKnownWords()) }}</span> <b>|</b>
+{{--                {{__('Total words')}}: <span class="badge badge-dark">{{ $text->total_words}}</span> <b>|</b>--}}
+{{--                {{__('Unique words')}}: <span class="badge badge-dark">{{ $text->unique_words}}</span>--}}
+{{--                {{__('Unknown Words')}}: <span class="badge badge-info">{{ count($text->getUnknownWords()) }}</span> <b>|</b>--}}
+{{--                {{__('To study words')}}: <span class="badge badge-warning">{{ count($text->getToStudyWords()) }}</span> <b>|</b>--}}
+{{--                {{__('Known words')}}: <span class="badge badge-success">{{ count($text->getKnownWords()) }}</span> <b>|</b>--}}
                 {{__('Total Pages')}}: <span class="badge badge-dark">{{ $text->total_pages}}</span> <b>|</b>
                 {{__('Current page')}}: <span class="badge badge-dark">{{ $text->current_page}}</span>
 
                 <span class="text_controls" >
-                    <a class="btn btn-primary text-light noradius" href="{{route('read_text_page', $text->id)}}?page={{$currentPage}}">
+                    <a class="btn btn-primary text-light noradius" href="{{route('read_text_page', $text->id)}}?page={{$currentPage}}" onclick="showLoadingOverlay()">
                         <i class="icofont-read-book"></i> {{__('Read')}}
                     </a>
 
-                    <a class="btn btn-primary text-light noradius" href="{{ route('text_stats', $text->id) }}">
+                    <a class="btn btn-primary text-light noradius" href="{{ route('text_stats', $text->id) }}" onclick="showLoadingOverlay()">
                         <i class="icofont-info-square"></i> {{__('Text stats')}}
                     </a>
 

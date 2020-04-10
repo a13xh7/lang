@@ -79,7 +79,7 @@ class WordsController extends Controller
             $file = fopen('php://output', 'w');
             fputcsv($file, $columnNames);
             foreach ($words as $word) {
-                fputcsv($file, [$word->word, $word->translation, $word->state]);
+                fputcsv($file, [$word->word, $word->translation, $word->state], ";");
             }
             fclose($file);
         };
@@ -111,15 +111,7 @@ class WordsController extends Controller
 
     public function deleteAllWords()
     {
-        DB::beginTransaction();
-
-        $words = Word::all();
-
-        foreach ($words as $word) {
-            $word->delete();
-        }
-
-        DB::commit();
+        DB::table('word')->delete();
 
         return redirect()->route('words');
     }
@@ -142,23 +134,28 @@ class WordsController extends Controller
             }
         }
 
-        $wordsFromFile = array_map('str_getcsv', file($request->file('text_file')));
+        $wordsFromFile = array_map(function($data) { return str_getcsv($data,";");}, file($request->file('text_file')) );
 
         // Все слова из базы
         $myWords = Word::all();
+        $dbWords = [];
+
+        foreach ($myWords as $myWord) {
+            $dbWords[] = $myWord->word;
+        }
 
         $wordsResult= [];
         foreach($wordsFromFile as $key => $data)
         {
             if($key == 0) {continue;}
 
-            $word = $data[0];
-            $translation = $data[1];
-            $state = $data[2];
+            $word = isset($data[0]) ? mb_strtolower($data[0]) : "empty_field";
+            $translation = isset($data[1]) ? $data[1] : "empty_field";
+            $state = isset($data[2]) ? $data[2] : 0;
 
-            $wordInDatabase = $myWords->where('word', $word)->first();
+            //$wordInDatabase = $myWords->where('word', $word)->first();
 
-            if($wordInDatabase == null)
+            if(!in_array($word, $dbWords))
             {
                 $wordsResult[] = [
                     'word' => mb_strtolower($word),

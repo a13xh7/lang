@@ -7,6 +7,8 @@
     "Upload file": "Загрузить файл",
     "Or add plain text": "Или просто добавить текст",
     "Allowed file types": "Допустимые форматы",
+    "Csv delimiter is semicolon": "В качестве разделителя в csv файле нужно использовать точку с запятой",
+    "Translations must be separated by comma": "Переводы должны быть разделены запятой",
 
     "My texts": "Мои тексты",
     "Total words": "Всего слов",

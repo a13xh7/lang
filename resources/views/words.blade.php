@@ -40,12 +40,10 @@
                 </form>
             </div>
 
-            <div class="col">
-                <span class="h2 mr-2">{{__('Export')}}: <a href="{{route("export_csv")}}" type="submit" class="btn btn-info" >{{__('EXPORT ALL AS')}} <b>CSV</b></a></span>
-            </div>
 
-            <div class="col">
-                <span class="h2">{{__('Delete')}}: <a href="{{route('delete_all_words')}}" type="button" class="btn btn-danger">{{__('Delete all words')}}</a></span>
+            <div class="col-auto">
+                <a href="{{route("export_csv")}}" type="submit" class="btn btn-info" >{{__('EXPORT ALL AS')}} <b>CSV</b></a>
+                <a href="{{route('delete_all_words')}}" type="button" class="btn btn-danger">{{__('Delete all words')}}</a>
             </div>
 
         </div>
@@ -87,6 +85,7 @@
     <table class="table" id="all_text_words">
         <thead class="thead-light">
         <tr>
+            <th scope="col" style="width: 2%">Id</th>
             <th scope="col" style="width: 15%">{{__('State')}}</th>
             <th scope="col">{{__('Word')}}</th>
             <th scope="col">{{__('Translation')}}</th>
@@ -98,6 +97,7 @@
     @foreach($words as $word)
 
         <tr>
+            <td style="width: 2%">{{$word->id}}</td>
 
             <td style="width: 15%">
 

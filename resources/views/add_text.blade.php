@@ -41,7 +41,7 @@
             </div>
         </div>
 
-        <button type="submit" class="btn w-100 btn-primary noradius"><b>{{__('UPLOAD')}}</b></button>
+        <button type="submit" class="btn w-100 btn-primary noradius" onclick="showLoadingOverlay()"><b>{{__('UPLOAD')}}</b></button>
 
     </form>
 
@@ -65,7 +65,7 @@
                 </div>
         </div>
 
-        <button type="submit" class="btn w-100 btn-primary noradius mb-5"><b>{{__('UPLOAD')}}</b></button>
+        <button type="submit" class="btn w-100 btn-primary noradius mb-5" onclick="showLoadingOverlay()"><b>{{__('UPLOAD')}}</b></button>
 
     </form>
 

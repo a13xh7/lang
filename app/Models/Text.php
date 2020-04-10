@@ -39,17 +39,9 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $allMyWords = Word::where('state', WordConfig::KNOWN)->get();
+        $allMyWords = Word::whereIn('word', $textWordsClean)->where("state", WordConfig::KNOWN)->get();
 
-        $myKnownWordsInThisText = [];
-
-        foreach ($allMyWords as $myWord) {
-            if(in_array($myWord->word, $textWordsClean))
-
-                $myKnownWordsInThisText[] = $myWord->word;
-        }
-
-        return $myKnownWordsInThisText;
+        return $allMyWords;
     }
 
     /**
@@ -64,17 +56,9 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $allMyWords = Word::where('state', WordConfig::TO_STUDY)->get();
+        $allMyWords = Word::whereIn('word', $textWordsClean)->where("state", WordConfig::TO_STUDY)->get();
 
-        $myToStudyWordsInThisText = [];
-
-        foreach ($allMyWords as $myWord) {
-            if(in_array($myWord->word, $textWordsClean))
-
-                $myToStudyWordsInThisText[] = $myWord->word;
-        }
-
-        return $myToStudyWordsInThisText;
+        return $allMyWords;
     }
 
     /**
@@ -89,17 +73,12 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $allMyWords = Word::where('state', WordConfig::KNOWN)->orWhere('state', WordConfig::TO_STUDY)->get();
+        $allMyWords = Word::whereIn('word', $textWordsClean)
+            ->where('state', WordConfig::KNOWN)
+            ->orWhere('state', WordConfig::TO_STUDY)
+            ->get();
 
-        $myWordsInThisText = [];
-
-        foreach ($allMyWords as $myWord) {
-            if(in_array($myWord->word, $textWordsClean))
-
-                $myWordsInThisText[] = $myWord->word;
-        }
-
-        return $myWordsInThisText;
+        return $allMyWords;
     }
 
     public function getMyWordsInThisText()
@@ -111,17 +90,9 @@ class Text extends Model
             $textWordsClean[] = $textWord[0];
         }
 
-        $allMyWords = Word::where('state', WordConfig::KNOWN)->orWhere('state', WordConfig::TO_STUDY)->get();
+        $allMyWords = Word::whereIn('word', $textWordsClean)->get();
 
-        $myWordsInThisText = [];
-
-        foreach ($allMyWords as $myWord) {
-            if(in_array($myWord->word, $textWordsClean)) {
-                $myWordsInThisText[] = $myWord;
-            }
-        }
-
-        return $myWordsInThisText;
+        return $allMyWords;
     }
 
     /**
@@ -146,9 +117,9 @@ class Text extends Model
         $myUnknownWordsInThisText = [];
 
         foreach ($textWordsClean as $textWord) {
-            if(in_array($textWord, $myWordsArray) == false)
-
+            if(in_array($textWord, $myWordsArray) == false) {
                 $myUnknownWordsInThisText[] = $textWord;
+            }
         }
 
         return $myUnknownWordsInThisText;

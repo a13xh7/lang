@@ -6,10 +6,16 @@
 
     <div class="w3-border-bottom">
         <ul>
-            <li>{{__('Unique words ')}}: <b>{{ $text->unique_words}}</b></li>
             <li>{{__('Total words')}}: <b>{{ $text->total_words}}</b></li>
+            <li>{{__('Unique words ')}}: <b>{{ $text->unique_words}}</b></li>
+            <li>{{__('Unknown Words')}}: <span class="badge badge-info">{{ count($text->getUnknownWords()) }}</span></li>
+            <li>{{__('To study words')}}: <span class="badge badge-warning">{{ count($text->getToStudyWords()) }}</span></li>
+            <li>{{__('Known words')}}: <span class="badge badge-success">{{ count($text->getKnownWords()) }}</span></li>
             <li>{{__('Symbols')}}: <b>{{ $text->total_symbols}}</b></li>
             <li>{{__('Pages')}}: <b>{{$text->total_pages}}</b></li>
+            <br>
+
+
         </ul>
     </div>
 
@@ -32,7 +38,7 @@
 
         <li class="nav-item" style="margin-right: 50px;">
             <a href="{{route('text_stats', $text->id)}}?show_words={{\App\Config\WordConfig::TO_STUDY}}" type="button" class="btn btn-primary noradius {{$isUnknownDisabled}}">
-                <span class="h3">{{__('UNKNOWN')}}: <span class="badge badge-warning"> {{ count($text->getUnknownWords()) }}</span> </span>
+                <span class="h3">{{__('UNKNOWN')}}: <span class="badge badge-dark"> {{ count($text->getUnknownWords()) }}</span> </span>
             </a>
         </li>
 

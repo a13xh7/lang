@@ -129,7 +129,7 @@
                 <b>{{__('Translation')}}:</b>
             </div>
 
-            <textarea id="rs_word_translation" cols="30" rows="3">{{__('word translation')}}</textarea>
+            <textarea id="rs_word_translation" cols="30" rows="10">{{__('word translation')}}</textarea>
 
             <div id="rs_mark_known_wrapper">
                 <hr>
@@ -174,12 +174,6 @@
 <!-- App JavaScript -->
 <script src="{{asset('js/reader.js')}}"></script>
 <script src="{{asset('js/js.cookie.js')}}"></script>
-
-<div class="alert alert-success fade show" id="alert" style="position: fixed; top: 57px; right: 0; z-index: 9999999 !important; display: none;" >
-
-    <strong>      Saved      </strong>
-
-</div>
 
 </body>
 </html>
