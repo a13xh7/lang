@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{asset('css/icofont.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-select.min.css')}}">
 
-    <title>WexLang Reader</title>
+    <title>WexLang Reader 1.0</title>
 </head>
 <body>
 
@@ -33,7 +33,7 @@
 
         <div class="position-fixed">
 
-            <h4 class="sidebar-heading mt-4 mb-1 text-muted">
+            <h4 class="sidebar-heading mt-2 mb-1 text-muted">
                 <span>{{__('Words')}}</span> <br>
                 <span style="font-size: 16px">({{__('Click to translate')}})</span>
             </h4>

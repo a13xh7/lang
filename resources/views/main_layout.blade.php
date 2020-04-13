@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{asset('css/icofont.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/bootstrap-select.min.css')}}">
 
-    <title>WexLang Reader</title>
+    <title>WexLang Reader 1.0</title>
 </head>
 <body>
 
