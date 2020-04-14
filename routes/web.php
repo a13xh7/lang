@@ -13,6 +13,8 @@ Route::post('/reader/add/text', 'AddTextController@addText')->name('add_text');
 
 // TEXT STATS PAGE
 Route::get('/reader/text/stats/{textId}', 'TextStatsController@showTextStats')->name('text_stats');
+Route::get('/reader/text/stats/{textId}/exportcsv', 'TextStatsController@exportToCsv')->name('text_stats_export_csv');
+
 
 // TEXT PAGE. READ PAGE
 Route::get('/reader/read/text/{textId}', 'TextPageController@showPage')->name('read_text_page');

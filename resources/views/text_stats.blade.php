@@ -14,10 +14,12 @@
             <li>{{__('Symbols')}}: <b>{{ $text->total_symbols}}</b></li>
             <li>{{__('Pages')}}: <b>{{$text->total_pages}}</b></li>
             <br>
-
-
+            <li> <a href="{{route("text_stats_export_csv", $text->id)}}" type="submit" class="btn btn-info" >{{__('EXPORT ALL AS')}} <b>CSV</b></a></li>
         </ul>
+
     </div>
+
+
 
     <h1>{{__('Text words')}}</h1>
 

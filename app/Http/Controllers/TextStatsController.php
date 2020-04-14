@@ -98,4 +98,32 @@ class TextStatsController extends Controller
     }
 
 
+    public function exportToCsv(int $textId, Request $request)
+    {
+        $headers = [
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=TextStats.csv",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        ];
+
+        $text = Text::findOrFail($textId);
+        $words = $text->getWords(); // array structure - [ [0=>'word', 1 => usage frequency, 2 => usage frequency (percent)] ]
+
+        $callback = function() use ($words)
+        {
+            $columnNames = ['Word', 'Usage frequency'];
+
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columnNames, ";");
+            foreach ($words as $word) {
+                $usage = $word[1]. " - " . $word[2] . "%";
+                fputcsv($file, [$word[0] , $usage], ";");
+            }
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
 }

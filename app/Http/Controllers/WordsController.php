@@ -77,7 +77,7 @@ class WordsController extends Controller
             $columnNames = ['Word', 'Translation', 'State'];
 
             $file = fopen('php://output', 'w');
-            fputcsv($file, $columnNames);
+            fputcsv($file, $columnNames, ";");
             foreach ($words as $word) {
                 fputcsv($file, [$word->word, $word->translation, $word->state], ";");
             }
