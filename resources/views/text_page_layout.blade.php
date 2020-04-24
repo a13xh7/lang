@@ -33,6 +33,12 @@
 
         <div class="position-fixed">
 
+            <a class="btn btn-primary text-light noradius w-100" href="{{route("texts")}}" onclick="showLoadingOverlay()">
+                <b><< {{__("My texts")}}</b>
+            </a>
+
+            <hr>
+
             <h4 class="sidebar-heading mt-2 mb-1 text-muted">
                 <span>{{__('Words')}}</span> <br>
                 <span style="font-size: 16px">({{__('Click to translate')}})</span>

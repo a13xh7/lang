@@ -12,13 +12,12 @@
         "dejurin/php-google-translate-for-free": "^1.0",
         "fideloper/proxy": "^4.0",
         "google/cloud-translate": "^1.2",
+        "intervention/image": "dev-master",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
-        "spatie/pdf-to-text": "^1.2",
-        "intervention/image": "dev-master"
+        "spatie/pdf-to-text": "^1.2"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.2",
         "beyondcode/laravel-dump-server": "^1.0",
         "filp/whoops": "^2.0",
         "fzaninotto/faker": "^1.4",

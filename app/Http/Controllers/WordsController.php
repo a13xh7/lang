@@ -149,6 +149,8 @@ class WordsController extends Controller
         {
             if($key == 0) {continue;}
 
+            if(!isset($data[0]) || !isset($data[1])) {continue;}
+
             $word = isset($data[0]) ? mb_strtolower($data[0]) : "empty_field";
             $translation = isset($data[1]) ? $data[1] : "empty_field";
             $state = isset($data[2]) ? $data[2] : 0;
@@ -166,6 +168,7 @@ class WordsController extends Controller
         }
 
         Word::insert($wordsResult);
+
 
         return redirect()->route('words');
     }
@@ -334,7 +337,7 @@ class WordsController extends Controller
     public function generate()
     {
         $resultArray = [];
-        $handle = fopen("/home/alex/mp/lang/words.txt", "r");
+        $handle = fopen("/home/alex/mp/lang/3000.txt", "r");
         if ($handle) {
 
             $counter = 0;
@@ -375,9 +378,9 @@ class WordsController extends Controller
                 $columnNames = ['Word', 'Translation', 'State'];
 
                 $file = fopen('php://output', 'w');
-                fputcsv($file, $columnNames);
+                fputcsv($file, $columnNames, ";");
                 foreach ($resultArray as $word) {
-                    fputcsv($file, [$word[0]. rand(1,9999999), $word[1], 1]);
+                    fputcsv($file, [$word[0], $word[1], 0],";");
                 }
                 fclose($file);
             };
@@ -392,64 +395,4 @@ class WordsController extends Controller
 
     }
 
-    public function xml()
-    {
-        $xml = simplexml_load_file("/home/alex/mp/lang/dict.xdxf");
-
-//        $xml = simplexml_load_string("<ar><k>-em</k>
-//(разговорное) сокр. от them - put 'em down положи их - up and at 'em, boys! бей их, ребята!</ar>");
-
-//dd($xml->xpath('//ar')[0]->children()->__toString());
-
-//        foreach ($xml->xpath('//ar') as $data) {
-//
-//            echo $data->children()->__toString() ." ---> ";
-//            echo $data->__toString(). "<br><hr>";
-//
-//        }
-
-
-        $headers = [
-            "Content-type" => "text/csv",
-            "Content-Disposition" => "attachment; filename=WexLangWords.csv",
-            "Pragma" => "no-cache",
-            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
-            "Expires" => "0"
-        ];
-
-
-
-        $callback = function() use ($xml)
-        {
-            $columnNames = ['Word', 'Translation', 'State'];
-
-            $file = fopen('php://output', 'w');
-            fputcsv($file, $columnNames);
-            foreach ($xml->xpath('//ar') as $data) {
-                fputcsv($file, [$data->children()->__toString(), $data->__toString(), 1]);
-            }
-            fclose($file);
-        };
-
-        return response()->stream($callback, 200, $headers);
-
-
-
-
-
-
-
-
-        return;
-        ini_set("pcre.backtrack_limit", "10485760000");
-        ini_set("pcre.recursion_limit", "10485760000");
-
-        $xml = file_get_contents("/home/alex/mp/lang/dict.xdxf");
-
-        preg_match_all('#<ar>(.|$|\s)+?<\/ar>#mui', $xml, $matches);
-
-        foreach ($matches[0] as $match) {
-            echo $match . "<br><hr>";
-        }
-    }
 }

@@ -155,8 +155,9 @@ class TextHandler
 
             //$regex = "#(\b{$key}\b)(?![^<]*>|[^<>]*<\/)#ui";
             // #(\b{$wordInRegex}\b)($|\s|[^'])(?![^<]*>|[^<>]*<\/)#ui
+            // "#(\b{$wordInRegex}\b)($|\s|[^'<>])(?![^<]*>|[^<>]*<\/)#ui"; - last
             $wordInRegex = preg_quote($key);
-            $regex = "#(\b{$wordInRegex}\b)($|\s|[^'<>])(?![^<]*>|[^<>]*<\/)#ui";
+            $regex = "#(\b{$wordInRegex}\b)($|\s|[^'<>?.!,;:()])?(?![^<]*>|[^<>]*<\/)#ui";
             $myWord = $myWords[$key];
             $translationArray = preg_split("#[,;]#", $myWord['translation']);
             $translation = htmlspecialchars(addslashes($translationArray[0]));
