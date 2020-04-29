@@ -29,9 +29,9 @@
         </a>
 
 
-        <a href="https://www.patreon.com/bePatron?u=33315836" target="_blank" class="btn">
-            <i class="icofont-facebook icofont-2x" style="color: white; vertical-align: middle;"></i>
-        </a>
+{{--        <a href="https://www.patreon.com/bePatron?u=33315836" target="_blank" class="btn">--}}
+{{--            <i class="icofont-facebook icofont-2x" style="color: white; vertical-align: middle;"></i>--}}
+{{--        </a>--}}
 
         <a href="https://vk.com/wexlang" target="_blank" class="btn">
             <i class="icofont-vk icofont-2x" style="color: white; vertical-align: middle;"></i>
