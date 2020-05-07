@@ -43,7 +43,7 @@
 
             <a href="{{route('settings')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-gears"></i> {{__('Settings')}}</a>
 
-            <a href="{{route('feedback')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-mail"></i> {{__('Feedback')}}</a>
+{{--            <a href="{{route('feedback')}}" class="bg-dark list-group-item list-group-item-action"><i class="icofont-mail"></i> {{__('Feedback')}}</a>--}}
 
         </ul>
 

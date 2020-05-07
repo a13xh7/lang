@@ -113,13 +113,14 @@ class TextStatsController extends Controller
 
         $callback = function() use ($words)
         {
-            $columnNames = ['Word', 'Usage frequency'];
+            $columnNames = ['Word', 'Usage frequency', 'Usage frequency (%)'];
 
             $file = fopen('php://output', 'w');
             fputcsv($file, $columnNames, ";");
             foreach ($words as $word) {
-                $usage = $word[1]. " - " . $word[2] . "%";
-                fputcsv($file, [$word[0] , $usage], ";");
+                $usage = $word[1];
+                $usagePercent = $word[2];
+                fputcsv($file, [$word[0] , $usage, $usagePercent], ";");
             }
             fclose($file);
         };

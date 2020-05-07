@@ -13,20 +13,18 @@
     </a>
 
 
-
-
     <div>
 
         <form class="form-inline btn" action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank" style="padding: 0; margin: 0; padding-top: 7px;">
             <input type="hidden" name="cmd" value="_s-xclick" />
             <input type="hidden" name="hosted_button_id" value="UZVJNLNS3TEYL" />
             <input type="image" src="{{asset("img/paypal2.png")}}" width="204px" height="40px" name="submit" title="PayPal - The safer, easier way to pay online!" alt="Donate with PayPal button" />
-            <img alt="" src="https://www.paypal.com/en_MD/i/scr/pixel.gif" width="1" height="1" />
+{{--            <img alt="" src="https://www.paypal.com/en_MD/i/scr/pixel.gif" width="1" height="1" />--}}
         </form>
 
-        <a href="https://www.patreon.com/bePatron?u=33315836" target="_blank">
-            <img src="{{asset("img/patreon.png")}}" height="40px">
-        </a>
+{{--        <a href="https://www.patreon.com/bePatron?u=33315836" target="_blank">--}}
+{{--            <img src="{{asset("img/patreon.png")}}" height="40px">--}}
+{{--        </a>--}}
 
 
 {{--        <a href="https://www.patreon.com/bePatron?u=33315836" target="_blank" class="btn">--}}

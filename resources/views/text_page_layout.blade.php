@@ -31,7 +31,7 @@
     <!-- LEFT SIDEBAR START -->
     <div class="sidebar-expanded text_page_sidebar col-2">
 
-        <div class="position-fixed">
+        <div class="position-fixed" style="width: 15%;">
 
             <a class="btn btn-primary text-light noradius w-100" href="{{route("texts")}}" onclick="showLoadingOverlay()">
                 <b><< {{__("My texts")}}</b>

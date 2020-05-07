@@ -30,7 +30,7 @@ Route::get('/reader/settings', 'SettingsController@showPage')->name('settings');
 Route::post('/reader/update-settings', 'SettingsController@updateSettings')->name('update_settings');
 
 // Feedback
-Route::get('/reader/feedback', 'PagesController@showFeedbackPage')->name('feedback');
+//Route::get('/reader/feedback', 'PagesController@showFeedbackPage')->name('feedback');
 
 
 

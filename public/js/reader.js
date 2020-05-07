@@ -93,12 +93,14 @@ $('td').on('click', 'button.word_btn', function(){
 if(Cookies.get('h_known') == 0) {
     $("mark[data-state='" + word_to_study + "']").each(function(index,element) {
         $(element).removeClass('study');
+        $(element).addClass('study_hidden');
     });
 }
 
 if(Cookies.get('h_unknown') == 0) {
     $("mark[data-state='" + word_new + "']").each(function(index,element) {
         $(element).removeClass('unknown');
+        $(element).addClass('unknown_hidden');
     });
 }
 
@@ -107,7 +109,7 @@ if(Cookies.get('h_unknown') == 0) {
  * TEXT PAGE (READER) - КЛИК НА НЕЗНАКОМОЕ СЛОВО / СЛОВО БЕЗ ПЕРЕВОДА
  *******************************************************************************************************************/
 
-$('div.page_text_wrapper').on('click', 'mark.unknown', function() {
+$('div.page_text_wrapper').on('click', 'mark.unknown, mark.unknown_hidden', function() {
 
     word = $(this);
 
@@ -336,6 +338,7 @@ $("#h_known").change(function() {
     } else {
 
         $(selector).each(function(index,element) {
+            $(element).removeClass('study_hidden');
             $(element).addClass('study');
         });
 
@@ -363,6 +366,7 @@ $("#h_unknown").change(function() {
     } else {
 
         $(selector).each(function(index,element) {
+            $(element).removeClass('unknown_hidden');
             $(element).addClass('unknown');
         });
 
