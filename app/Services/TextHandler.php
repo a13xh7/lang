@@ -8,7 +8,6 @@
 
 namespace App\Services;
 
-
 use App\Config\WordConfig;
 use App\Models\Word;
 use function foo\func;
@@ -133,22 +132,29 @@ class TextHandler
 
         $text = $this->text . PHP_EOL;
         $wordKeys = array_keys($myWords);
-        $wordRegex = "#(\b[\w'-]+\b)(?![^<]*>|[^<>]*<\/)#ui";
+        $wordRegex = "#(\b[\w'’-]+\b)(?![^<]*>|[^<>]*<\/)#ui";
 
-        // не помню почему, но сначала обрабатывались новые слова. возможно будут баги
-//        $text = preg_replace_callback($wordRegex, function ($matches) use ($wordKeys)
-//        {
-//            $word = $matches[0];
-//            $data_word = trim(mb_strtolower($word));
-//            $state = WordConfig::NEW;
-//
-//            if (!in_array($data_word, $wordKeys)) {
-//                return "<mark class='unknown' data-word=\"{$data_word}\" data-state='{$state}' >{$word}</mark>";
-//            }
-//            return $word;
-//        }, $text);
+        // выделить все незнакомые слова.
 
-        // Зачем обработать слова которые уже есть в базе. Добавить перевод,
+        $text = preg_replace_callback($wordRegex, function ($matches) use ($wordKeys)
+        {
+            $word = $matches[0];
+
+            // не выделять числа
+            if(preg_match("#\b[0-9]+\b#", $word)) {
+                return $word;
+            }
+
+            $data_word = trim(mb_strtolower($word));
+            $state = WordConfig::NEW;
+
+            if (!in_array($data_word, $wordKeys)) {
+                return "<mark class='unknown' data-word=\"{$data_word}\" data-state='{$state}' >{$word}</mark>";
+            }
+            return $word;
+        }, $text);
+
+        // обработать слова которые уже есть в базе
 
         foreach ($myWords as $key => $data)
         {
@@ -157,7 +163,7 @@ class TextHandler
             // #(\b{$wordInRegex}\b)($|\s|[^'])(?![^<]*>|[^<>]*<\/)#ui
             // "#(\b{$wordInRegex}\b)($|\s|[^'<>])(?![^<]*>|[^<>]*<\/)#ui"; - last
             $wordInRegex = preg_quote($key);
-            $regex = "#(\b{$wordInRegex}\b)($|\s|[^'<>?.!,;:()])?(?![^<]*>|[^<>]*<\/)#ui";
+            $regex = "#(\b{$wordInRegex}\b)($|\s|[^'’<>?.!,;:()])?(?![^<]*>|[^<>]*<\/)#ui";
             $myWord = $myWords[$key];
             $translationArray = preg_split("#[,;]#", $myWord['translation']);
             $translation = htmlspecialchars(addslashes($translationArray[0]));
@@ -167,8 +173,6 @@ class TextHandler
             }
             $text = preg_replace_callback($regex, function ($matches) use ($myWord, $key, $translation)
             {
-
-
                 $word = rtrim($matches[0]);
                //$word = $matches[0];
                 switch ($myWord['state']) {
@@ -189,26 +193,6 @@ class TextHandler
 
 
         } // end foreach
-
-        // Зачем выделить все незнакомые слова.
-
-        $text = preg_replace_callback($wordRegex, function ($matches) use ($wordKeys)
-        {
-            $word = $matches[0];
-
-            // не выделять числа
-            if(preg_match("#\b[0-9]+\b#", $word)) {
-                return $word;
-            }
-
-            $data_word = trim(mb_strtolower($word));
-            $state = WordConfig::NEW;
-
-            if (!in_array($data_word, $wordKeys)) {
-                return "<mark class='unknown' data-word=\"{$data_word}\" data-state='{$state}' >{$word}</mark>";
-            }
-            return $word;
-        }, $text);
 
         return $text;
     }

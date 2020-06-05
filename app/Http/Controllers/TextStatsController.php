@@ -97,7 +97,6 @@ class TextStatsController extends Controller
             ->with('paginator', $paginator);
     }
 
-
     public function exportToCsv(int $textId, Request $request)
     {
         $headers = [

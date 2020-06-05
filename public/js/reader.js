@@ -10,6 +10,14 @@ const word_new = 0;
 const word_to_study = 1;
 const word_known = 2;
 
+if( Cookies.get('new_to_known') == 1) {
+    var new_word_state_on_click = word_to_study;
+} else {
+    var new_word_state_on_click = word_known;
+}
+
+
+
 // Set file name in file input
 
 $('#text_file').on('change',function(){
@@ -18,6 +26,32 @@ $('#text_file').on('change',function(){
     //replace the "Choose a file" label
     $('.custom-file-label').html(fileName);
 });
+
+
+/*******************************************************************************************************************
+ * TEXT PAGE (READER) - click on new word checkbox
+ *******************************************************************************************************************/
+
+$("#new_to_known").change(function() {
+
+    if(this.checked == true) {
+        new_word_state_on_click = word_known;
+        Cookies.set('new_to_known', 1);
+    } else {
+        new_word_state_on_click = word_to_study;
+        Cookies.set('new_to_known', 0);
+    }
+
+    location.reload();
+
+});
+
+
+if(Cookies.get('new_to_known') == 1) {
+    $("#new_to_known").prop('checked', true);
+}
+
+
 
 /*******************************************************************************************************************
 * MY TEXTS PAGE - text edit modal
@@ -126,6 +160,7 @@ $('div.page_text_wrapper').on('click', 'mark.unknown, mark.unknown_hidden', func
                 "id": word.attr('data-word_id'),
                 "word": word.attr('data-word'),
                 "state": word.attr('data-state'),
+                "new_to_known": new_word_state_on_click
             },
 
             success: function (data) {
@@ -147,7 +182,14 @@ $('div.page_text_wrapper').on('click', 'mark.unknown, mark.unknown_hidden', func
                     $(element).attr('data-state', word_to_study);
                     $(element).html( translation + ' ' + word.attr('data-word'));
                     $(element).removeClass('unknown');
-                    $(element).addClass('study');
+
+                    if(new_word_state_on_click == 1) {
+                        $(element).addClass('known');
+                    } else {
+                        $(element).addClass('study');
+                    }
+
+
                 });
 
                 // открыть перевод
@@ -373,6 +415,8 @@ $("#h_unknown").change(function() {
         Cookies.set('h_unknown', 1);
     }
 });
+
+
 
 // Right sidebar - open window on translate buttons click - google translate
 

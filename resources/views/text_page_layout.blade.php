@@ -21,7 +21,8 @@
 
     $toStudyCheckboxState = \Illuminate\Support\Facades\Cookie::get('h_known') == 1 || \Illuminate\Support\Facades\Cookie::get('h_unknown') == null ? "checked" : "";
     $unknownCheckboxState = \Illuminate\Support\Facades\Cookie::get('h_unknown') == 1 || \Illuminate\Support\Facades\Cookie::get('h_unknown') == null ? "checked" : "";
-
+    $clickOnNew = \Illuminate\Support\Facades\Cookie::get('new_to_known') == 1 ? "checked" : "";
+//dd(\Illuminate\Support\Facades\Cookie::get('new_to_known'));
 @endphp
 
 
@@ -83,6 +84,12 @@
 
             @endif
 
+            <hr>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="new_to_known" {{$clickOnNew}}>
+                <label class="custom-control-label" for="new_to_known">{{__('Mark as known at click on new words (mark as to-study if disabled)')}}</label>
+            </div>
 
             </div>
     </div>

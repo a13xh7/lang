@@ -8,17 +8,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Config\Lang;
 use App\Config\WordConfig;
 use App\Models\Translation;
 use App\Models\Word;
 use App\Services\Translator;
-use App\Services\XmlParser;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Dejurin\GoogleTranslateForFree;
 use Illuminate\Support\Facades\DB;
-use Mockery\Exception;
 
 class WordsController extends Controller
 {
@@ -185,6 +181,10 @@ class WordsController extends Controller
 
         if($wordState == WordConfig::NEW) {
             $wordState = WordConfig::TO_STUDY;
+
+            if($request->get('new_to_known') == 1) {
+                $wordState = WordConfig::KNOWN;
+            }
         }
 
         $wordFromRequest = mb_strtolower($request->get('word'));
