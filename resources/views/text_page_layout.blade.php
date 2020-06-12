@@ -40,6 +40,13 @@
 
             <hr>
 
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="new_to_known" {{$clickOnNew}}>
+                <label class="custom-control-label" for="new_to_known">Mark as known at click on new words (mark as to-study if disabled)</label>
+            </div>
+
+            <hr>
+
             <h4 class="sidebar-heading mt-2 mb-1 text-muted">
                 <span>{{__('Words')}}</span> <br>
                 <span style="font-size: 16px">({{__('Click to translate')}})</span>
@@ -84,12 +91,6 @@
 
             @endif
 
-            <hr>
-
-            <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="new_to_known" {{$clickOnNew}}>
-                <label class="custom-control-label" for="new_to_known">{{__('Mark as known at click on new words (mark as to-study if disabled)')}}</label>
-            </div>
 
             </div>
     </div>

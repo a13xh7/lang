@@ -169,7 +169,8 @@ mark {
 }
 
 mark.study {
-    background-color: #fcf8e3;
+    /*background-color: #fcf8e3;*/
+    background-color: #ffc107;
 }
 
 mark.unknown {
